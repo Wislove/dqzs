@@ -41,12 +41,12 @@ export default class PetKernelMgr {
         LoopMgr.inst.remove(this);
     }
 
-    // 同步玩家灵兽数据
-    SyncPlayerPetDataMsg(t) {
+    // 同步灵兽内丹数据:来自PetMgr
+    syncPetKernelMsg(t) {
         this.isProcessing = true;
         if (!this.initialized) {
             // 内丹
-            this.freeDrawTimes = t && t.kernelData ? t.kernelData.freeDrawTimes : 2;
+            this.freeDrawTimes = t.freeDrawTimes || 2;
             this.initialized = true;
         }
         this.isProcessing = false;

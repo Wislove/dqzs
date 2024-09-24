@@ -26,6 +26,7 @@ import StarTrialMgr from "#game/mgr/StarTrialMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import RuleTrialMgr from "#game/mgr/RuleTrialMgr.js";
 import PetKernelMgr from "#game/mgr/PetKernelMgr.js";
+import PetMgr from "#game/mgr/PetMgr.js";
 import UniverseMgr from "#game/mgr/UniverseMgr.js";
 import YueBaoMgr from "#game/mgr/YueBaoMgr.js";
 import YardDpbMgr from "#game/mgr/YardDpbMgr.js";
@@ -397,7 +398,13 @@ class MsgRecvMgr {
     // 740 同步玩家灵兽数据
     static PlayerPetDataSync(t) {
         logger.debug("[MsgRecvMgr] 同步玩家灵兽数据");
-        PetKernelMgr.inst.SyncPlayerPetDataMsg(t.playerPetData);
+        PetMgr.inst.SyncPlayerPetDataMsg(t.playerPetData);
+    }
+
+    // 20742 灵兽刷新返回结果
+    static RefreshPetPoolResp(t) {
+        logger.debug("[MsgRecvMgr] 同步玩家灵兽数据");
+        PetMgr.inst.RefreshPetPoolResp(t);
     }
 
     // 14302 小世界信息同步

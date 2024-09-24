@@ -60,7 +60,7 @@ export default class ActivityMgr {
 
             for (const i of acts) {
                 if (!i.isGetReward && i.completeTime.toString() !== "0") {
-                    logger.info(`[活动管理] ${activityId} 满足条件领取奖励: ${i.conditionId}`);
+                    logger.debug(`[活动管理] ${activityId} 满足条件领取奖励: ${i.conditionId}`);
                     GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GET_CONDITION_REWARD, { activityId: activityId, conditionId: i.conditionId });
                 }
             }
@@ -90,7 +90,7 @@ export default class ActivityMgr {
                 if (!this.activatedActivities.has(activityId)) {
                     GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_MESSAGE_LIST, { activityId: activityId });
                     this.activatedActivities.add(activityId);
-                    logger.info(`[活动管理] 活动 ${activityId} 激活成功`);
+                    logger.debug(`[活动管理] 活动 ${activityId} 激活成功`);
 
                     
                     const logAndBuy = (remaining) => {
