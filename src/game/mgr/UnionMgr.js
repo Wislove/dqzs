@@ -101,9 +101,11 @@ export default class UnionMgr {
                 GameNetMgr.inst.sendPbMsg(Protocol.S_CUT_PRICE_BARGAIN, { bussinessId: t.bussinessId });
             }
 
-            if (t.status == 1 && t.bargainPrice.toNumber() >= 2888 - this.unionBargainPrice && t.bargainTimes == t.bargainNum - this.unionBargainNum) {
-                logger.info(`[妖盟管理] 砍到最低价，开始购买`);
-                GameNetMgr.inst.sendPbMsg(Protocol.S_CUT_PRICE_BUY, { bussinessId: t.bussinessId });
+            if (t.status == 1) {
+                if ( t.bargainPrice.toNumber() >= 2888 - this.unionBargainPrice || t.bargainTimes == t.bargainNum - this.unionBargainNum) {
+                    logger.info(`[妖盟管理] 砍到最低价，开始购买`);
+                    GameNetMgr.inst.sendPbMsg(Protocol.S_CUT_PRICE_BUY, { bussinessId: t.bussinessId });
+                }
             }
         }
     }
