@@ -1,0 +1,205 @@
+{
+    "serverId": "release里有查询工具",
+    "username": "必填",
+    "password": "必填",
+    "token": "会自动填写不用管",
+    "uid": "会自动填写不用管",
+    "rules": [
+        { "ItemId": 100004, "minItemLv": 3, "isCheck": true, "description": "仙桃" },
+        { "ItemId": 100025, "minItemLv": 5, "isCheck": false, "description": "净瓶水" },
+        { "ItemId": 100000, "minItemLv": 5, "isCheck": false, "description": "仙玉" },
+        { "ItemId": 100003, "minItemLv": 5, "isCheck": false, "description": "灵石" },
+        { "ItemId": 100029, "minItemLv": 5, "isCheck": false, "description": "琉璃珠" },
+        { "ItemId": 100044, "minItemLv": 5, "isCheck": false, "description": "天衍令" },
+        { "ItemId": 100047, "minItemLv": 5, "isCheck": false, "description": "昆仑铁" }
+    ],
+    "rulesWeak": [
+        { "ItemId": 100004, "minItemLv": 5, "isCheck": true, "description": "仙桃" },
+        { "ItemId": 100025, "minItemLv": 4, "isCheck": true, "description": "净瓶水" },
+        { "ItemId": 100044, "minItemLv": 5, "isCheck": true, "description": "天衍令" }
+    ],
+    "rulesStrong": [
+        { "ItemId": 100004, "minItemLv": 5, "isCheck": true, "description": "仙桃" },
+        { "ItemId": 100025, "minItemLv": 3, "isCheck": true, "description": "净瓶水" },
+        { "ItemId": 100044, "minItemLv": 5, "isCheck": true, "description": "天衍令" }
+    ],
+    "_comment_rules": "福地规则 每个规则对应一个物品 minItemLv为最低品质 isCheck为是否开启检查。rulesWeak为老鼠在虚弱时偷取的规则,方便占坑到晚上10点时重新派遣；rulesStrong为高效时间段偷取规则(10-12,18-20,22-24时)",
+    "homeland": {
+        "ignoreTimeCheck": false,
+        "_comment_ignoreTimeCheck": "福地忽略时间检测"
+    },
+        "buyUnionGoodLists": [
+        230000011,
+        230000001,
+        230000002,
+        230000005,
+        230000006,
+        230000013,
+        230000014
+    ],
+    "_comment_buyUnionGoodLists": "妖盟商店要购买的商品列表优先级按照先后顺序依次购买",
+    "_comment_buyUnionGoodLists_dict": {
+        "230000001": "小仙桃",
+        "230000002": "大仙桃",
+        "230000003": "小灵兽果",
+        "230000004": "大灵兽果",
+        "230000005": "小净瓶水",
+        "230000006": "大净瓶水",
+        "230000007": "道书",
+        "230000008": "传说随机精怪碎片",
+        "230000009": "灵石",
+        "230000010": "传说精怪碎片",
+        "230000011": "免费仙桃",
+        "230000012": "腾蛇信物",
+        "230000013": "小玄黄果",
+        "230000014": "大玄黄果"
+    },
+    "unionBargainNum": 3,
+    "_comment_unionbargainNum": "砍价人数偏移量,例如妖盟58人砍价人数到达55就可以购买,默认妖盟人数全部砍完才会购买",
+    "unionBargainPrice": 50,
+    "_comment_unionBargainPrice": "砍价价格偏移量,默认砍价到0以下购买,如果设置unionBargainPrice为50那么砍到50以下就会购买",
+    "switch": {
+        "homeland": true,
+        "_comment_homeland": "福地自动总开关",
+        "homelandGetReward": false,
+        "_comment_homelandGetReward": "福地自动收获",
+        "chopTree": false,
+        "_comment_chopTree": "自动砍树",
+        "talent": false,
+        "_comment_talent": "自动灵脉",
+        "herorank": false,
+        "_comment_herorank": "光速群英榜",
+        "herorankBuyNumMax": [10,10,0,0,0,0,0],
+        "_comment_herorankBuyNumMax": "每天可购买的最大群英榜体力, 顺序为:[周日,周一,周二,周三,周四,周五,周六]。需要囤积差不多50个体力才能保证在周一光速群英榜时打到第一, 每天最多可买10个体力,所以算上本周一可买的就需要上周五或上周六开始囤积。然而打榜单只需要打一次，其它情况下就只需要在上周日及下周一买体力,保证从周一打榜时能进排行前列就成。",
+        "herorankFightDaily": false,
+        "_comment_herorankFightDaily": "僵尸玩家每天瞎打",
+        "challenge": 50,
+        "_comment_challenge": "[挑战] 冒险/真火/镇妖塔 次数 0为不挑战",
+        "showResult": false,
+        "_comment_showResult": "[挑战] 冒险/真火/镇妖塔 显示战斗结果",
+        "challengeSuccessReset": false,
+        "_comment_challenge_success_reset": "[挑战] 冒险/真火/镇妖塔 挑战成功刷新次数",
+        "invade": true,
+        "_comment_invade": "[异兽入侵]开关",
+        "invadeIndex": 2,
+        "_comment_invadeIndex": "[异兽入侵]选择分身0,1,2",
+        "starTrial": true,
+        "_comment_starTrial": "[星宿试炼]开关",
+        "pupil": true,
+        "_comment_pupil": "[宗门] 自动训练, 出师.  用于宗门大比前一天 可以存一下 体力",
+        "ticket": 2,
+        "_comment_ticket": "斗法券大于一定数量的时候自动斗法,最大配置为2,表示大于2+(vipLevel*3)后自动斗法",
+        "defaultIndex": 0,
+        "_comment_defaultIndex": "[异兽入侵]挑战任务完成后以及[砍树]任务停止后会切换到的分身0,1,2",
+        "challengeIndex": 0,
+        "_comment_challengeIndex": "推图选择分身0,1,2,仅在开启推图时生效",
+        "activity":true,
+        "_comment_activity": "开启自动领取活动奖励,400等级以下以及新区禁止打开,否则有风险",
+        "wildBoss": true,
+        "_comment_wildBoss": "挑战妖王开关，默认开启",
+        "gatherEnergy": true,
+        "_comment_gatherEnergy": "聚灵阵开关，默认开启。有时为了囤积螣蛇信物,不想每天都把领取的消耗掉,可设置为false,则将不会开启自己的聚灵阵"
+    },
+    "chopTree": {
+        "stop": {
+            "num": 100,
+            "_comment_num": "桃子数量<该数 砍树停止",
+            "doNum": "infinity",
+            "_comment_doNum": "砍几个后停止，默认无穷大",
+            "level": "infinity",
+            "_comment_level": "玩家等级等于该数 设置为渡劫等级 砍树停止"
+        },
+        "showResult": true,
+        "_comment_showResult": "显示砍树结果 防焦虑",
+        "separation": {
+            "quality": 11,
+            "_comment_quality": "最低品质",
+            "_comment_quality_dict": "1: 凡品 2: 下品 3: 中品 4: 上品 5: 极品 6: 仙品 7: 完美 8: 先天 9: 至宝 10: 灵宝1星 11: 灵宝2星 12: 灵宝3星 13: 灵宝4星 14: 灵宝5星 15: 真宝1星 16: 真宝2星 17: 真宝3星 18: 真宝4星 19: 真宝5星 20: 灵器1星 21: 灵器2星 22: 灵器3星 23: 灵器4星 24: 灵器5星 25: 神器1星 26: 神器2星 27: 神器3星 28: 神器4星 29: 神器5星 30: 仙器1星 31: 仙器2星 32: 仙器3星 33: 仙器4星 34: 仙器5星",
+            "levelOffset": 5,
+            "_comment_levelOffset": "如果新装备等级高于现装备5级以上, 那么概率就会放低要求",
+            "probOffsetLowLv": 0.3,
+            "_comment_probOffsetLowLv": "在装备的等级差异超过指定阈值(levelOffset)时, 应用的属性偏移系数. 该参数用于对低等级装备进行加权, 显著降低低等级装备在属性对比中的优势",
+            "probOffset": 0.2,
+            "_comment_probOffset": "概率偏移值 概率大于该百分比直接穿上 比如当前是 16% 的概率 设置为0.2 那么大于16% x ( 1 + 0.2 ) = 19.2%  等级差高于levelOffset 使用的偏移值",
+            "condition":[
+                [9],
+                [6, 7],
+                [8]
+            ],
+            "_comment_condition": "元体 反击 阳神 连爆 阴身 闪避",
+            "_comment_condition_dict": "5: 击晕 6: 暴击 7: 连击 8: 闪避 9: 反击 10: 吸血 11: 抗击晕 12: 抗暴击 13: 抗连击 14: 抗闪避 15: 抗反击 16: 抗吸血",
+            "strictMode": false,
+            "_comment_strictMode": "启用装备严格模式",
+            "strictConditions": [
+                {
+                    "primaryAttribute": [9],
+                    "secondaryAttribute": [11]
+                },
+                {
+                    "primaryAttribute": [6, 7],
+                    "secondaryAttribute": [14]
+                },
+                {
+                    "primaryAttribute": [8],
+                    "secondaryAttribute": [12]
+                }
+            ],
+            "_comment_strictConditions": "元体: 反击&抗晕 阳神: 连爆&抗闪 阴身: 闪避&抗暴"
+        }
+    },
+    "talent": {
+        "stop": {
+            "stopNum": 500,
+            "_comment_stopNum": "先天灵草数量<该数 激发停止",
+            "doNum": "infinity",
+            "_comment_doNum": "砍几个后停止,默认无穷大. 如果只需做仙缘任务, 请设置为3"
+        },
+        "showResult": true,
+        "_comment_showResult": "显示灵脉结果 防焦虑",
+        "separation": {
+            "quality": 5,
+            "_comment_quality": "最低品质",
+            "_comment_quality_dict": "1: 凡品 2: 下品 3: 中品 4: 上品 5: 极品 6: 仙品 7: 完美 8: 先天 9: 至宝",
+            "condition": [
+                {
+                    "attribute": [
+                        4,
+                        14
+                    ],
+                    "skillId": [
+                        50006
+                    ],
+                    "priority": 0
+                },
+                {
+                    "attribute": [
+                        4,
+                        11,
+                        14
+                    ],
+                    "skillId": [
+                        50005
+                    ],
+                    "priority": 1
+                },
+                {
+                    "attribute": [
+                        4,
+                        11,
+                        12
+                    ],
+                    "skillId": [
+                        50004
+                    ],
+                    "priority": 2
+                }
+            ],
+            "_comment_condition": "元体 击晕 阳神 连爆 阴身 闪避",
+            "_comment_condition_dict": "4: 敏捷 11: 抗击晕 12: 抗暴击 13: 抗连击 14: 抗闪避 15: 抗反击 16: 抗吸血 50001: 玄武, 50002: 白虎, 50003: 螣蛇, 50004: 勾陈, 50005: 青龙, 50006: 朱雀"
+        }
+    },
+    "maxRetries": "infinity",
+    "_comment_maxRetries": "最大重连次数 不设置的话 默认为10 设置为infinity就是无限重连",
+    "reconnectInterval": 300000,
+    "_comment_reconnectInterval": "重连间隔 默认为60 * 1000 * 5 即5分钟"
+}

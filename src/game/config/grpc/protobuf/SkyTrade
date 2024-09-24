@@ -1,0 +1,486 @@
+package com.yq.msg.CityMsg;  
+import "Common";
+import "WatchPlayer";
+import "Battle";
+import "Rank";
+/* ==================== 配置相关 ======================== */
+message SkyTradeGoodsConfig {
+  optional int32 goodsId = 1;
+  optional string icon = 2;
+  optional int32 price = 3;   
+  optional int32 num = 4;     
+}
+message SkyTradeLevelConfig {
+  optional int32 level = 1;
+  optional int64 fund = 2;        
+  optional int32 attack = 3;      
+  optional int32 stockRate = 4;   
+  optional int32 score = 5;       
+}
+message SkyTradeGroupConfig {
+  optional int32 groupLevel = 1;  
+  optional int32 exp = 2;         
+  optional int64 hp = 3;          
+}
+message SkyTradePortConfig {
+  optional int32 portId = 1;         
+  optional int32 specialGoodId = 2;  
+}
+message SkyTradeScoreConfig {
+  optional int32 rankId = 1;      
+  optional int32 size = 2;        
+  optional int32 up = 3;          
+  optional int32 down = 4;        
+  optional string score = 5;      
+}
+message SkyTradeConfigSync {
+  required int32 activityId = 1;
+  repeated SkyTradeGoodsConfig goodsConfig = 2;
+  repeated SkyTradeLevelConfig levelConfig = 3;
+  repeated SkyTradePortConfig portConfig = 4;
+  repeated SkyTradeGroupConfig groupConfig = 5;
+  repeated SkyTradeScoreConfig scoreConfig = 6;
+}
+/* ==================== 实体包装 ======================== */
+message SkyTradePlayerData {
+  optional SkyTradeAirshipInfo airshipInfo = 1;
+  optional int64 availableFunds = 2;                
+  repeated SkyTradeGoods goods = 3;                 
+  optional int32 stockFundsLevel = 4;               
+}
+/**
+货物信息
+- 地图港口货物数据中: 单价
+- 玩家仓库货物数据中: 总价 (不同地点买入的价格可能不同，累计总价格和数量)
+ */
+message SkyTradeGoods {
+  optional int32 goodsId = 1;       
+  optional int64 num = 2;           
+  optional int64 price = 3;         
+}
+message SkyTradeAirshipInfo {
+  optional int32 sourcePort = 1;    
+  optional int32 targetPort = 2;    
+  optional int64 startTime = 3;     
+  optional int64 funds = 4;         
+  optional int32 speeds = 5;        
+  optional int32 level = 6;         
+}
+message SkyTradeUnionPlayerData {
+  optional PlayerBaseDataMsg player = 1;
+  optional SkyTradeAirshipInfo airshipInfo = 2;
+}
+message SkyTradePortGoodsInfo {
+  optional int32 portId = 1;
+  optional int32 rareGoodsId = 2;    
+  repeated SkyTradeGoods goods = 3;
+}
+message SkyTradeUnionChallengeMsg {
+  optional SkyTradeUnionBaseMsg base = 1;
+  optional int64 reduceBlood = 2;       
+  optional int64 lastBeAttackTime = 3;  
+  optional int32 rank = 4;              
+  optional bool hasDefeated = 5;        
+  optional int64 shieldTriggerTime = 7; 
+  optional int32 position = 8;          
+}
+message SkyTradeUnionChallengeSimpleMsg {
+  optional int64 unionId = 1;                 
+  optional int64 leftHp = 2;                  
+  optional int64 finalFame = 3;               
+  optional bool hasDefeated = 4;              
+  optional int64 shieldTriggerTime = 5;       
+  optional int32 level = 6;                   
+}
+message SkyTradeUnionGroupRankMsg {
+  optional int64 unionId = 1;
+  optional int32 rank = 2;
+}
+message SkyTradeArrivalEvent {
+  optional int32 sourcePort = 1;    
+  optional int32 targetPort = 2;    
+  optional int32 eventType = 3;     
+  optional string rewards = 4;      
+  optional int32 addFame = 5;       
+}
+message SkyTradeReportMsg {
+  optional PlayerHeadDataMsg headData = 1;
+  optional string nickName = 2;           
+  optional int64 unionId = 3;             
+  optional string unionName = 4;          
+  optional int64 damage = 5;              
+  optional int32 subScore = 6;            
+  optional string targetName = 7;         
+  optional int64 serverId = 8;            
+  optional int32 flag = 9;                
+  optional int32 atkTimes = 10;           
+  optional int64 time = 11;               
+}
+message SkyTradeReportDetailMsg {
+  optional string nickName = 1;           
+  optional int32 atkTimes = 2;            
+  optional int64 damage = 3;              
+}
+message SkyTradePortLogMsg {
+  optional int32 portId = 1;      
+  optional string nickName = 2;   
+}
+message SkyTradeWelfareInfo {
+  optional string name = 1;         
+  optional int32 itemId = 2;        
+  optional int64 id = 3;            
+  optional int32 status=4;          
+  optional int64 time = 5;          
+}
+message SkyTradeWelfareRecord {
+  optional string nickName =1;      
+  optional string reward =2;        
+}
+message SkyTradeUnionBaseMsg {
+  optional int64 unionId = 1;       
+  optional int32 flag = 2;          
+  optional string name = 3;         
+  optional int64 serverId = 4;      
+  optional int64 score = 5;         
+  optional string masterName = 6;   
+  optional int32 level = 7;         
+}
+message SkyTradePlayerBaseInfo {
+  required int64 playerId = 1 ;     
+  required string memberName = 2 ;   
+  required string score = 3;        
+}
+message SkyTradeGuessPlayerInfo {
+  optional int64 playerId = 1;
+  optional int64 serverId = 2;      
+  optional string name = 3;
+}
+message SkyTradeGuessUnionInfo {
+  optional UnionRankTempMsg rankInfo = 1; 
+  optional int32 selectedCount = 2;       
+  optional bool result = 3;               
+}
+/**
+前X名 显示形象和坐骑, 其他玩家使用头像
+ */
+message SkyTradeAppearanceMsg {
+  optional int32 headIcon = 1;   
+  optional string wxHeadUrl = 2; 
+  optional int32  appearanceId = 3;
+  optional int32 equipCloudId = 4; 
+}
+/* ==================== 请求协议 ======================== */
+message SkyTradeEnterActivityReq {
+  required int32 activityId = 1;
+}
+message SkyTradeEnterActivityResp {
+  optional int32 ret = 1;
+  optional int32 selfRank = 2;        
+  optional int32 round = 3;           
+  optional int32 group = 4;           
+  optional int32 rankId = 5;          
+  optional int64 unionId = 6;         
+  repeated int32 groups = 7;          
+  optional string unionName = 8;      
+}
+message SkyTradeEnterReq {
+  required int32 activityId = 1;
+}
+message SkyTradeEnterResp {
+  required int32 ret = 1;
+  optional SkyTradePlayerData playerData = 2;             
+  repeated SkyTradeUnionPlayerData unionPlayerData = 3;   
+  repeated SkyTradePortGoodsInfo portGoods = 4;           
+  optional int32 unionFlag = 5;                           
+  optional SkyTradeArrivalEvent event = 6;
+  optional int32 finalFame = 7;                           
+  optional int32 totalFame = 8; 
+  optional int32 groupRank = 9;
+}
+message SkyTradeGroupInfoReq {
+  required int32 activityId = 1;
+  required int32 groupId = 2;
+}
+message SkyTradeGroupInfoResp {
+  required int32 ret = 1;
+  repeated SkyTradeUnionBaseMsg groupInfo = 2;  
+}
+message SkyTradeAddSpeedReq {
+  required int32 activityId = 1;
+  required int32 num = 2;
+}
+message SkyTradeAddSpeedResp {
+  required int32 ret = 1;
+  optional SkyTradeAirshipInfo airshipInfo = 2;
+  optional SkyTradeArrivalEvent event = 3;
+}
+message SkyTradeGotoPortReq {
+  required int32 activityId = 1;
+  required int32 port = 2;
+}
+message SkyTradeGotoPortResp {
+  required int32 ret = 1;
+  optional SkyTradeAirshipInfo airshipInfo = 2;
+}
+message SkyTradeDealReq {
+  required int32 activityId = 1;
+  required int32 port = 2;
+  required int32 goodsId = 3;
+  required int32 num = 4;
+  required int32 type = 5;          
+}
+message SkyTradeDealResp {
+  required int32 ret = 1;
+  repeated SkyTradeGoods goods = 2;                 
+  optional int64 availableFunds = 3;                
+  optional int64 goodsNum = 4;                      
+  optional int32 level = 5;                         
+}
+message SkyTradeChallengeListReq {
+  required int32 activityId = 1;
+}
+message SkyTradeChallengeListResp {
+  required int32 ret = 1;
+  repeated SkyTradeUnionChallengeMsg unionMsg = 2;
+  optional int32 free = 3;            
+  optional SkyTradeAppearanceMsg appearance = 4; 
+  repeated int64 advanced = 5;          
+}
+message SkyTradeChallengeReq {
+  required int32 activityId = 1;
+  required int64 unionId = 2;
+}
+message SkyTradeChallengeResp {
+  required int32 ret = 1;
+  optional int32 free = 2;      
+  optional int32 finalFame = 3; 
+  optional int32 totalFame = 4; 
+  optional string rewards = 5;  
+}
+message SkyTradeUnionFameReq {
+  required int32 activityId = 1;
+  required int64 unionId = 2;
+}
+message SkyTradeUnionFameResp {
+  required int32 ret = 1;
+  optional int64 unionId = 2;         
+  optional string unionName = 3;      
+  repeated SkyTradePlayerBaseInfo playerInfo = 4; 
+}
+message SkyTradeGetRewardReq {
+  required int32 activityId = 1;
+}
+message SkyTradeGetRewardResp {
+  required int32 ret = 1;
+  optional SkyTradeArrivalEvent event = 2;
+  optional int32 finalFame = 3; 
+  optional int32 totalFame = 4; 
+}
+message SkyTradeReportReq {
+  required int32 activityId = 1;
+  required int32 type = 2;        
+}
+message SkyTradeReportResp {
+  required int32 ret = 1;
+  repeated SkyTradeReportMsg datas = 2;
+}
+message SkyTradePortLogReq {
+  required int32 activityId = 1;
+}
+message SkyTradeLogResp {
+  required int32 ret = 1;
+  repeated SkyTradePortLogMsg datas = 2;
+}
+message SkyTradeSparInfoReq {
+  required int32 activityId = 1;
+}
+message SkyTradeSparInfoResp {
+  required int32 ret = 1;
+  optional int32 exp = 2;                         
+  repeated SkyTradeWelfareInfo info = 3;          
+  optional int32 canReceive = 4;                  
+}
+message SkyTradeGetSparPowerReq {
+  required int32 activityId = 1;
+}
+message SkyTradeGetSparPowerResp {
+  required int32 ret = 1;
+  optional string reward = 2;                     
+  optional int32 exp = 3;                         
+  optional int32 canReceive = 4;                  
+}
+message SkyTradeGetWelfareReq {
+  required int32 activityId = 1;
+  required int64 id = 2;              
+}
+message SkyTradeGetWelfareResp {
+  required int32 ret = 1;
+  optional string reward = 2;         
+  optional int32 exp = 3;             
+  optional int32 canReceive = 4;      
+}
+message SkyTradeSendWelfareReq {
+  required int32 activityId = 1;
+  required int32 itemId = 2;     
+  required int32 num = 3;        
+}
+message SkyTradeSendWelfareResp {
+  required int32 ret = 1;
+  optional SkyTradeWelfareInfo info = 2;  
+}
+message SkyTradeWelfareRecordReq {
+  required int32 activityId = 1;
+  required int32 type = 2;  
+}
+message SkyTradeWelfareRecordResp {
+  required int32 ret = 1;
+  repeated SkyTradeWelfareRecord record = 2; 
+}
+message SkyTradeChallengeHeartBeatReq {
+  required int32 activityId = 1;
+}
+message SkyTradeChallengeHeartBeatResp {
+  required int32 ret = 1;
+}
+message SkyTradeUseRobItemReq {
+  required int32 activityId = 1;
+  required int32 useCount = 2; 
+}
+message SkyTradeUseRobItemResp {
+  required int32 ret = 1;
+  optional int32 times = 2;           
+}
+message SkyTradeReportDetailReq {
+  required int32 activityId = 1;
+  optional int64 unionId = 2;
+  optional int32 type = 3;        
+}
+message SkyTradeReportDetailResp {
+  required int32 ret = 1;
+  repeated SkyTradeReportDetailMsg infos = 2;
+}
+/* ----------------------- 竞猜相关 --------------------- */
+message SkyTradeGuessPlayersReq {
+  required int32 activityId = 1;
+  optional int32 param = 2; 
+}
+message SkyTradeGuessPlayersResp {
+  required int32 ret = 1;
+  optional int32 param = 2;
+  repeated SkyTradeGuessPlayerInfo playerList = 3; 
+}
+message SkyTradeGuessDataReq {
+  required int32 activityId = 1;
+}
+message SkyTradeGuessDataResp {
+  required int32 ret = 1;
+  repeated SkyTradeGuessUnionInfo infoList = 2;   
+  repeated int64 unionIdArr = 3;                  
+  repeated int32 rewardRankAchieve = 4;           
+  optional bool isReceive = 5;                    
+  optional int32 rewardParam = 6;                 
+}
+message SkyTradeGuessSelectReq {
+  required int32 activityId = 1;
+  repeated int64 unionIdArr = 3;                  
+}
+message SkyTradeGuessSelectResp {
+  required int32 ret = 1;
+}
+message SkyTradeGuessRewardReq {
+  required int32 activityId = 1;
+}
+message SkyTradeGuessRewardResp {
+  required int32 ret = 1;
+  optional string rewards = 2;
+}
+message SkyTradeReportGoodsReq {
+  required int32 activityId = 1;
+}
+message SkyTradeReportGoodsResp {
+  required int32 ret = 1;
+  optional int32 rareGoodsId = 2;    
+  optional int32 portId = 3;         
+}
+message SkyTradeResetStockReq {
+  required int32 activityId = 1;
+}
+message SkyTradeResetStockResp {
+  required int32 ret = 1;
+  repeated SkyTradePortGoodsInfo portGoods = 2;     
+}
+/**
+1: 新活动开启红点
+2: 达到指定港口时候
+3: 个人排行奖励待领取时
+4: 个人成就可领取
+5: 任务奖励可领取
+6: 可挑战次数
+7: 晶核有可领取奖励
+8: 礼包有可领取免费礼包
+9: 妖盟协力有可领取奖励
+10: 商途宝典可领取奖励
+11: 可竞猜红点
+12: 竞猜奖励可领取
+13: 妖盟排行奖励待领取时
+ */
+message SkyTradeRedPointReq {
+  required int32 activityId = 1;
+}
+message SkyTradeRedPointResp {
+  required int32 ret = 1;
+  optional string data = 2;
+}
+message SkyTradeUnionGroupDamageReq{
+  required int32 activityId = 1;
+  required int64 unionId = 2;
+}
+message SkyTradeUnionGroupDamageResp{
+  required int32 ret = 1;
+  optional int64 unionId = 2; 
+  optional string unionName = 3; 
+  repeated SkyTradeGroupBaseInfo info = 4; 
+}
+message SkyTradeGroupBaseInfo{
+  required int32 groupId = 1 ; 
+  required int32 rank =2 ; 
+  required string score = 3; 
+  required int64 point = 4; 
+  required int32 danId = 5; 
+}
+/* ==================== 同步协议 ======================== */
+message SkyTradeUnionDataSync {
+  required int32 activityId = 1;
+  optional int64 unionId = 2;
+  optional int32 finalFame = 3; 
+  optional int32 totalFame = 4; 
+  optional int32 groupRank = 5; 
+}
+message SkyTradeResetSync {
+  repeated SkyTradePortGoodsInfo portGoods = 1;     
+}
+message SkyTradeAirshipInfoSync {
+  required int32 activityId = 1;
+  optional SkyTradeAirshipInfo airshipInfo = 2;
+  optional int64 playerId = 3;                
+}
+message SkyTradeChallengeInfoSync {
+  required int64 playerId = 1;                
+  optional string unionName = 2;              
+  optional string name = 3;                   
+  optional int32 selfLevel = 4;               
+  repeated int64 advanced = 5;                
+  optional SkyTradeAppearanceMsg appearance = 6; 
+  /* 被攻击的妖盟信息 */
+  optional SkyTradeUnionChallengeSimpleMsg targetUnion = 7; 
+  repeated SkyTradeUnionGroupRankMsg groupRankMsg = 8;      
+}
+message SkyTradeRareGoodsSync {
+  optional int32 portId = 1;         
+  optional int32 rareGoodsId = 2;    
+}
+message SkyTradeFameRankSync {
+  optional int64 unionId = 1;
+  optional int32 finalFame = 2; 
+  repeated SkyTradeUnionGroupRankMsg groupRankMsg = 3;      
+}

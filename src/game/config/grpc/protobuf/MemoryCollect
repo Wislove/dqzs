@@ -1,0 +1,192 @@
+package com.yq.msg.CityMsg;
+import "WatchPlayer";
+enum MemoryCollectPb{
+  memoryCollectSyncData = 217401; 
+  memoryCollectEnter = 217402; 
+  memoryCollectRelease = 217403; 
+  memoryCollectChange = 217404; 
+  memoryCollectChangeList = 217405; 
+  memoryCollectOpenCard = 217406; 
+  memoryCollectCardRecycle = 217407; 
+  memoryCollectChangeSeason = 217408; 
+  memoryCollectSearchPlayer = 217409;
+  memoryCollectUseAbleCardList = 217410;
+  memoryCollectPlayerCollectRecordList = 217411;  
+  memoryCollectPlayerSeasonList = 217412;  
+  memoryCollectLoginSyncData = 217413; 
+  memoryCollectLeave = 217414; 
+  memoryCollectCardGroupFull = 217415; 
+}
+message MemoryCollectCardInfo{
+  required int32 id = 1;
+  required int64 num = 2;
+}
+message MemoryCollectAlertCardInfo{
+   required int32 id = 1;
+    optional string name = 2;
+    optional bool isNew = 4;
+}
+message MemoryCollectCardBagInfo{
+  required int32 id = 1;
+  required int64 num = 2;
+}
+message MemoryChangeNumData{
+  optional int32 star = 1;
+  optional int32 changeNum = 2;
+}
+message MemoryCollectChangeInfo{
+  optional int64 id = 1;
+  repeated MemoryCollectCardInfo needCard = 2;
+  repeated MemoryCollectCardInfo provideCard = 3;
+  optional int32 status = 4;
+  optional int64 expire = 5;
+  optional PlayerBaseDataMsg playerData = 6;
+  optional PlayerBaseDataMsg otherPlayerData = 7;
+}
+message MemoryCollectDataMsg{
+  repeated MemoryCollectCardInfo cardList = 1;
+  optional int32 season = 2;
+  repeated MemoryCollectCardBagInfo cardBagList = 3;
+  repeated MemoryChangeNumData changeNumData = 4;
+}
+message MemoryCollectSyncData{
+  repeated MemoryCollectCardInfo cardChangeList = 1;
+  repeated MemoryCollectCardBagInfo cardBagChangeList = 2;
+  repeated MemoryChangeNumData changeNumData = 3;
+  optional MemoryCollectAlertCardInfo alertCardData = 4;
+  optional int32 releaseNum = 5;
+  optional bool playerChangerListRedPoint = 6;
+  optional bool changerRecordListRedPoint = 7;
+}
+message MemoryCollectCardGroupFull{
+  repeated int32 deck = 1;
+}
+message MemoryCollectSeasonData{
+  required int32 season = 1;
+  optional MemoryCollectSeasonDetail seasonData = 2;
+  optional MemoryCollectSeasonDetail historySeasonData = 3;
+  optional bool isCurSeason = 4;
+}
+message MemoryCollectSeasonDetail{
+  optional int32 value = 1;
+  optional int32 maxValue = 2;
+}
+message MemoryCollectLoginSyncData{
+  optional int32 seasonNum = 1;
+}
+message MemoryCollectEnterReq{
+  required int32 activityId = 1; 
+}
+message MemoryCollectEnterResp{
+  required int32 ret = 1;
+  optional MemoryCollectDataMsg dataMsg = 2;
+  repeated MemoryCollectAlertCardInfo alertCardList = 3;
+  optional int32 releaseNum = 4;
+  optional bool playerChangerListRedPoint = 5;
+  optional bool changerRecordListRedPoint = 6;
+  repeated int32 deck = 7;
+}
+message MemoryCollectReleaseReq {
+  required int32 activityId = 1; 
+  required MemoryCollectChangeInfo changeInfoList = 2;
+  required int32 type = 3; 
+  optional int64 otherPlayerId = 4;
+}
+message MemoryCollectReleaseResp {
+  required int32 ret = 1;
+}
+message MemoryCollectChangeReq{
+  required int32 activityId = 1; 
+  optional int64 id = 2;
+  optional MemoryCollectChangeInfo changeInfoList = 3;
+  optional int32 operateStatus = 4;
+}
+message MemoryCollectChangeResp{
+  required int32 ret = 1;
+  optional MemoryCollectAlertCardInfo alterCardData = 2;
+}
+message MemoryCollectChangeListReq{
+  required int32 activityId = 1; 
+  required int32 type = 2;
+  repeated int32 cardIdList = 3;
+  optional bool isSelf = 4;
+  optional int32 status = 5;
+}
+message MemoryCollectChangeListResp{
+  required int32 ret = 1;
+  repeated MemoryCollectChangeInfo changeInfoList = 2;
+}
+message MemoryCollectOpenCardReq{
+  required int32 activityId = 1; 
+  optional int32 id = 2;
+  optional int32 num = 3;
+}
+message MemoryCollectOpenCardResp{
+  required int32 ret = 1;
+  repeated MemoryCollectOpenCardData cardData = 2;
+}
+message MemoryCollectOpenCardData{
+  optional int32 cardBagId = 1;
+  repeated MemoryCollectAlertCardInfo cardList = 2;
+}
+message MemoryCollectCardRecycleReq{
+  required int32 activityId = 1; 
+  repeated MemoryCollectCardInfo recycleInfo = 2;
+}
+message MemoryCollectCardRecycleResp{
+  required int32 ret = 1;
+  optional string rewards = 2; 
+}
+message MemoryCollectChangeSeasonReq{
+  required int32 activityId = 1; 
+  required int32 season = 2; 
+}
+message MemoryCollectChangeSeasonResp{
+  required int32 ret = 1;
+  optional MemoryCollectDataMsg dataMsg = 2;
+  optional string rewards = 3; 
+}
+message MemoryCollectSearchPlayerReq {
+  required int32 activityId = 1; 
+  required string searchKey = 2; 
+  optional int64 serverId = 3; 
+}
+message MemoryCollectSearchPlayerResp {
+  required int32 ret = 1;
+  optional MemoryCollectPlayerData playerMsg = 2; 
+}
+message MemoryCollectPlayerData{
+  optional PlayerBaseDataMsg playerBaseDataMsg = 1;
+  repeated MemoryChangeNumData changeNumData = 2;
+  optional int32 season = 3;
+  optional int32 collectNum = 4;
+}
+message MemoryCollectUseAbleCardListReq{
+  required int32 activityId = 1; 
+  optional int32 type = 2; 
+}
+message MemoryCollectUseAbleCardListResp{
+  required int32 ret = 1;
+  repeated MemoryCollectCardInfo cardList = 2;
+}
+message MemoryCollectPlayerSeasonListReq{
+  optional int32 activityId = 1; 
+}
+message MemoryCollectPlayerSeasonListResp{
+  required int32 ret = 1;
+  repeated MemoryCollectSeasonData seasonData = 2;
+}
+message MemoryCollectLeaveReq{
+  required int32 activityId = 1; 
+}
+message MemoryCollectLeaveResp{
+  required int32 ret = 1;
+}
+message MemoryCollectPlayerCollectRecordListReq{
+  required int32 season = 1; 
+}
+message MemoryCollectPlayerCollectRecordListResp{
+  required int32 ret = 1;
+  repeated MemoryCollectCardInfo cardList = 2;
+  optional int32 season = 3; 
+}

@@ -1,0 +1,724 @@
+package com.yq.msg.CityMsg;
+import "Common";
+import "WatchPlayer";
+import "Battle";
+import "Rank";
+enum MonopolyProtocols {
+  monopoly_enter_activity = 213101;  
+  monopoly_enter_map = 213102;  
+  monopoly_roll_dice = 213103;  
+  monopoly_assist_list = 213104;  
+  monopoly_replenish_strength = 213105;  
+  monopoly_rescue_trap = 213107;  
+  monopoly_rob_list = 213108;  
+  monopoly_rob_union_detail = 213109;  
+  monopoly_rob = 213110;  
+  monopoly_union_log_list = 213111;  
+  monopoly_player_log_detail = 213112;  
+  monopoly_assist_attack_monster = 213113;  
+  monopoly_receive_monster_reward = 213114;  
+  monopoly_red_point = 213115;  
+  monopoly_remote_roll_dice = 213116;  
+  monopoly_enter_rob = 213117;  
+  monopoly_auto_lock = 213118;  
+  monopoly_blessing_list = 213119;  
+  monopoly_receive_blessing = 213120;  
+  monopoly_quick_move = 213121;  
+  monopoly_dark_grid_move = 213122;  
+  monopoly_event_handle = 213123;  
+  monopoly_monster_attr = 213124;  
+  monopoly_monster_get_rank = 213125;  
+  monopoly_get_enemy_list = 213126;  
+  monopoly_score_detail = 213127;  
+  monopoly_building_score_detail = 213128;  
+  monopoly_barrage_notify = 213130;  
+  monopoly_move_notify = 213131;  
+  monopoly_notify_player_end_trap = 213132;  
+  monopoly_notify_building_upgrade = 213133;  
+  monopoly_sync_all_player_notify = 213134;  
+  monopoly_send_blessing_notify = 213135;  
+  monopoly_score_notify = 213136;  
+  monopoly_rank_notify = 213137;  
+  monopoly_assist_monster_die_notify = 213138;  
+  monopoly_my_blessing_notify = 213139; 
+  monopoly_assist_red_notify = 213140; 
+  monopoly_get_group_rank = 213141;  
+  monopoly_worship = 213142;  
+  monopoly_worship_back = 213143;  
+  monopoly_score_change_notify = 213144;  
+  monopoly_guess_players = 213145;   
+  monopoly_get_guess_data = 213146;  
+  monopoly_guess_select = 213147;    
+  monopoly_guess_reward = 213148;    
+  CrossToGame_monopoly_sync_server_player_attr = 213171; 
+  CrossToGame_monopoly_sync_server_monster_attr = 213172; 
+  CrossToGame_monopoly_data_sync_agent = 213173;   
+  CrossToGame_monopoly_sync_player_trap_end = 213174; 
+  CrossToGame_monopoly_assist_attack_back = 213175; 
+  CrossToGame_monopoly_receive_monster_reward_back = 213176; 
+  CrossToGame_monopoly_rov_back = 213177; 
+  CrossToGame_monopoly_send_blessing_back = 213178; 
+  CrossToGame_monopoly_red_point_back = 213179; 
+  CrossToGame_monopoly_receive_blessing_back = 213180; 
+  CrossToGame_monopoly_send_rank_reward = 213181; 
+  CrossToGame_monopoly_sync_score_change = 213182; 
+  CrossToGame_monopoly_enter_map = 213183; 
+  CrossToGame_monopoly_enter_activity = 213184; 
+  CrossToGame_monopoly_try_add_assist_back = 213185; 
+  CrossToGame_monopoly_assist_add_score = 213186; 
+  CrossToGame_monopoly_guess_reward_back = 213187; 
+}
+enum MonopolySyncType {
+  barrage = 1;
+  move = 2;
+  trap = 3;
+  building = 4;
+  blessing = 5;
+  score = 6;
+  dead = 7;
+  redPoint = 8;
+}
+message MonopolyConfigSyncMsg {
+  repeated MonopolyEventConfigMsg eventConfigs = 1; 
+  repeated MonopolyMapConfigMsg mapConfigs = 2;
+  repeated MonopolyMonsterConfigMsg monsterConfig = 3;
+  repeated MonopolyTimeConfigMsg timeConfig = 4;
+  repeated MonopolyGroupConfigMsg groupConfig = 5;
+}
+message MonopolyEventConfigMsg {
+  required int32 activityId = 1;            
+  required int32 id = 2;                    
+  required int32 type = 3;  
+  required string desc = 4; 
+  required int32 length = 5; 
+  required string param = 6; 
+  required string drawParam = 7; 
+  required string reward = 8; 
+  required string score = 9; 
+  required string name = 10; 
+}
+message MonopolyMapConfigMsg {
+  required int32 activityId = 1;            
+  required int32 id = 2;                    
+  required int32 event = 3; 
+  optional string param = 4; 
+}
+message MonopolyMonsterConfigMsg {
+  required int32 activityId = 1;            
+  required int32 id = 2;
+  required int32 targetId = 3;
+  required string param = 4;
+}
+message MonopolyTimeConfigMsg {
+  required int32 activityId = 1;            
+  required int32 timeId = 2;
+  required int64 beginTime = 3;
+  required int64 durationTime = 4;
+  required string param = 5;
+}
+message MonopolyGroupConfigMsg {
+  required int32 activityId = 1;            
+  required int32 rankId = 2;
+  required int32 size = 3;
+  required int32 up = 4;
+  required int32 down = 5;
+  required string score = 6;
+}
+message MonopolyEnterActivityReq {
+  required int32 activityId = 1;
+}
+message MonopolyEnterActivityResp {
+  required int32 ret = 1;
+  optional int32 unionRank = 2; 
+  optional int32 round = 3;           
+  optional int32 group = 4;           
+  optional int32 rankId = 5;          
+  repeated int32 groups = 6;          
+  optional int64 unionId = 7;         
+  repeated UnionBaseData top3Union = 8; 
+  optional MonopolySettleInfo settleInfo = 9; 
+  optional MonopolyWorshipPlayerMsg worshipPlayer = 10; 
+  optional bool canWorship = 11; 
+}
+message MonopolySettleInfo {
+  optional int32 round = 1; 
+  optional int32 statues = 2; 
+  optional int32 groupRank = 3;
+  optional int32 rank = 4; 
+  optional int32 battleFieldSore = 5;
+  optional int32 totalScore = 6;
+}
+message MonopolyEnterMapReq {
+  required int32 activityId = 1;
+}
+message MonopolyEnterMapResp {
+  required int32 ret = 1;
+  optional MonopolySelfPlayerDataMsg playerData = 2;
+  optional bool isAutoUnLock = 3; 
+  optional MonopolyEventDoingInfoEntity eventData = 4; 
+  repeated MonopolyUserMallInfo mallInfo = 5; 
+  optional int32 rank = 6; 
+  optional int32 buildExp = 7; 
+  repeated MonopolyOtherPlayerDataMsg teamInfos = 8; 
+  optional int32 noticeNum = 9; 
+  optional int32 unionRank = 10; 
+  optional int32 unionScore = 11; 
+}
+message MonopolySelfPlayerDataMsg{
+  optional PlayerHeadDataMsg headData = 1;  
+  optional int32 currentPosition = 2; 
+  optional int32 appearanceId = 3;  
+  optional int32 cloudId = 4; 
+  optional string nickName = 5; 
+  optional int32 strength = 6; 
+  optional int64 fightValue = 7;  
+  optional int64 lastRecoveryTime = 8; 
+  optional int64 trapEndTime = 9; 
+  optional int32 doubleRewardCount = 10; 
+  optional int32 score = 11; 
+  optional int32 totalCostStrength = 12; 
+  optional int32 triggerMoveBuff = 13; 
+  optional bool needMove = 14; 
+  optional int32 title = 15; 
+}
+message MonopolyBuffDataMsg{
+  optional int32 eventId = 1; 
+  optional int32 layer = 2; 
+}
+message MonopolyOtherPlayerDataMsg{
+  optional PlayerHeadDataMsg headData = 1;  
+  optional int32 currentPosition = 2; 
+  optional int32 appearanceId = 3;  
+  optional int32 cloudId = 4; 
+  optional string nickName = 5; 
+  optional int64 trapEndTime = 6; 
+  optional int32 title = 7; 
+}
+message MonopolyRollDiceReq {
+  required int32 activityId = 1;
+}
+message MonopolyRollDiceResp {
+  required int32 ret = 1;
+  optional int32 mapIndex = 2; 
+  optional MonopolyMoveResult moveResult = 3;
+}
+message MonopolyMoveResult{
+  optional MonopolyExploreResultData data = 1; 
+  optional int32 strength = 2; 
+  optional int64 lastRecoveryTime = 3; 
+  optional int32 totalCostEnergy = 4; 
+  optional int32 score = 5; 
+  optional bool needMove = 6; 
+}
+message MonopolyExploreResultData {
+  optional string reward = 1;
+  optional MonopolyMonsterMsg monsterInfo = 2; 
+  repeated MonopolyUserMallInfo mallInfo = 3; 
+  optional int64 trapEndTime = 4; 
+  optional int32 quickMove = 5; 
+  optional int32 doubleReward = 6; 
+  optional MonopolyBlessingMsg MonopolyBlessingMsg = 7; 
+  optional MonopolyDarkGridRewardMsg darkGridRewardList = 8; 
+  optional int32 eventId = 9; 
+}
+message MonopolyEventDoingInfoEntity {
+  optional MonopolyMonsterMsg monsterInfo = 1; 
+  optional MonopolyBlessingMsg blessingMsg = 2; 
+  optional MonopolyDarkGridRewardMsg darkGridRewardList = 3; 
+}
+message MonopolyMonsterMsg {
+  optional int64 monsterUid = 1; 
+  optional int32 monsterId = 2; 
+  optional int64 maxHp = 3; 
+  optional int64 leftHp = 4; 
+  optional int64 triggerPlayerId = 5; 
+  optional int32 eventId = 6; 
+  optional int64 fightValue = 7; 
+  optional BattleRecordMsg battleRecord = 8;      
+  optional int64 attackTime = 9; 
+  optional string reward = 10; 
+  optional int64 damage = 11;
+}
+message MonopolyUserMallInfo {
+  optional int32 mallId = 1;          
+  optional int64 expiredTime = 2;     
+  optional int32 canBuyCount = 3;     
+}
+message MonopolyBlessingMsg {
+  repeated MonopolyBlessingInfo blessingList = 1;  
+  optional string reward = 3;       
+}
+message MonopolyBlessingInfo {
+  optional int32 index = 1;
+  optional int32 type = 2; 
+}
+message MonopolyDarkGridRewardMsg {
+  optional int32 playerOn = 1; 
+  repeated string reward = 2; 
+}
+message MonopolyAssistListReq {
+  required int32 activityId = 1;
+}
+message MonopolyAssistListResp {
+  required int32 ret = 1;
+  repeated MonopolyTrapPlayerMsg trapInfo = 2; 
+  repeated MonopolyAssistMonsterMsg assistInfo = 3; 
+  optional int32 assistTimes = 4; 
+}
+message MonopolyTrapPlayerMsg {
+  optional int64 playerId = 1;
+  optional int32 appearanceId = 2; 
+  optional string nickName = 3; 
+  optional int64 endTime = 4; 
+}
+message MonopolyAssistMonsterMsg {
+  optional int64 monsterUid = 1; 
+  optional int32 monsterId = 2; 
+  optional int64 hp = 3; 
+  optional int64 leftHp = 4; 
+  optional string nickName = 5; 
+  optional int32 eventId = 6; 
+  optional int64 fightValue = 7; 
+  optional int64 assistTime = 8; 
+  repeated string helperName = 9; 
+  optional int32 state = 10; 
+  optional string reward = 11; 
+  optional int64 attackTime = 12; 
+  optional int64 playerId = 13; 
+  optional int32 score = 14; 
+  optional int32 unionScore = 15; 
+  optional int32 assistTimes = 16; 
+}
+message MonopolyMonsterLogMsg {
+  optional int64 monsterUid = 1; 
+  optional int64 monsterId = 2; 
+  repeated string assistName = 3; 
+  optional int32 state = 4; 
+  optional string reward = 5; 
+}
+message MonopolyReplenishStrengthReq {
+  required int32 activityId = 1;
+  required int32 useCount = 2; 
+}
+message MonopolyReplenishStrengthResp {
+  required int32 ret = 1;
+  optional string costInfo = 2 ;
+  optional int32 strength = 3; 
+  optional int64 lastRecoveryTime = 4; 
+}
+message MonopolyEventActionReqMsg {
+  required int32 activityId = 1;
+  required int32 action = 2;
+}
+message MonopolyEventActionRespMsg {
+  required int32 ret = 1;
+  optional MonopolyMonsterMsg monsterData = 2;
+  optional string reward = 3;
+  optional int32 score = 4;
+  optional int32 unionScore = 5;
+}
+message MonopolyRescueTrapReq {
+  required int32 activityId = 1;
+  required int64 playerId = 2; 
+}
+message MonopolyRescueTrapResp {
+  required int32 ret = 1;
+}
+message MonopolyDrawReq {
+  required int32 activityId = 1;
+  required int32 index = 2; 
+}
+message MonopolyDrawResp {
+  optional string reward = 1;
+  optional int32 type = 2;
+}
+message MonopolyRobListReq {
+  required int32 activityId = 1;
+}
+message MonopolyRobListResp {
+  required int32 ret = 1;
+  repeated MonopolyRobUnionInfo robUnionList = 2;
+  optional int64 lastRobUnionId = 3; 
+}
+message MonopolyRobUnionInfo {
+  optional int64 unionId = 1;     
+  optional string unionName = 2;  
+  optional string masterName = 3; 
+  optional int64 unionExp = 4;  
+  optional int32 unionFlag = 5; 
+  optional int32 unionScore = 6; 
+  optional int32 lootedPoints = 7; 
+  optional int64 serverId = 8;
+}
+message MonopolyRobUnionDetailReq {
+  required int32 activityId = 1;
+  optional int64 unionId = 2; 
+  optional string unionName = 3; 
+}
+message MonopolyRobUnionDetailResp {
+  required int32 ret = 1;
+  optional MonopolyRobUnionInfo robUnionDetail = 2;
+}
+message MonopolyRobReq {
+  required int32 activityId = 1;
+  required int64 unionId = 2; 
+}
+message MonopolyRobResp {
+  required int32 ret = 1;
+  optional int64 selfUnionScore = 2; 
+  optional int64 otherUnionScore = 3; 
+  optional int32 rank = 4; 
+}
+message MonopolyUnionLogListReq {
+  required int32 activityId = 1;
+  required int32 type = 2; 
+  optional int32 page = 3; 
+}
+message MonopolyUnionLogListResp {
+  required int32 ret = 1;
+  repeated MonopolyUnionLogInfo unionLogList = 2;
+}
+message MonopolyUnionLogInfo {
+  optional int64 playerId = 1;    
+  optional string nickName = 2;   
+  optional int64 gainScore = 3;   
+  optional int32 robUnionNum = 4; 
+  optional int64 unionId = 5; 
+  optional PlayerHeadDataMsg headData = 6;  
+  optional int32 unionFlag = 7; 
+  optional int64 serverId = 8;
+}
+message MonopolyPlayerLogDetailReq {
+  required int32 activityId = 1;
+  required int32 type = 2; 
+  required int64 targetId = 3; 
+}
+message MonopolyPlayerLogDetailResp {
+  required int32 ret = 1;
+  repeated MonopolyPlayerLogDetailInfo playerLogDetail = 2;
+}
+message MonopolyPlayerLogDetailInfo {
+  optional int32 gainScore = 1;   
+  optional int64 robTime = 2; 
+  optional string robUnionName = 3; 
+}
+message MonopolyAssistAttackMonsterReq {
+  optional int32 activityId = 1;
+  optional int64 monsterUid = 2; 
+  optional int64 playerId = 3; 
+}
+message MonopolyAssistAttackMonsterResp {
+  required int32 ret = 1;
+  optional string reward = 2; 
+  optional MonopolyAssistMonsterMsg monsterInfo = 3; 
+  optional BattleRecordMsg battleRecord = 4; 
+  optional int32 rate = 5; 
+  optional int64 damage = 6; 
+}
+message MonopolyReceiveMonsterRewardReq {
+  optional int32 activityId = 1;
+  optional int64 monsterUid = 2; 
+}
+message MonopolyReceiveMonsterRewardResp {
+  required int32 ret = 1;
+  optional int64 monsterUid = 2;
+  optional string reward = 3; 
+  optional int32 score = 4; 
+  optional PlayerCharacterImageMsg playerData = 5; 
+}
+message MonopolyBreakFreeReq {
+  required int32 activityId = 1;
+  optional int32 askHelp = 2; 
+}
+message MonopolyBreakFreeResp {
+  optional int32 strength = 1; 
+  optional int64 lastRecoveryTime = 2; 
+  optional int32 totalCostEnergy = 3; 
+}
+enum MonopolyRedPointEnum {
+  MonopolyRedPoint_null = 0;
+  MonopolyRedPoint_assistFinish = 1;  
+  MonopolyRedPoint_assistTrap = 2; 
+  MonopolyRedPoint_unionRankReward = 3; 
+  MonopolyRedPoint_playerRankReward = 4; 
+  MonopolyRedPoint_strengthReward = 5; 
+  MonopolyRedPoint_unionRecharge = 6; 
+  MonopolyRedPoint_battlePass = 7; 
+  MonopolyRedPoint_freeGift = 8; 
+  MonopolyRedPoint_strength = 9; 
+  MonopolyRedPoint_unionAchievement = 10;  
+  MonopolyRedPoint_personalAchievement = 11; 
+  MonopolyRedPoint_rob = 12;
+  MonopolyRedPoint_assistMonster = 13; 
+  MonopolyRedPoint_canGuess = 14; 
+  MonopolyRedPoint_guessReward = 15; 
+}
+message MonopolyRedPointReqMsg {
+  required int32 activityId = 1;
+}
+message MonopolyRedPointRespMsg {
+  required int32 ret = 1;
+  optional string data = 2;
+}
+message MonopolyRemoteRollDiceReq {
+  required int32 activityId = 1;
+  required int32 diceNum = 2; 
+}
+message MonopolyRemoteRollDiceResp {
+  required int32 ret = 1;
+  optional int32 mapIndex = 2; 
+  optional MonopolyMoveResult moveResult = 3;
+}
+message MonopolyEnterRobMapReq{
+  required int32 activityId = 1;
+  required int64 unionId = 2; 
+}
+message MonopolyEnterRobMapResp {
+  required int32 ret = 1;
+  optional string unionName = 2; 
+  optional string unionMasterName = 3; 
+  optional int64 serverId = 4;
+  optional int64 otherUnionScore = 5; 
+  optional int64 selfUnionScore = 6; 
+  optional int32 buildingExp = 7; 
+  optional int32 unionFlag = 8; 
+}
+message MonopolyAutoUnlockReq {
+  required int32 activityId = 1;
+}
+message MonopolyAutoUnlockResp {
+  required int32 ret = 1;
+}
+message MonopolyBlessingListReq {
+  required int32 activityId = 1;
+}
+message MonopolyBlessingListResp {
+  required int32 ret = 1;
+  repeated MonopolyBlessedNoticeInfo blessingList = 2; 
+}
+message MonopolyBlessedNoticeInfo{
+  required int64 id = 1;  
+  required PlayerCharacterImageMsg playerData = 2;
+  optional int32 status=3; 
+  optional int64 time = 4;
+  optional int32 strength = 5; 
+  optional string giftName = 6; 
+}
+message MonopolyReceiveBlessingReq {
+  required int32 activityId = 1;
+  required int64 recordId = 2; 
+}
+message MonopolyReceiveBlessingResp {
+  required int32 ret = 1;
+  optional int32 strength = 2; 
+  optional int64 lastRecoveryTime = 3; 
+  optional bool isAlreadyGet = 4;
+}
+message MonopolyQuickMoveReq {
+  required int32 activityId = 1;
+}
+message MonopolyQuickMoveResp {
+  optional int32 mapIndex = 1; 
+  optional MonopolyMoveResult moveResult = 2;
+}
+message MonopolyDarkGridMoveReq {
+  required int32 activityId = 1;
+  optional int32 diceNum = 2; 
+}
+message MonopolyDarkGridMoveResp {
+  optional int32 mapIndex = 1; 
+  optional string reward = 2; 
+  optional MonopolyMoveResult moveResult = 3; 
+}
+message MonopolyEventHandleReq {
+  required int32 activityId = 1;
+  required int32 eventId = 2;
+  optional int32 index = 3; 
+  optional bytes req = 4; 
+}
+message MonopolyEventHandleResp {
+  required int32 ret = 1;
+  optional int32 index = 2; 
+  optional bytes resp = 3; 
+}
+message MonopolyMonsterAttrReq {
+  required int32 activityId = 1;
+  required int32  eventId = 2; 
+}
+message MonopolyMonsterAttrResp {
+  required int32 ret = 1;
+  repeated AttributeDataMsg attributeList = 2; 
+}
+message MonopolyGetPlayerRankReq {
+  required int32 activityId = 1;
+}
+message MonopolyGetPlayerRankResp {
+  required int32 ret = 1;
+  optional int32 rank = 2; 
+  optional int32 unionRank = 3; 
+}
+message MonopolyGetEnemyListReq {
+  required int32 activityId = 1;
+}
+message MonopolyGetEnemyListResp {
+  required int32 ret = 1;
+  repeated MonopolyRobUnionInfo enemyList = 2;
+}
+message MonopolyScoreDetailReq {
+  required int32 activityId = 1;
+  required int64 unionId = 2; 
+}
+message MonopolyScoreDetailResp {
+  required int32 ret = 1;
+  repeated MonopolyScoreDetailInfo scoreDetail = 2;
+}
+message MonopolyScoreDetailInfo {
+  optional int32 score = 1; 
+  optional int32 plunderPoints = 2; 
+  optional int32 lootedPoints = 3; 
+  optional int32 rank = 4; 
+  optional int32 battleFieldScore = 5; 
+}
+message MonopolyBarrageNotify{
+  required string attackerName = 1; 
+  optional PlayerHeadDataMsg headData = 2;  
+  optional int64 score = 3; 
+}
+message MonopolyMoveNotify{
+  optional MonopolyOtherPlayerDataMsg playerData = 1; 
+  optional int32 unionScore = 2; 
+}
+message MonopolyNotifyPlayerEndTrap {
+  optional int64 playerId = 1; 
+  optional bool active = 2; 
+  optional PlayerCharacterImageMsg playerData = 3; 
+  optional int32 breakPos = 4; 
+}
+message MonopolyNotifyBuildingUpgrade {
+  optional int32 buildingExp = 1;
+  optional int64 playerId = 2; 
+}
+message MonopolySendBlessingNotify {
+  optional int32 noticeNum = 1;
+}
+message MonopolyScoreNotify{
+  optional int32 unionScore = 1; 
+  optional int32 rank = 2; 
+}
+message MonopolyRankNotify{
+  optional int32 rank = 1; 
+  optional int32 unionRank = 2; 
+}
+message MonopolyAssistMonsterDieNotify {
+  optional int64 monsterUid = 1; 
+}
+message MonopolyRankMsg {
+  optional UnionBaseData baseData = 1;            
+  required int64 score = 2;   
+  required int64 fightValue = 3; 
+  required int32 rank = 4; 
+  required int64 masterId = 5; 
+  required string masterName = 6; 
+}
+message  MonopolyRankList {
+  repeated MonopolyRankMsg rankInfo = 1;
+}
+message MonopolyMyBlessingNotify{
+  required PlayerCharacterImageMsg playerData = 1;
+  required int32 strength = 2;
+  required string giftName = 3;
+}
+message MonopolyAssistRedNotify{
+  optional int32 type = 1; 
+}
+message MonopolyBuildingScoreDetailInfo{
+  optional int32 rank = 1;  
+  optional string nickName = 2; 
+  optional int64 score = 3; 
+}
+message MonopolyBuildingScoreDetailReq {
+  required int32 activityId = 1;
+}
+message MonopolyBuildingScoreDetailResp {
+  required int32 ret = 1;
+  repeated MonopolyBuildingScoreDetailInfo datas = 2;
+}
+message MonopolyGetGroupDetailReq {
+  required int32 activityId = 1;
+  required int32 groupId = 2;
+}
+message MonopolyGetGroupDetailResp {
+  required int32 ret = 1;
+  repeated MonopolyRankMsg rankMsg = 2;
+}
+message MonopolyWorshipReq{
+  required int32 activityId = 1;
+}
+message MonopolyWorshipResp{
+  required int32 ret = 1;
+  optional string reward = 2; 
+  optional MonopolyWorshipPlayerMsg worshipPlayer = 3;
+}
+message MonopolyWorshipPlayerMsg {
+  required int64 playerId = 1;
+  required int64 serverId = 2;
+  required string nickName = 3;
+  repeated int32 pet = 4;
+  repeated int32 spirit = 5;
+  optional int32 appearanceId = 6; 
+  optional int32 equipCloudId = 7; 
+  optional int32 realmsId = 8;  
+  optional int32 rank = 10;
+  optional PlayerHeadDataMsg headInfo = 13;
+  repeated int32 petSoulShapeList = 14; 
+  optional int32 titleId = 15; 
+  repeated int32 petLinkageId = 16; 
+  repeated int32 spiritLinkageId = 17; 
+}
+message MonopolyPlayerScoreChangeNotify{
+  required int32 score = 1;
+}
+message MonopolyGuessPlayersReq {
+  required int32 activityId = 1;
+  optional int32 param = 2; 
+}
+message MonopolyGuessPlayersResp {
+  required int32 ret = 1;
+  optional int32 param = 2;
+  repeated MonopolyGuessPlayerInfo playerList = 3; 
+}
+message MonopolyGuessPlayerInfo {
+  optional int64 playerId = 1;
+  optional int32 serverId = 2; 
+  optional string name = 3;
+}
+message MonopolyGetGuessDataReq {
+  required int32 activityId = 1;
+}
+message MonopolyGetGuessDataResp {
+  required int32 ret = 1;
+  repeated MonopolyGuessUnionInfo infoList = 2;
+  repeated int64 unionIdArr = 3;
+  repeated int32 rewardRankAchi = 4;
+  optional bool isReceive = 5; 
+  optional int32 rewardParam = 6; 
+}
+message MonopolyGuessUnionInfo {
+  optional MonopolyRankMsg rankInfo = 1;
+  optional int32 selectedCount = 2;
+  optional bool result = 3;
+}
+message MonopolyGuessSelectReq {
+  required int32 activityId = 1;
+  repeated int64 unionIdArr = 3;
+}
+message MonopolyGuessSelectResp {
+  required int32 ret = 1;
+}
+message MonopolyGuessRewardReq {
+  required int32 activityId = 1;
+}
+message MonopolyGuessRewardResp {
+  required int32 ret = 1;
+  optional string rewards = 2;
+}

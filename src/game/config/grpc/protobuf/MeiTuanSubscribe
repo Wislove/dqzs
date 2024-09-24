@@ -1,0 +1,26 @@
+package com.yq.msg.CityMsg; 
+enum MeiTuanSubscribePb {
+  S_MEI_TUAN_SUBSCRIBE_SYNC = 216700; 
+  S_MEI_TUAN_SUBSCRIBE_SUCCEED = 216701; 
+  S_MEI_TUAN_SUBSCRIBE_REWARD = 216702; 
+}
+message SyncMeiTuanSubscribeMsg {
+  required MeiTuanSubscribeDataMsg meiTuanSubscribeDataMsg = 1;
+}
+message MeiTuanSubscribeSucceedReq {
+}
+message MeiTuanSubscribeSucceedResp {
+  required int32 ret = 1;
+  optional MeiTuanSubscribeDataMsg meiTuanSubscribeDataMsg = 2;
+}
+message MeiTuanSubscribeRewardReq {
+}
+message MeiTuanSubscribeRewardResp{
+  required int32 ret = 1;
+  optional MeiTuanSubscribeDataMsg meiTuanSubscribeDataMsg = 2;
+  optional string reward = 3; 
+}
+message MeiTuanSubscribeDataMsg {
+  required int64 subscribeTime = 1; 
+  required int64 rewardTime = 2; 
+}

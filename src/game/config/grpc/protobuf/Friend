@@ -1,0 +1,41 @@
+package com.yq.msg.CityMsg;
+enum FriendPb {
+	  S_FRIEND_LIST = 214101; 
+	  S_FRIEND_SEND_GIFT = 214102; 
+	  S_FRIEND_RECEIVE_GIFT = 214103; 
+	  S_FRIEND_ONE_KEY_RECEIVE_OR_SEND_GIFT = 214104; 
+	  S_FRIEND_REMOVE_FRIEND = 214105; 
+      S_FRIEND_GET_CHAT_RECORD_LIST = 214120; 
+      S_FRIEND_NEW_CHAT_MSG_NOTIFY_SYNC = 214131; 
+}
+message FriendGetListReq {
+}
+message FriendGetListResp {
+    required int32 ret = 1;
+}
+message FriendSendReq {
+    required int64 playerId = 1; 
+}
+message FriendSendResp {
+    required int32 ret = 1;
+}
+message FriendReceiveReq {
+    required int64 playerId = 1; 
+}
+message FriendReceiveResp {
+    required int32 ret = 1;
+    optional string rewards = 2; 
+}
+message FriendReceiveAllReq {
+    required int32 type = 1; 
+}
+message FriendReceiveAllResp {
+    required int32 ret = 1;
+    optional string rewards = 2; 
+}
+message FriendDeleteReq {
+    required int64 playerId = 1; 
+}
+message FriendDeleteResp {
+    required int32 ret = 1;
+}

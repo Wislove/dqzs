@@ -1,0 +1,46 @@
+package com.yq.msg.CityMsg;
+enum IngotHomePb{
+    IngotHomePb_Enter = 217001;
+    IngotHomePb_Deposit = 217002;
+    IngotHomePb_Withdraw = 217003;
+    IngotHomePb_Sync_Player_Data = 217004;
+}
+message RechargeItemData{
+    optional int64 endTime = 1;
+    required int32 index = 2;
+    optional int32 depositNum = 3;
+    repeated YueBaoRecord recordList = 4;
+}
+/*进入请求*/
+message YueBaoEnterReq{
+    required int32 activityId = 1;
+}
+message YueBaoEnterResp{
+    required int32 ret = 1;
+    optional RechargeItemData playerData = 2;
+}
+/*储蓄 217002*/
+message YueBaoDepositReq {
+    required int32 activityId = 1;
+    required int32 index = 2;
+    optional int32 depositNum = 3;
+}
+message YueBaoDepositResp {
+    required int32 ret = 1;
+}
+/*取款 217003*/
+message YueBaoInteractReq {
+    required int32 activityId = 1;
+}
+message YueBaoInteractResp {
+    required int32 ret = 1;
+    optional string baseIngot = 2;
+    optional string rewardIngot = 3;
+}
+/*操作记录*/
+message YueBaoRecord{
+    optional int64 time = 1;
+    optional int32 type = 2;
+    optional int64 ingotCount = 3;
+    optional int32 plan = 4;
+}

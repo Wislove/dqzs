@@ -1,0 +1,196 @@
+package com.yq.msg.CityMsg;
+import "Common";
+import "PlayerChara";
+import "Talent";
+import "Spirit";
+import "WatchPlayer";
+import "Battle";
+import "Attribute";
+import "Pet";
+import "Magic";
+enum SkyWarPb {
+    SkyWarPb_Null = 0;
+    SkyWarPb_Enter = 208401;                        
+    SkyWarPb_RefreshEnemy = 208402;                 
+    SkyWarPb_Fight = 208403;                        
+    SkyWarPb_Rank = 208404;                         
+    SkyWarPb_Log = 208405;                          
+    SkyWarPb_PlayBack = 208406;                     
+    SkyWarPb_Formation = 208407;                    
+    SkyWarPb_Set_Order = 208408;                    
+    SkyWarPb_Sky_Rank = 208409;                     
+    SkyWarPb_Worship = 208410;                      
+    SkyWarPb_Buy_Times = 208411;                    
+    SkyWarPb_Power_Rank = 208412;                   
+    SkyWarPb_Data_Sync = 208413;                    
+    SkyWarPb_CrossToGame_Get_Player_List = 208431;  
+    SkyWarPb_CrossToGame_Login_Sync = 208432;       
+    SkyWarPb_CrossToGame_Enter = 208433;            
+    SkyWarPb_CrossToGame_Buy_Times = 208434;        
+    SkyWarPb_CrossToGame_Get_Battle_Result_From_Other = 208435;        
+    SkyWarPb_CrossToGame_Send_Reward = 208436;      
+    SkyWarPb_CrossToGame_Worship = 208437;          
+    SkyWarPb_CrossToGame_Check_Sign = 208438;       
+    SkyWarPb_CrossToGame_Play_Back = 208439;        
+}
+message SkyWarDataSync {
+    optional int32 myGroupRank = 1; 
+    optional int32 myScore = 2; 
+    repeated EnemyPlayerData enemyData = 3; 
+}
+message EnemyPlayerData {
+    optional PlayerCharacterImageMsg playerData = 1; 
+    optional int32 winScore = 2; 
+}
+message SkyWarEnterReq {
+    required int64 playerId = 1; 
+}
+message SkyWarEnterRsp {
+    required int32 ret = 1;
+    optional int32 myPowerRank = 2; 
+    optional int32 refreshTimes = 3; 
+    repeated SkyWarRankData rankData = 4; 
+    repeated EnemyPlayerData enemyData = 5; 
+    optional int32 myScore = 6; 
+    optional int32 myGroupRank = 7; 
+    optional int32 currentSky = 8; 
+    optional int32 lastWeekSky = 9; 
+    optional int32 battleTimes = 10; 
+    optional int32 buyBattleTimes = 11; 
+    optional int32 buyRefreshTimes = 12; 
+    optional int32 applySky = 13; 
+}
+message SkyWarRefreshEnemyReq {
+    required int64 playerId = 1; 
+}
+message SkyWarRefreshEnemyRsp {
+    required int32 ret = 1;
+    repeated EnemyPlayerData enemyData = 2; 
+    optional int32 refreshTimes = 3; 
+}
+message SkyWarFightReq {
+    required int64 playerId = 1; 
+    required int64 targetPlayerId = 2; 
+    required int64 targetServerId = 3; 
+    required int32 position = 4; 
+}
+message SkyWarFightRsp {
+    required int32 ret = 1;
+    repeated BattleRecordMsg battleRecordMsg = 2; 
+    repeated SkyWarSeparationSimplyInfo mySeparationInfo = 3; 
+    repeated SkyWarSeparationSimplyInfo otherSeparationInfo = 4; 
+    optional string reward = 5; 
+    optional int32 battleTimes = 6; 
+}
+message SkyWarSeparationSimplyInfo {
+    optional int64 fightValue = 1;
+    optional int32 separationIndex = 2; 
+}
+message SkyWarRankData {
+    optional PlayerCharacterImageMsg playerData = 1; 
+    optional int32 score = 2; 
+    optional int32 rank = 3; 
+}
+message SkyWarRankReq {
+    required int64 playerId = 1; 
+    required bool isTopThree = 2; 
+}
+message SkyWarRankRsp {
+    required int32 ret = 1;
+    repeated SkyWarRankData rankData = 2; 
+    optional SkyWarRankData myRankData = 3; 
+}
+message SkyWarLogData {
+    optional PlayerBaseDataMsg playerData = 1; 
+    optional bool isSeparation = 2; 
+    repeated SkyWarSeparationSimplyInfo otherSeparationInfo = 3; 
+    repeated bool isWin = 4; 
+    optional int32 pos = 5; 
+    optional int64 battleId = 6; 
+    optional int64 warTime = 7; 
+    repeated SkyWarSeparationSimplyInfo mySeparationInfo = 8; 
+    optional bool isAttacker = 9;
+}
+message SkyWarLogReq {
+    required int64 playerId = 1; 
+}
+message SkyWarLogRsp {
+    required int32 ret = 1;
+    repeated SkyWarLogData logData = 2; 
+}
+message SkyWarLogPlaybackReq {
+    required int64 battleId = 1;
+}
+message SkyWarLogPlaybackRsp {
+    required int32 ret = 1;
+    repeated BattleRecordMsg battleRecordMsg = 2; 
+    optional bool isLeft = 3; 
+    repeated SkyWarSeparationSimplyInfo attackerSeparationInfo = 4; 
+    repeated SkyWarSeparationSimplyInfo defendSeparationInfo = 5; 
+}
+message SkyWarFormationReq {
+    required int64 playerId = 1; 
+    required int64 serverId = 2; 
+}
+message SkyWarFormationRsp {
+    required int32 ret = 1;
+    repeated int32 separationIndex = 3;
+    optional PlayerGodBodyDetailDataMsg godBodyMsg = 4; 
+}
+message SkyWarSetOrderReq {
+    required int64 playerId = 1; 
+    repeated int32 separationIndex = 2;
+}
+message SkyWarSetOrderRsp {
+    required int32 ret = 1;
+}
+message SkyWarSkyRankReq {
+    required int64 playerId = 1; 
+}
+message SkyWarSkyRankRsp {
+    required int32 ret = 1;
+    repeated SkyWarRankData rankData = 2; 
+    optional SkyWarRankData myRankData = 3; 
+    optional bool worship = 4; 
+}
+message SkyWarWorshipReq {
+    required int64 playerId = 1; 
+}
+message SkyWarWorshipRsp {
+    required int32 ret = 1;
+    optional string reward = 2; 
+    optional SkyWarWorshipShowMsg playerShowData = 3;
+}
+message SkyWarWorshipShowMsg{
+    required int64 playerId = 1;
+    required int64 serverId = 2;
+    required string nickName = 3;
+    repeated int32 pet = 4;
+    repeated int32 spirit = 5;
+    optional int32 appearanceId = 6; 
+    optional int32 equipCloudId = 7; 
+    optional int32 realmsId = 8;  
+    optional int64 time = 9;
+    optional int32 rank = 10;
+    optional int32 headIcon = 11; 
+    optional string wxHeadUrl = 12; 
+    optional PlayerHeadDataMsg headInfo = 13;
+    repeated int32 petSoulShapeList = 14; 
+    optional int32 titleId = 15; 
+    repeated int32 petLinkageId = 16; 
+    repeated int32 spiritLinkageId = 17; 
+}
+enum SkyWarBuyType{
+    Battle = 1;
+    Refresh = 2;
+}
+message SkyWarBuyTimesReq {
+    required int64 playerId = 1; 
+    required int32 times = 2; 
+    required SkyWarBuyType type = 3;
+}
+message SkyWarBuyTimesRsp {
+    required int32 ret = 1;
+    optional int32 times = 2; 
+    optional SkyWarBuyType type = 3;
+}

@@ -1,0 +1,85 @@
+package com.yq.msg.CityMsg;
+import "Common";
+import "WatchPlayer";
+import "PackagesBase";
+message UniverseLevelUpReq{
+}
+message UniverseLevelUpResp{
+  required int32 ret = 1;
+  optional int64 level = 2; 
+}
+message UniverseDrawReq{
+  required int32 bei = 1;
+}
+message UniverseDrawResp{
+  required int32 ret = 1;
+  optional int32 type = 2;
+  optional string rewards = 3; 
+  optional int32 stoneNum = 4; 
+  optional int64 lastRecoverTime = 5; 
+  optional int32 id = 6;
+  optional UniverseLookMsg universeLookMsg = 7; 
+  optional int32 cost = 8; 
+}
+message UniverseDrawTwiceReq{
+  optional int32 pos = 1; 
+}
+message UniverseDrawTwiceResp{
+  required int32 ret = 1;
+  optional int32 type = 2;
+  optional string rewards = 3; 
+  optional UniverseDrawMap drawMap = 4; 
+  optional int32 index = 5; 
+  optional int32 cost = 6; 
+  optional double beiLv = 7; 
+}
+message UniverseSkillUnlockReq {
+  required int32 runeId = 1;
+}
+message UniverseSkillUnlockResp {
+  required int32 ret = 1;
+  optional UniverseSkillDataMsg universeSkillDataMsg = 2; 
+}
+message  UniverseSkillCombineLvUpReq {
+  required int32 combineId = 1;
+}
+message UniverseSkillCombineLvUpResp {
+  required int32 ret = 1;
+  optional universeSkillLCombineMsg universeSkillCombineMsg = 2; 
+}
+message EquipUniverseSkillReq {
+  required int32 runeId = 1; 
+  required int32 index = 2; 
+  optional bool down = 3; 
+}
+message EquipUniverseSkillResp {
+  required int32 ret = 1;
+  repeated EquipUniverseSkillMsg equipUniverseData = 2; 
+}
+message UniverseSkillDrawReq {
+  required int32 times = 1; 
+}
+message UniverseSkillDrawResp {
+  required int32 ret = 1;
+  repeated UniverseSkillDrawResult UniverseSkillDrawResult = 2; 
+  optional int32 protectTimes = 3; 
+  optional int32 freeDrawTimes = 4; 
+  optional int32 drawTimes = 5; 
+  repeated UniverseSkillDataMsg universeSkillList = 6; 
+}
+message UniverseSkillDrawResult {
+  optional int32 runeId = 1; 
+  optional bool full = 2; 
+  optional string reward = 3; 
+  optional bool isNew = 4; 
+  optional string items = 5;    
+}
+message UniverseSkillLvUpReq {
+  required int32 runeId = 1;
+}
+message UniverseSkillLvUpResp {
+  required int32 ret = 1;
+  optional UniverseSkillDataMsg universeSkillDataMsg = 2; 
+  optional string reward = 3; 
+  optional bool pieceShopOpen = 4; 
+}

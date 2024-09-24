@@ -1,0 +1,18 @@
+package com.yq.msg.CityMsg;
+enum TreasureBowlPb {
+    TreasureBowlPb_Null = 0;
+    TreasureBowlPb_GetConditionReward = 209901; 
+}
+message ReqGetConditionReward {
+    optional int32 activityId = 1; 
+    optional int32 conditionId = 2; 
+    optional int32 getType = 3; 
+}
+message RspGetConditionReward {
+    optional int32 ret = 1;
+    optional string rewards = 2;
+    optional int32 repairGetTimes = 3; 
+}
+message TreasureBowlData {
+    optional int32 repairGetTimes = 1; 
+}

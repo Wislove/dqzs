@@ -1,0 +1,104 @@
+package com.yq.msg.CityMsg;
+message ComposeBallConfig {
+    optional int32 id = 1;           
+    optional int32 level = 2;        
+    optional string icon = 3;        
+    optional int32 width = 4;        
+    optional int32 score = 5;        
+    optional int32 currency = 6;     
+    optional string destroyed = 7;   
+  }
+  message ComposeBallItemUseData {
+    optional int32 itemId = 1;  
+    optional int32 num = 2;     
+  }
+  message ComposeBallConfigSync {
+    repeated ComposeBallConfig configs = 1;   
+  }
+  message ComposeBallUserDataSync {
+    optional int32 hp = 1;                  
+    optional int64 hpTime = 2;              
+    optional int32 costHp = 3;              
+    repeated ComposeBallItemUseData itemUseData = 4;   
+    optional int32 score = 5;               
+    optional int32 maxScore = 6;            
+  }
+  message ComposeBallBallData {
+    required int32 id = 1;                 
+    required int32 configId = 2;           
+    repeated string position = 3;          
+    repeated string linearVelocity = 4;    
+    optional string scale = 5;             
+  }
+  message ComposeBallEnterGameReq {
+    required int32 activityId = 1;
+  }
+  message ComposeBallEnterGameResp {
+    required int32 ret = 1;
+    optional ComposeBallSyncData syncData = 2;         
+  }
+  message ComposeBallComposeData {
+    optional int32 ballA = 1;               
+    optional int32 ballB = 2;               
+    required ComposeBallBallData ball = 3;           
+    repeated ComposeBallBallData processBall = 4;    
+  }
+  message ComposeBallComposeCount {
+    optional int32 configId = 1;
+    optional int32 count = 2;
+  }
+  message ComposeBallSyncData {
+    optional bool gameOver = 1;       
+    optional int32 id = 2;            
+    optional int32 configId = 3;      
+    repeated ComposeBallBallData balls = 4;      
+    repeated ComposeBallComposeCount count = 5;  
+    optional ComposeBallUserDataSync syncData = 6;   
+  }
+  message ComposeBallAchieveData {
+    optional int32 conditionId = 1;    
+    optional int32 exceedRate = 2;     
+  }
+  message ComposeBallComposeReq {
+    required int32 activityId = 1;
+    repeated ComposeBallBallData balls = 2;            
+    repeated ComposeBallComposeData composeData = 3;   
+    optional string ballsCheck = 4; 
+  }
+  message ComposeBallComposeResp {
+    required int32 ret = 1;
+    optional ComposeBallSyncData syncData = 2;         
+    repeated ComposeBallAchieveData achieveData = 3; 
+  }
+  message ComposeBallUseItemReq{
+    required int32 activityId = 1;
+    optional int32 itemType = 2;  
+    optional int32 idA = 3;        
+    optional int32 idB = 4;        
+    repeated ComposeBallBallData balls = 5;      
+    repeated ComposeBallComposeData composeData = 6;   
+    optional string ballsCheck = 7; 
+  }
+  message ComposeBallUseItemResp{
+    required int32 ret = 1;
+    optional ComposeBallSyncData syncData = 2;         
+    repeated ComposeBallAchieveData achieveData = 3; 
+  }
+  message ComposeBallHpItemReq {
+    required int32 activityId = 1;
+    required int32 num = 2;       
+  }
+  message ComposeBallHpItemResp {
+    required int32 ret = 1;
+    optional ComposeBallUserDataSync sync = 2;
+  }
+  message ComposeBallSettleReq {
+    required int32 activityId = 1;
+  }
+  message ComposeBallSettleResp {
+    required int32 ret = 1;
+    optional int32 score = 2;               
+    optional int32 rank = 3;                
+    optional int32 nextRankScoreGap = 4;    
+    optional ComposeBallUserDataSync sync = 5;
+  }

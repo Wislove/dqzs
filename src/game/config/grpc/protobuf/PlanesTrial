@@ -1,0 +1,544 @@
+package com.yq.msg.CityMsg;    
+import "WatchPlayer";
+import "Palace";
+import "Battle";
+import "AskWay";
+message EnterPlanesTrialReq{
+}
+message EnterPlanesTrialRsp{
+    required int32 ret = 1;
+    optional int64 userId = 2;
+    optional int64 teamId = 3;
+    optional int32 memberNum = 4;
+    optional int32 challengeTimes = 5;
+    optional int32 type = 6; 
+    optional int32 curStageId = 7; 
+    optional int32 myMaxStageId = 8; 
+    optional bool canWorship = 9;
+    optional PlanesTrialTeamMemberNotify teamMemberNotify = 10;        
+    optional bool redPoint = 11;           
+    optional int32 teamState = 12;          
+    repeated int64 serverId = 13; 
+    optional bool inviteRedPoint = 14;           
+    optional int32 rewardedStageId = 15;
+    repeated int32 buffIdList = 16;
+    repeated PlanesTrialGodBodyChangeInfo godBodyChange = 17;
+    optional bool grandPrizeRed = 18;
+    optional int32 rankMaxStageId = 19;
+}
+message getPlanesTrialTrialMemberCountReq{
+}
+message getPlanesTrialTrialMemberCountResp{
+    required int32 ret = 1;
+    repeated PlanesTrialTrialMemberCount trialMemberCount = 2; 
+}
+message PlayerRestrainInfoMsgReq{
+    optional int32 useSeparationIdx = 1;
+    optional int32 trialType = 2;
+}
+message PlayerRestrainInfoMsgResp{
+    required int32 ret = 1;
+    optional PlayerRestrainInfoMsg restrainData = 2; 
+}
+message PlanesTrialTrialMemberCount {
+    optional int32 trialType = 1;
+    optional int32 memberCount = 2;
+}
+message LeavePlanesTrialReq{
+}
+message LeavePlanesTrialRsp{
+    required int32 ret = 1;
+}
+message PlanesTrialGetAchievementRewardReq{
+}
+message PlanesTrialGetAchievementRewardRsp{
+    required int32 ret = 1;
+    optional string reward = 2;
+    optional int32 rewardStageId = 3;
+}
+message PlanesTrialGodBodyChangeInfo{
+    optional int32 index = 1;
+    optional int64 changeTime = 2;
+}
+message EnterPlanesTrialTeamReq{
+}
+message EnterPlanesTrialTeamRsp{
+    required int32 ret = 1;
+    optional PlanesTrialInnerTeamEntity teamInfo = 2;
+}
+message PlanesTrialTeamStartReq{
+}
+message PlanesTrialTeamStartRsp{
+    required int32 ret = 1;
+    optional int64 lastLeaveTeam = 2;               
+    repeated int64 applyJoinTeamIdList = 3;         
+}
+message PlanesTrialOutterTeamEntity{
+    optional int64 teamId = 1;              
+    optional string teamName = 2;           
+    optional int64 leaderId = 3;         
+    optional string leaderName = 4;         
+    optional int64 leaderServerId = 5;      
+    optional int64 fightValue = 6; 
+    optional int64 createTime = 7; 
+    repeated PlanesTrialOutterMemberEntity members = 8; 
+}
+message PlanesTrialOutterMemberEntity{
+    optional PlayerHeadAndNameMsg memberInfo = 1; 
+    optional int64 fightValue = 2; 
+    optional bool isRobot = 3;
+    optional int32 myMaxStageId = 4; 
+}
+message PlanesTrialInnerTeamEntity {
+    optional int64 teamId = 1;              
+    optional string teamName = 2;           
+    optional int64 leaderId = 3;            
+    optional int64 leaderServerId = 4;      
+    optional string leaderName = 5;         
+    repeated PlanesTrialMemberEntity members = 6; 
+    optional int64 createTime = 7;              
+    repeated PlanesTrialApplyUserEntity applyList = 8; 
+    optional int32 state = 9; 
+    optional int32 type = 10;   
+    optional int32 challengeTimes = 11; 
+    optional int32 curStageId = 12; 
+}
+message PlanesTrialMemberEntity {
+    optional PlayerAppearanceDataMsg memberInfo = 1; 
+    optional int32 state = 2;       
+    optional int32 myMaxStageId = 3; 
+    optional int64 lastChangeStateTime = 4; 
+    optional bool isRobot = 5; 
+    optional int32 pos = 6;
+    optional int32 challengeTimes = 7;
+    optional bool selectedBuff = 8; 
+    optional int32 headIconId = 9; 
+    optional string wxHeadUrl = 10; 
+    optional int32 headFrameId = 11; 
+}
+message PlanesTrialApplyUserEntity {
+    optional PlayerHeadAndNameMsg playerInfo = 1;   
+    optional int64 applyTime = 2;               
+    optional int64 fightValue = 3; 
+    optional int32 myMaxStageId = 4; 
+}
+message PlanesTrialCreateTeamReq {
+    required string teamName = 1;
+}
+message PlanesTrialCreateTeamRsp {
+    required int32 ret = 1;
+    optional PlanesTrialInnerTeamEntity teamInfo = 2;
+}
+message PlanesTrialGetTeamListReq {
+    required int32 type = 1; 
+    required int32 page = 2; 
+}
+message PlanesTrialGetTeamListRsp {
+    required int32 ret = 1;
+    repeated PlanesTrialOutterTeamEntity teamList = 2; 
+}
+message PlanesTrialGetTeamInfoReq {
+    required int64 teamId = 1;
+}
+message PlanesTrialGetTeamInfoRsp {
+    required int32 ret = 1;
+    optional PlanesTrialOutterTeamEntity teamInfo = 2; 
+}
+message PlanesTrialCancelTeamApplyReq {
+    required int64 teamId = 1;
+}
+message PlanesTrialCancelTeamApplyRsp {
+    required int32 ret = 1;
+}
+message PlanesTrialApplyJoinTeamAgreeReq {
+    required int64 playerId = 1; 
+}
+message PlanesTrialApplyJoinTeamAgreeRsp {
+    required int32 ret = 1;
+    optional PlanesTrialInnerTeamEntity teamInfo = 2;              
+}
+message PlanesTrialApplyJoinTeamRefusedReq {
+}
+message PlanesTrialApplyJoinTeamRefusedRsp {
+    required int32 ret = 1;
+    optional PlanesTrialInnerTeamEntity teamInfo = 2;              
+}
+message PlanesTrialQuitTeamReq {
+}
+message PlanesTrialQuitTeamRsp {
+    required int32 ret = 1;
+}
+message PlanesTrialKickOutTeamReq {
+    required int64 playerId = 1; 
+}
+message PlanesTrialKickOutTeamRsp {
+    required int32 ret = 1;
+    optional int32 curStageId = 2;
+}
+message PlanesTrialChangeLeaderReq {
+    required int64 playerId = 1; 
+}
+message PlanesTrialChangeLeaderRsp {
+    required int32 ret = 1;
+}
+message PlanesTrialTeamLeaderNotify {
+    required int32 type = 1;
+    optional PlanesTrialApplyUserEntity userData = 2;
+}
+message PlanesTrialTeamMemberNotify {
+    required int32 type = 1;
+    optional PlanesTrialInnerTeamEntity teamInfo = 2; 
+    optional PlanesTrialSelectSkillDataMsg selectBuffData = 3; 
+    repeated PlanesTrialChangePosData changePosData = 4; 
+    optional PlanesTrialSwitchSeparationNotify switchSeparationNotify = 5; 
+}
+message PlanesTrialSelectSkillDataMsg{
+    repeated int32 canSelectBuff = 1; 
+    optional int32 buff = 2; 
+    optional int64 startSelectTime = 3; 
+}
+message PlanesTrialTeamPrepareReq {
+    required int32 type = 1; 
+}
+message PlanesTrialTeamPrepareRsp {
+    required int32 ret = 1;
+}
+message PlanesTrialStartMatchReq {
+    required int32 type = 1; 
+}
+message PlanesTrialStartMatchRsp {
+    required int32 ret = 1;
+}
+message PlanesTrialMatchMemberReq{
+}
+message PlanesTrialMatchMemberRsp{
+    required int32 ret = 1;
+    optional int32 matchNum = 2;
+    optional int64 memberId = 3;
+    optional int32 trialType = 4;
+}
+message PlanesTrialMatchResultMsg {
+    repeated int64 playerId = 1; 
+}
+message PlanesTrialStartBattleReq {
+}
+message PlanesTrialStartBattleRsp {
+    required int32 ret = 1;
+}
+message PlanesTrialInviteReq {
+    required int32 type = 1;    
+    optional int64 targetPlayerId = 2;
+}
+message PlanesTrialInviteRsp {
+    required int32 ret = 1;
+}
+message PlanesTrialSkipBattleReq {
+}
+message PlanesTrialSkipBattleRsp {
+    required int32 ret = 1;
+}
+message PlanesTrialStartSelectBuffReq {
+    required int64 teamId = 1;
+}
+message PlanesTrialStartSelectBuffRsp {
+    required int32 ret = 1;
+}
+message PlanesTrialSelectBuffReq {
+    required int32 index = 1; 
+}
+message PlanesTrialSelectBuffRsp {
+    required int32 ret = 1;
+}
+message PlanesTrialBuffPreference{
+    optional int32 priority = 1; 
+    optional int32 skillType = 2; 
+}
+message PlanesTrialSetBuffPreferenceReq {
+    repeated PlanesTrialBuffPreference markPreference = 1;
+}
+message PlanesTrialSetBuffPreferenceRsp {
+    required int32 ret = 1;
+}
+message PlanesTrialGetBuffPreferenceReq {
+}
+message PlanesTrialGetBuffPreferenceRsp {
+    required int32 ret = 1;
+    repeated PlanesTrialBuffPreference markPreference = 2;
+}
+message PlanesTrialBuffInfo {
+    required int32 buffId = 1;                                
+    required int32 stageId = 2;                             
+}
+message PlanesTrialGetSelectedBuffReq {
+    optional int64 targetPlayerId = 1;                      
+    optional bool isRobot = 2;
+}
+message PlanesTrialGetSelectedBuffRsp {
+    required int32 ret = 1;
+    repeated PlanesTrialBuffInfo buffInfo = 2;
+}
+message PlanesTrialRankTeamEntity {
+    required int64 id = 1;
+    optional string teamName = 2;           
+    optional int64 leaderServerId = 3;      
+    repeated PlayerCharacterImageMsg members = 4; 
+    optional int64 battleTime = 5;         
+    optional int64 fightValue = 6;
+    optional int32 stageId = 7; 
+    repeated int64 robotPlayerId = 8;
+}
+message PlanesTrialRankGetReq {
+    required int32 type = 1; 
+    required bool needAll = 2; 
+}
+message PlanesTrialRankGetResp {
+    required int32 ret = 1;
+    repeated PlanesTrialRankTeamEntity curTeam = 2;
+    optional int32 myRank = 3;
+    optional int32 myMaxStageId = 4;
+}
+message PlanesTrialRankTeamList{
+    repeated PlanesTrialRankTeamEntity curTeam = 1;
+}
+message PlanesTrialUpdateLockDataReq{
+    required int32 separationIdx = 1;
+    required int32 trailType = 2;
+}
+message PlanesTrialUpdateLockDataResp {
+    required int32 ret = 1;
+    optional GodBodyDetailDataMsg data = 2;
+}
+message PlanesTrialGetGodBodyDataReq{
+}
+message PlanesTrialGetGodBodyDataResp {
+    required int32 ret = 1;
+    optional GodBodyDetailDataMsg data = 2;
+}
+message PlanesTrialGetBattleVideoReq {
+    required int64 battleId = 1; 
+}
+message PlanesTrialGetBattleVideoRsp {
+    required int32 ret = 1;
+    optional BattleRecordMsg battleRecordMsg = 2; 
+}
+message PlanesTrialGetBossInfoReq {
+    required int32 bossId = 1;
+}
+message PlanesTrialGetBossInfoRsp {
+    required int32 ret = 1;
+    optional PlayerDetailDataMsg bossInfo = 2;
+}
+message PlanesTrialGetBossPowerReq {
+    required int32 levelId = 1;
+}
+message PlanesTrialGetBossPowerRsp{
+    required int32 ret = 1;
+    repeated int64 power = 2;
+}
+message PlanesTrialGetPlayerInfoReq {
+    required int64 playerId = 1;
+    required int64 teamId = 2;  
+    required int32 type = 3;    
+    optional int64 leaderId = 4; 
+}
+message PlanesTrialGetPlayerInfoRsp {
+    required int32 ret = 1;
+    optional PlayerDetailDataMsg playerInfo = 2;
+}
+message PlanesTrialEnterBattleReq{}
+message PlanesTrialEnterBattleResp{
+    required int32 ret = 1;
+    optional PlanesTrialEnterBattleData data = 2; 
+    optional PlanesTrialSelectSkillDataMsg selectBuffData = 3; 
+    repeated int64 robotPlayerIds = 4; 
+    optional int32 curStage = 5; 
+    optional bool needSendBuffReq = 6; 
+}
+message PlanesTrialEnterBattleNotify{
+    required PlanesTrialEnterBattleData data = 1; 
+}
+message PlanesTrialEnterBattleData{
+    repeated BattleMain datas = 1; 
+}
+message PlanesTrialEnterSwitchSeparationReq{}
+message PlanesTrialEnterSwitchSeparationRsp{
+    required int32 ret = 1;
+    repeated PlanesTrialSeparationSimpleData datas = 2;
+}
+message PlanesTrialSeparationSimpleData{
+    required PlayerHeadAndNameMsg data = 1;  
+    optional int32 select = 2;        
+    repeated int64 powers = 3;        
+    optional bool isRobot = 4;        
+}
+message PlanesTrialSwitchSeparationReq{
+    required int64 targetId = 1;  
+    required int32 separationId = 2;  
+    required bool isRobot = 3;    
+    required int64 teamId = 4;    
+    repeated BattleMain battleMain = 5; 
+}
+message PlanesTrialSwitchSeparationRsp{
+    required int32 ret = 1;
+    optional PlanesTrialSwitchSeparationNotify notify = 2;
+}
+message PlanesTrialSwitchSeparationNotify{
+    repeated BattleMain battleMain = 1;    
+    optional int64 targetId = 2;  
+    optional int32 separationId = 3;  
+    optional int64 teamId = 4;    
+}
+message PlanesTrialSeparationDetailReq{
+    required int64 targetPlayerId = 1;  
+    required int64 teamId = 2;  
+    required int64 leaderServerId = 3;  
+}
+message PlanesTrialSeparationDetailRsp{
+    required int32 ret = 1;
+    optional GodBodyDetailDataMsg datas = 2;
+    optional int32 appearanceId = 3;  
+}
+message PlanesTrialChangePosReq{
+    required int64 resPlayerId = 1;     
+    required int64 tarPlayerId = 2;     
+    required int32 tarPos = 3;          
+    required int64 teamId = 4;          
+}
+message PlanesTrialChangePosRsp{
+    required int32 ret = 1;
+}
+message PlanesTrialChangePosNotify{
+    repeated PlanesTrialChangePosData datas = 1;
+}
+message PlanesTrialChangePosData{
+    required int64 playerId = 1;  
+    required int32 pos = 2;    
+}
+message PlanesTrialDoBattleReq{
+    required int64 teamId = 1;
+    required int32 levelId = 2;
+    required int32 trialType = 3;     
+}
+message PlanesTrialDoBattleRsp{
+    required int32 ret = 1;
+    optional PlanesTrialDoBattleNotify notifyData = 2;
+}
+message PlanesTrialDoBattleNotify{
+    required BattleRecordMsg allBattleRecord = 1;   
+    optional string rewards = 2;                    
+    repeated BattleMain bossData = 3;               
+    optional bool isLastStar = 4;                   
+    optional int64 teamId = 5;                      
+    optional int32 loseTimes = 6;                   
+    optional int32 curStage = 7;  
+}
+message PlanesTrialVideoPlayerInfo{
+    required PlayerAppearanceDataMsg data = 1; 
+    optional bool isRobot = 2; 
+    optional int32 headIconId = 3; 
+    optional string wxHeadUrl = 4; 
+    optional int32 headFrameId = 5; 
+    repeated PlanesTrialBuffInfo buffList = 6; 
+}
+message PlanesTrialVideoInfoReq{
+    required int32 levelId = 1;
+    required int32 trialType = 2;     
+}
+message PlanesTrialVideoInfoRsp{
+    required int32 ret = 1;
+    repeated PlanesTrialVideoPlayerInfo roundData = 2; 
+    repeated PlanesTrialVideoPlayerInfo powerData = 3; 
+}
+message PlanesTrialPlayVideoReq{
+    required int32 levelId = 1;
+    required int32 trialType = 2;     
+    required int32 videoType = 3;     
+}
+message PlanesTrialPlayVideoRsp{
+    required int32 ret = 1;
+    optional BattleRecordMsg allBattleRecord = 2;   
+}
+message PlanesTrialInviteListReq{
+}
+message PlanesTrialInviteListResp{
+    required int32 ret = 1;
+    repeated PlanesTrialOutterTeamEntity teamList = 2; 
+    optional bool isAccept = 3; 
+}
+message PlanesTrialApplyJoinTeamReq {
+    required int32 teamId = 1; 
+}
+message PlanesTrialApplyJoinTeamRsp {
+    required int32 ret = 1;
+    optional PlanesTrialInnerTeamEntity teamInfo = 2;              
+}
+message PlanesTrialInviteRefuseReq{
+}
+message PlanesTrialInviteRefuseResp{
+    required int32 ret = 1;
+}
+message PlanesTrialSetAppointReq {
+    required bool isAcceptAppoint = 1;
+}
+message PlanesTrialSetAppointResp {
+    required int32 ret = 1;                       
+}
+message PlanesTrialRedPointReq {
+    optional bool inviteRedPoint = 1;  
+    optional bool rewardPoint = 2;     
+}
+message PlanesTrialUpdateGodBodyLockReq {
+    required int32 separationIdx = 1;
+    required int32 trailType = 2;
+}
+message PlanesTrialUpdateGodBodyLockResp {
+    required int32 ret = 1;
+}
+message PlanesTrialHeartbeatReq{
+}
+message PlanesTrialHeartbeatResp{
+    required int32 ret = 1;
+}
+message PlanesTrialGetSelectRewardDetailReq  {
+    required int32 trialType = 1;
+}
+message PlanesTrialGetSelectRewardDetailResp {
+    required int32 ret = 1;
+    optional string unlockSystem = 2; 
+    repeated PlanesTrialSelectRewardMsg selectReward = 3; 
+    optional int32 openDay = 4;
+}
+message PlanesTrialSelectRewardMsg {
+    optional int32 stageId = 1; 
+    optional int32 gridIndex = 2; 
+    optional int32 rewardIndex = 3; 
+}
+message PlanesTrialSelectRewardReq {
+    required PlanesTrialSelectRewardMsg selectReward = 1;
+}
+message PlanesTrialSelectRewardResp {
+    required int32 ret = 1;
+}
+message PlanesTrialGetGrandPrizeInfoReq {
+}
+message PlanesTrialGetGrandPrizeInfoResp {
+    required int32 ret = 1;
+    repeated PlanesTrialGrandPrizeData rewardData = 2; 
+}
+message PlanesTrialGrandPrizeData {
+    optional int32 boxIndex = 1;
+    optional int32 rewardIndex = 2;
+}
+message PlanesTrialReceiveGrandPrizeReq {
+    required int32 boxIndex = 1;
+}
+message PlanesTrialReceiveGrandPrizeResp {
+    required int32 ret = 1;
+    optional PlanesTrialGrandPrizeData rewardData = 2;
+}
+message PlanesTrialCloseSettleScreenReq {
+    required int64 teamId = 1;
+}
+message PlanesTrialCloseSettleScreenResp {
+    required int32 ret = 1;
+}

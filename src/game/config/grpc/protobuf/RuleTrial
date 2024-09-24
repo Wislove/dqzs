@@ -1,0 +1,27 @@
+package com.yq.msg.CityMsg;    
+import "Battle";
+import "Attribute";    
+import "PackagesBase";
+    message RuleTrialChallengeReq {
+        required RuleTrialType type = 1; 
+    }
+    message RuleTrialChallengeResp {
+        optional int32 ret = 1;
+        optional BattleRecordMsg allBattleRecord = 2; 
+        optional bool challengeSuccess = 3; 
+        optional string rewards = 4; 
+        optional int32 challengeId = 5; 
+    }
+    message RuleTrialRepeatAllReq{
+    }
+    message RuleTrialRepeatAllResp{
+        required int32 ret = 1;
+        optional string rewards = 2; 
+    }
+    message RuleTrialMonsterAttrResp {
+        required int32 ret = 1;
+        repeated AttributeDataMsg attributeList = 2; 
+      }
+      message RuleTrialMonsterAttrReq {
+        required int32 challengeId = 1; 
+      }

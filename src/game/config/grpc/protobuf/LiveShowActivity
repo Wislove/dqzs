@@ -1,0 +1,7 @@
+package com.yq.msg.CityMsg;
+message LiveShowNotifyReqMsg {
+    required int32 type = 1; 
+}
+message LiveShowNotifyRespMsg {
+    required int32 ret = 1;
+}

@@ -1,0 +1,27 @@
+package com.yq.msg.CityMsg; 
+enum MeiTuanDailyPb {
+  S_MEI_TUAN_DAILY_SYNC = 216800; 
+  S_MEI_TUAN_DAILY_LOGIN = 216801; 
+  S_MEI_TUAN_DAILY_REWARD = 216802; 
+}
+message SyncMeiTuanDailyMsg{
+  required MeiTuanDailyDataMsg meiTuanDailyDataMsg = 1;
+}
+message MeiTuanDailyLoginReq {
+}
+message MeiTuanDailyLoginResp {
+  required int32 ret = 1;
+  optional MeiTuanDailyDataMsg meiTuanDailyDataMsg = 2;
+}
+message MeiTuanDailyRewardReq {
+}
+message MeiTuanDailyRewardResp{
+  required int32 ret = 1;
+  optional MeiTuanDailyDataMsg meiTuanDailyDataMsg = 2;
+  optional string reward = 3; 
+}
+message MeiTuanDailyDataMsg {
+  required int32 rewardId = 1; 
+  required int64 loginTime = 2; 
+  required int64 rewardTime = 3; 
+}

@@ -1,0 +1,200 @@
+package com.yq.msg.CityMsg; 
+import "Union";
+import "WatchPlayer";
+import "Battle";
+enum TreasurePb{
+    TreasurePb_Draw_Chip = 216201;
+    TreasurePb_AskFor_Chip = 216202;
+    TreasurePb_Send_Chip = 216203;
+    TreasurePb_Battle_Relic = 216205;
+    TreasurePb_Hunt_Treasure = 216206;
+    TreasurePb_Enter = 216207;
+    TreasurePb_Sync_Relic_Data = 216208;
+    TreasurePb_Get_Given_Chip = 216209;
+    TreasurePb_AskFor_Relic_Data = 216213;
+    TreasurePb_Share_Relic = 216216;
+    TreasurePb_Fill_ChIP = 216218;
+    TreasurePb_Time_Window_Sync = 216220;
+    TreasurePb_Check_Message_Valid = 216222; 
+    TreasurePb_Get_Collect_Data = 216224;   
+    TreasurePb_Exit = 216225;
+    TreasurePb_LvUp_Window = 216227;
+    TreasurePb_Get_Battle_Record = 216223;
+    TreasurePb_CTG_Draw_Chip = 216210;
+    TreasurePb_CTG_Send_Chip = 216211;
+    TreasurePb_CTG_Battle_Relic = 216212;
+    TreasurePb_CTG_Get_Given_Chip = 216214;
+    TreasurePb_Get_Relic_Back = 216215;
+    TreasurePb_Hunt_Treasure_Back = 216217;
+    TreasurePb_Fill_Chip_Back = 216219;
+    TreasurePb_Fill_Condition_notify = 216221;
+}
+message UnionTreasureMapData{
+    optional int32 pos = 1;
+    optional int32 status = 2;
+    optional int32 freeCount = 3;
+}
+message UnionTreasureCollectGiveMsg{
+    repeated UnionTreasureSingleCollectGiveInfo givenList = 1;
+    repeated UninonTreasureUnionMemberData memberMsg= 2;
+}
+message  UnionTreasureSingleCollectGiveInfo{
+    optional PlayerShowInfoMsg headInfo = 1;
+    optional int32 giveItemId = 2;
+    optional bool isReceived = 3;
+    optional string sendDataUid = 4; 
+}
+message UninonTreasureUnionMemberData{
+    optional PlayerShowInfoMsg headInfo = 1;
+    optional int32 GiveTimes = 2;
+    optional int32 SendTimes = 3;
+}
+message UnionTreasureRuinsPlayerMsg{
+    optional PlayerBaseDataMsg characterData = 1;
+    optional string reward = 2;
+}
+message UnionTreasureRuinsMsg{
+    optional int32 type = 1;
+    repeated UnionTreasureRuinsPlayerMsg otherPlayers = 2;
+    optional string relicUid = 3; 
+    optional bool isOpen = 4;
+    optional UnionTreasureMonsterData monsterData = 5;
+    optional string foundPlayerName = 6; 
+}
+message UnionTreasureUnionData{
+    optional int32 unionTreasureLv = 1;
+    optional int32 compeletNum = 2; 
+}
+message UnionTreasurePlayerData{
+    repeated UnionTreasureMapData mapDatas = 1; 
+    optional int32 lotteryTimes = 2; 
+    optional string relicUid = 3;
+    optional int32 monsterId = 4;
+}
+message UnionTreasureMonsterData{
+    optional int32 monsterId = 1;
+    repeated AttributeDataMsg attributeList = 2; 
+    optional int64 monsterFightVal = 3; 
+    optional bool isDefeat = 4;
+}
+message UnionTreasuretLoginSync{
+    optional int64 endTime = 1;
+}
+message  UnionTreasureCollectMsg{
+    optional UnionTreasurePlayerData playerData = 1;
+    optional UnionTreasureUnionData unionData = 2;
+    optional UnionTreasureCollectGiveMsg giveMsg = 3;
+    optional UnionTreasureRuinsMsg ruinsMsg = 4;
+}
+message UnionTreasureAskForReq{
+    optional int32 itemId = 1;
+}
+message UnionTreasureAskForResp{
+    optional int32 ret = 1;
+}
+message UnionTreasureDrawChipReq{
+}
+message UnionTreasureDrawChipResp{
+    required int32 ret = 1;
+    optional string reward = 2;
+    optional int32 unlockItemId = 3;
+    optional bool showLvUpWindow = 4;
+}
+message UnionTreasureEnterReq{
+}
+message UnionTreasureEnterResp{
+    required int32 ret = 1;
+    optional UnionTreasureCollectMsg msg = 2;
+    optional bool showLvUpWindow = 3;
+    optional int64 endTime = 4;
+    optional bool isShowBagRed = 5;
+}
+message UnionTreasureSendChipReq{
+    optional int64 receivePlayerId = 1;
+    optional int32 itemId = 2;
+    optional string askForUid = 3;
+}
+message UnionTreasureSendChipResp{
+    optional int32 ret = 1;
+}
+message UnionTreasureGetGiveChipReq{
+    optional string sendDataUid = 1;
+}
+message UnionTreasureGetGiveChipResp{
+    optional int32 ret = 1;
+    optional string reward = 2;
+}
+message UnionTreasureHuntTreasureReq{
+    optional int32 pos = 1;
+}
+message UnionTreasureHuntTreasureResp{
+    optional int32 ret = 1;
+    optional string reward = 2;
+    optional UnionTreasureRuinsMsg ruinsData = 3;
+    optional int32 rewardQuality = 4;
+}
+message UnionTreasureBattleRelicReq{
+    optional string relicUid = 1;
+}
+message UnionTreasureBattleRelicResp{
+    required int32 ret = 1;
+    optional string reward = 2;
+    optional BattleRecordMsg battleRecord = 3;
+    optional UnionTreasureRuinsMsg ruinsData = 4;
+}
+message UnionTreasureAskForRelicReq{
+    optional string relicUid = 1;
+}
+message UnionTreasureAskForRelicResp{
+    required int32  ret = 1;
+    optional UnionTreasureRuinsMsg msg = 2;
+    optional string reward = 3;
+    optional int32 openTimes = 4;
+    optional int32 battleTimes = 5;
+}
+message UnionTreasureShareRelicReq{
+    required string relicUid = 1;
+}
+message UnionTreasureShareRelicResp{
+    required int32  ret = 1;
+}
+message UnionTreasureFillChipReq{
+    optional int32 itemId = 1;
+}
+message UnionTreasureFillChipResp{
+    optional int32 ret = 1;
+    repeated UnionTreasureMapData dataList = 2;
+}
+message checkMessageValidReq{
+    optional string uid = 1;
+    optional int32 type = 2;
+}
+message checkMessageValidResp{
+    optional int32 ret = 1;
+    optional int32 isValid = 2; 
+}
+message UnionTreasureGetCollectGiveMsgReq{
+}
+message UnionTreasureGetCollectGiveMsgResp{
+    optional int32 ret = 1;
+    optional UnionTreasureCollectGiveMsg msg = 2;
+}
+message UnionTreasureExitReq{
+}
+message UnionTreasureExitResp{
+    optional int32 ret = 1;
+}
+message UnionTreasureLvUpWindowsMsg{
+    optional bool needShow = 1;
+}
+message BattleBossRecord{
+    optional string masterName = 1;
+    optional int64 battleTime = 2;
+    optional string reward = 3;
+}
+message UnionTreasureGetBattleRecordReq{
+}
+message UnionTreasureGetBattleRecordResp{
+    optional int32 ret = 1;
+    repeated BattleBossRecord recordList = 2;
+}

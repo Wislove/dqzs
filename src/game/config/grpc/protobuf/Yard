@@ -1,0 +1,454 @@
+package com.yq.msg.CityMsg;
+import "Common";
+import "WatchPlayer";
+import "Union";
+import "Battle";
+import "WorldMessage";
+enum YardPb {
+   YardPb_Null = 0;
+   YardPb_BUILD_ENTER = 215801; 
+   YardPb_BUILD_BATTLE = 215802; 
+   YardPb_BUILD_POS_ACITION = 215803; 
+   YardPb_LEVEL_UP = 215804; 
+   YardPb_CLEAR_GARBAGE = 215805; 
+   YardPb_BUILD_CONBINE = 215821; 
+   YardPb_BUILD_DRAW = 215822;    
+   YardPb_BUILD_LEVEL_UP = 215823;    
+   YardPb_BUILD_UNLOCK = 215824;    
+   YardPb_BUILD_MAKE = 215825;    
+   YardPb_BUILD_HELP = 215826;    
+   YardPb_BUILD_GAIN_REWARD = 215827;
+   YardPb_BUILD_SPEED = 215828;    
+   YardPb_BUILD_UNION_HELP_LIST = 215829;    
+   YardPb_BUILD_REQUEST_UNION_HELP = 215830;    
+   YardPb_BUILD_UNION_HELP = 215831;    
+   YardPb_BUILD_UNION_HELP_STATE = 215832;    
+   YardPb_PEACH_RECIVE = 215833;    
+   YardPb_PEACH_RECORD_LIST = 215834;    
+   YardPb_MERCHANT_INFO = 215835;    
+   YardPb_MERCHANT_EXCHANGE = 215836;    
+   YardPb_CHAT_SWITCH = 215837;    
+   YardPb_CHAT_BLACK = 215838;    
+   YardPb_CHAT_ACTION = 215839;    
+   YardPb_CHAT_RECORD = 215840;    
+   YardPb_CHAT_RECORD_LIST = 215841;    
+   YardPb_GIVE_LIKE = 215842;    
+   YardPb_ENTER_SHOP = 215807; 
+   YardPb_REFRESH_SHOP = 215808; 
+   YardPb_PEACH_HELP_SYNC = 215845;    
+   YardPb_BUILD_LEVEL_UP_SYNC = 215846;    
+   YardPb_BUILD_EXP_SYNC = 215847; 
+   YardPb_BUILD_INFO_SYNC = 215848; 
+   YardPb_BUILD_MAKE_NUM_SYNC= 215849;    
+   YardPb_BUILD_ONE_KEY_MAKE = 215819;    
+   YardPb_REFRESH_DATA_SYNC= 215850;    
+   YardPb_DECORATE_BUILD_SYNC = 215844;    
+}
+message YardAreaData{
+   required int32 areaId =1; 
+}
+message YardBuildingMsg{
+   optional YardCellMsg yardCellMsg =1; 
+   optional YardBuildDetailMsg  yardBuildDetailMsg =2; 
+}
+message YardBuildDetailMsg{
+   optional int32 level = 1; 
+   optional int32 status  = 2; 
+   optional int32 productId = 3; 
+   optional int64 startTime = 4; 
+   optional int64 endTime = 5; 
+   optional int32 collectNum = 6; 
+   optional int64 levelUpEndTime =7; 
+   optional int64 totalNum =8; 
+   optional int32 speedTimes =9; 
+   optional bool isUnionHelp = 10;
+}
+message YardBuildInfoMsgSync{
+  optional int64 uniqueId = 1;   
+  optional int64 buildId = 2;   
+  optional YardBuildDetailMsg yardBuildDetailMsg = 3; 
+}
+message YardAreaInfoMsg{
+  optional int32 areaId =1;     
+  optional int32 areaStatus =2; 
+  repeated YardBuildingMsg buildingMsg = 3; 
+}
+message YardCellMsg{
+   optional int64 uniqueId = 1;   
+   optional int32 buildId =2; 
+   optional int32 row =3;  
+   optional int32 col =4;  
+   optional int32 turn =5; 
+   optional int32 status = 6; 
+}
+message SearchInfo{
+   optional int32 areaId =1;
+   repeated int32 startPos=2;
+   repeated int32 endPos=3;
+}
+message  YardEnterReq {
+   repeated SearchInfo searchInfo =1;
+   optional int64 targetPlayerId =2; 
+}
+message YardEnterResp {
+  required int32 ret = 1;
+  repeated YardAreaInfoMsg areaInfo = 2; 
+  optional int32 level = 4; 
+  optional string exp = 5; 
+  optional int32 queueNum = 6; 
+  optional bool isOwner =7;
+  optional YardDrawDataMsg drawData = 8;
+  optional bool  isPeachHelp = 9; 
+  repeated HelpData helpData = 10; 
+  repeated YardSkillLCombineMsg combineList = 11;
+  repeated YardBuildInfoMsg decorateList = 12;
+  optional int32 yesterDayHelpNum = 13; 
+  repeated YardLimitTimeBuildMsg timeBuildList = 14;
+  optional PlayerPilotShowDataMsg playerShow = 15;
+  repeated YardMainBuildInfoMsg mainBuildInfo = 16; 
+  optional int32 speedTimes = 17; 
+}
+message YardMainBuildInfoMsg{
+  optional int64 uniqueId = 1;
+  optional int32 lv = 2; 
+}
+message YardLimitTimeBuildMsg{
+   optional int32 buildId =1; 
+   optional int64 expireTime =2; 
+}
+message YardDrawDataMsg{
+ optional int32 freeDrawTimes = 1;                   
+  optional int32 drawCount = 2;                       
+  optional int32 ensureCount = 3;                     
+  optional int32 adCount =4; 
+}
+message  YardBattleReq {
+    required int32 areaId = 1;
+}
+message YardBattleResp {
+  required int32 ret = 1;
+  optional YardAreaInfoMsg areaInfo = 2; 
+  optional BattleRecordMsg allBattleRecord = 3;    
+}
+message BuildPosRespMsg{
+   optional int32 areaId =1;
+   repeated YardBuildingMsg  yardBuildingMsg =2;
+}
+message ActionRespMsg{
+   repeated BuildPosRespMsg buildPosRespMsg = 2; 
+}
+message BuildPosMsg{
+   optional int32 areaId =1;
+   repeated YardCellMsg  yardCellMsgs =2;
+}
+message ActionMsg{
+   repeated BuildPosMsg buildPosMsg = 2; 
+}
+message YardPosActionReq {
+   optional bytes value = 1; 
+}
+message YardPosActionResp {
+  required int32 ret = 1;
+  optional bytes value = 2; 
+  optional YardCellMsg cellMsg = 3; 
+}
+message  YardLevelUpReq {
+}
+message YardLevelUpResp {
+  required int32 ret = 1;
+}
+message  YardClearReq {
+   required int32 areaId = 1;  
+   required int64 uniqueId = 2;  
+}
+message YardClearResp {
+  required int32 ret = 1;
+}
+message  YardSkillCombineLvUpReq {
+  required int32 combineId = 1;
+}
+message YardSkillCombineLvUpResp {
+  required int32 ret = 1;
+  optional YardSkillLCombineMsg yardSkillLCombineMsg = 2; 
+}
+message YardSkillLCombineMsg{
+  required int32 combineId = 1;
+  required int32 lv = 2; 
+}
+message YardDrawReq {
+  required bool isTen = 1;      
+  optional bool isUseADTime = 2;
+  optional bool isADType =3; 
+  optional int32 poolId = 4; 
+}
+message YardDrawResult {
+  optional string rewards = 1;  
+  optional string items = 2;    
+  optional bool inNew = 3; 
+  optional bool isTransPiece = 4; 
+}
+message YardDrawResp {
+  required int32 ret = 1;
+  repeated YardDrawResult drawResult = 2;
+  optional YardDrawDataMsg drawData = 3;
+  optional bool  pieceShopOpen = 4; 
+  optional bool isUseADTime = 5;
+}
+message BuildUpLevelReq {
+  required int32 buildId = 1;     
+  optional int64 uniqueId =2; 
+}
+message BuildUpLevelResp {
+  required int32 ret = 1;
+  optional int32 level =2;
+  optional string reward =3; 
+  optional bool  pieceShopOpen = 4; 
+}
+message BuildUnlockReq {
+  required int32 buildId = 1;     
+}
+message BuildUnlockResp {
+  required int32 ret = 1;
+}
+message YardPeachGetRewardReq {
+}
+message YardPeachGetRewardResp {
+  required int32 ret = 1;
+  optional string rewards = 2;  
+}
+message HelpData{
+   optional PlayerBaseDataMsg enemyPlayerInfo = 1;  
+   optional int64 helpTime =2;  
+   optional bool isGetReward =3;  
+}
+message YardPeachHelpDataSync{
+    repeated HelpData helpData = 1; 
+}
+message YardPeachRecordListReq {
+}
+message YardPeachRecordListResp {
+    required int32 ret = 1;
+    repeated HelpData helpData = 2; 
+}
+message YardMerchantInfoReq {
+   optional int64 targetPlayerId =1;
+}
+message YardMerchantInfoResp {
+    required int32 ret = 1;
+    repeated MerchantItemMsg merchantItemMsg =2; 
+}
+message MerchantItemMsg{
+   optional int32 cropId =1; 
+   optional int64 price =2; 
+}
+message YardMerchantExchangeReq {
+   optional int32 itemId = 1;
+   optional int64 num = 2;
+   optional int64 targetPlayerId = 3;
+}
+message YardMerchantExchangeResp {
+    required int32 ret = 1;
+    optional string rewards = 2;  
+}
+message YardChatSwitchReq {
+   optional bool isOpen = 1;  
+}
+message YardChatSwitchResp {
+    required int32 ret = 1;
+}
+message YardChatBlackReq {
+   optional int64 targetPlayerId = 1;
+}
+message YardChatBlackResp {
+    required int32 ret = 1;
+}
+message YardChatActionReq {
+   optional int32 type=1;    
+   optional int64 recordId = 2; 
+}
+message YardChatActionResp {
+    required int32 ret = 1;
+    repeated YardRecordMsg recordList = 2;
+    repeated YardRecordMsg topRecordList = 3;
+}
+message YardChatRecordReq {
+    required int64 targetPlayerId = 1; 
+    optional string content = 2; 
+}
+message YardChatRecordResp {
+    required int32 ret = 1;
+    repeated YardRecordMsg recordList = 2;
+    optional string notice =3; 
+}
+message YardRecordMsg{
+   optional int64 recordId = 1; 
+   optional WorldMessageTempMsg worldMessageTempMsg =2 ; 
+   optional int64 topTime = 3; 
+}
+message YardChatRecordListReq {
+   required int64 targetPlayerId = 1;
+}
+message YardChatRecordListResp {
+    required int32 ret = 1;
+    repeated YardRecordMsg recordList = 2;     
+    repeated YardRecordMsg topRecordList = 3;  
+    optional int64 giveNum =4; 
+    optional string notice =5; 
+    optional bool  isClose =6; 
+    optional bool  isGiven=7;
+}
+message YardGiveLikeReq {
+   required int64 targetPlayerId = 1;
+}
+message YardGiveLikeResp {
+    required int32 ret = 1;
+    optional int64 giveNum =2; 
+}
+enum  BuildType{
+    AlchemyRoom  = 1; 
+    SpiritField  = 2; 
+}
+enum  ActionType{
+    Null   = 0; 
+    Make  = 3; 
+    MakeSuccess  = 4; 
+    LevelUp = 5; 
+    LevelUpSuccess = 6; 
+}
+message  YardBuildActionReq{
+   required BuildType buildType = 1; 
+   required ActionType actionType =2;
+   optional string param = 3;
+}
+message YardBuildActionResp{
+   required int32 ret = 1;
+   optional bytes data = 2;  
+}
+message YardBuildEnterReq{
+}
+message YardBuildEnterResp{
+   required int32 ret = 1;
+   optional BuildLevelMsg buildLevelMsg = 2; 
+   optional int32 productId =3;
+}
+message YardBuildMakeReq{
+   optional int64 uniqueId =1;
+   optional int32 buildId =2;
+   optional int32 productId = 3;  
+   optional int32 num = 4;        
+   optional bool  isCancel = 5; 
+}
+message YardBuildMakeResp{
+  required int32 ret = 1;
+  optional string rewards = 2;  
+}
+message YardBuildHelpReq {
+  required int64 targetPlayerId = 1;
+}
+message YardBuildhHelpResp {
+    required int32 ret = 1;
+}
+message YardBuildGainRewardReq {
+  required int64 uniqueId = 1; 
+  required int32 buildId =2; 
+}
+message YardBuildGainRewardResp {
+    required int32 ret = 1;
+    optional string rewards = 2;  
+}
+message YardBuildSpeedUpReq {
+    required int64 uniqueId = 1; 
+    required int32 buildId =2; 
+    optional int32 speedUpType = 3; 
+    optional int32 useTimes = 4; 
+}
+message YardBuildhSpeedUpResp {
+    required int32 ret = 1;
+}
+message RequestYardUnionHelpReq {
+    required int64 uniqueId = 1; 
+    required int32 buildId =2; 
+}
+message RequestYardUnionHelpResp {
+    required int32 ret = 1;
+}
+message YardLevelDataMsg {
+    optional int32 queueNum =1; 
+    repeated BuildLevelMsg buildLevelMsg = 2; 
+}
+message BuildLevelMsg{
+   optional int64 uniqueId = 1; 
+   optional int64 buildId = 2; 
+   optional int32 buildLv = 3; 
+   optional int64 levelUpEndTime = 4; 
+}
+message YardBuildInfoMsg{
+  required int32 buildId = 1;
+  required int32 lv = 2; 
+}
+message YardBaseMsgSync {
+   optional string exp =1; 
+   optional int32 level =2; 
+}
+message GetYardBuildMakeInfoReq {
+}
+message GetYardBuildMakeInfoResp {
+    required int32 ret = 1;
+    optional int64 danNum = 2; 
+    optional string grassNum =3; 
+}
+message YardMakeMsgSync{
+   optional int64 danNum = 1; 
+   optional string grassNum =2; 
+   repeated YardCropMsg YardCropMsg =3; 
+}
+message YardBuildOneKeyMakeReq{
+   optional int32 productId = 3;  
+   optional int32 num = 4;        
+}
+message YardCropMsg{
+   optional int32 itemId =1;
+   optional int64 count =2;
+}
+message YardRefreshDataSync{
+  optional YardDrawDataMsg YardDrawDataMsg = 1;
+  optional int32 speedTimes = 2; 
+}
+message YardInviteReq {
+    required int32 type = 1;    
+}
+message YardInviteResp {
+    required int32 ret = 1;
+}
+message YardEnterShopReq {
+}
+message YardEnterShopResp {
+    required int32 ret = 1;
+    repeated YardShopConfigMsg shopList =2;
+    optional int32 refreshTimes =3; 
+}
+message YardRefreshShopReq {
+}
+message YardRefreshShopResp {
+    required int32 ret = 1;
+    repeated YardShopConfigMsg shopList =2;
+    optional int32 refreshTimes =3; 
+}
+message YardShopConfigMsg{
+   optional int32 mallConfigId = 1;
+   optional string rewards  =2; 
+}
+message YardOneKeyLevelUpReq {
+}
+message YardOneKeyLevelUpResp {
+    required int32 ret = 1;
+    repeated YardBuildInfoMsg decorateList = 2;
+}
+message YardReportReq {
+    required int64 playerId = 1;
+    required int32 type = 2;
+    optional string text = 3;
+}
+message YardReportResp {
+    optional int32 ret = 1;
+}

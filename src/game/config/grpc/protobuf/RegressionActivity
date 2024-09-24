@@ -1,0 +1,53 @@
+package com.yq.msg.CityMsg;
+import "WatchPlayer";
+import "PackagesBase";
+message RegressionActivityConfig {
+    repeated RecallDrawConfig recallDrawConfig = 1;
+}
+message RecallDrawConfig {
+    optional int32 id = 1;
+    optional int32 isBigReward = 2;
+    optional string reward = 3; 
+}
+message RegressionShareReq{
+}
+message RegressionShareResp{
+     optional int32 ret  = 1;
+}
+message RegressionLotteryReq{
+}
+message RegressionLotteryResp{
+    optional int32 ret  = 1;
+    optional RegressionSelectReward regressionSelectReward = 2; 
+}
+message GetRegressionPlayerDataReq {
+}
+message GetRegressionPlayerDataResp {
+    optional int32 ret  = 1;
+    repeated RegressionPlayerData regressionPlayerData = 2; 
+}
+message RegressionPlayerData{
+    optional PlayerBaseDataMsg playerBaseDataMsg = 1; 
+    optional int64 lastLoginTime =2; 
+    repeated RegressionTaskData regressionTaskData = 3; 
+    optional string openId = 4;
+}
+message RegressionTaskData{
+    optional int32 taskId =1; 
+    optional int32 value  =2; 
+    optional int32 status =3; 
+}
+message GetRegressionReceiveRewardReq {
+  optional string openId = 1;
+  optional int32 taskId =2; 
+}
+message GetRegressionReceiveRewardResp {
+    optional int32 ret  = 1;
+    optional string reward = 2; 
+}
+message RegressionSaveSelectItemReq{
+    optional RegressionSelectReward regressionSelectReward =1; 
+}
+message RegressionSaveSelectItemResp{
+   optional int32 ret  = 1;
+}

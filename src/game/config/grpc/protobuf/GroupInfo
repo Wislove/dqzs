@@ -1,0 +1,17 @@
+package com.yq.msg.CityMsg;
+message GetSystemGroupInfoReq {
+    optional int32 systemId = 1;            
+    optional int32 activityId = 2;          
+}
+message GetSystemGroupInfoResp {
+    optional int32 ret = 1;
+    optional int32 groupType = 2;                            
+    repeated int64 serverList = 3;                           
+    repeated SystemGroupUnionInfo unionInfoList = 4;         
+    repeated string joinMemberNameList = 5;                 
+    optional int64 unionExp = 6;                            
+}
+message SystemGroupUnionInfo {
+    optional string unionName = 1;                       
+    optional int64 serverId = 2;                         
+}

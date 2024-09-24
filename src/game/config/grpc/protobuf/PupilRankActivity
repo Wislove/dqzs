@@ -1,0 +1,58 @@
+package com.yq.msg.CityMsg;
+import "WatchPlayer";
+import "Pupil";
+import "Common";
+enum PupilRankPb {
+	S_PUPIL_RANK_ENTER = 213801; 
+	S_PUPIL_RANK_GET_INCREASE_RECORD = 213802; 
+	S_PUPIL_RANK_DETAIL = 213803; 
+}
+message EnterPupilRankActivityReq {
+    required int32 activityId = 1; 
+}
+message EnterPupilRankActivityResp {
+	required int32 ret = 1;
+	repeated PupilRankRankData rankList = 2; 
+	optional int32 myRank = 3; 
+	optional int32 myValue = 4; 
+}
+message GetIncreaseRecordReq {
+	required int32 activityId = 1;
+    required int64 playerId = 2; 
+}
+message GetIncreaseRecordResp {
+	required int32 ret = 1;
+	repeated PupilIncreaseRecordData recordList = 2; 
+}
+/**宗门冲榜排行榜数据 */
+message PupilRankRankListMsg {
+    repeated PupilRankRankData rankList = 1; 
+}
+/**宗门冲榜排行榜数据 */
+message PupilRankRankData {
+    optional PlayerCharacterImageMsg playerImageData = 1; 
+    optional int32 rank = 2; 
+    optional int32 value = 3; 
+    optional int32 pupilSectLv = 4; 
+    repeated PupilDataMsg pupilDataList = 5; 
+}
+/**涨幅数据 */
+message PupilIncreaseRecordData {
+	optional int64 time = 1; 
+	optional int32 type = 2; 
+	optional AttributeDataMsg attData = 3; 
+}
+message PupilRankDetailReq {
+  required int32 activityId = 1;
+  required int64 targetId =2; 
+}
+message PupilRankDetailResp {
+  optional int32 ret = 1;
+  optional int64 targetId = 2; 
+  repeated PupilUpdateTotalMsg totalMsg = 3;
+}
+message PupilUpdateTotalMsg {
+  required bool graduation = 1; 
+  required int32 count = 2; 
+  required int64 updateValue = 3; 
+}
