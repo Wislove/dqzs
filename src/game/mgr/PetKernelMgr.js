@@ -5,7 +5,12 @@ import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import RegistMgr from "#game/common/RegistMgr.js";
 
-export default class PetsMgr {
+/**
+ * 灵兽内丹：
+ * 
+ * 免费领取内丹
+ */
+export default class PetKernelMgr {
     constructor() {
         this.FREE_NUM = 2; // 免费内胆上限
         this.initialized = false;
@@ -17,8 +22,13 @@ export default class PetsMgr {
     }
 
     static get inst() {
+        if (!SystemUnlockMgr.PET_KERNEL) {
+            logger.warn("[灵兽内丹] 灵兽内丹未解锁");
+            return null;
+        }
+
         if (!this._instance) {
-            this._instance = new PetsMgr();
+            this._instance = new PetKernelMgr();
         }
         return this._instance;
     }
@@ -57,14 +67,12 @@ export default class PetsMgr {
         this.isProcessing = true;
 
         try {
-            if (SystemUnlockMgr.PET_KERNEL) {
-                if (this.freeDrawTimes == 2) {
-                    logger.info(`[灵兽内丹] 达到每日最大领取次数，停止奖励领取`);
-                    this.clear();
-                    return;
-                } else {
-                    this.processReward();
-                }
+            if (this.freeDrawTimes == 2) {
+                logger.info(`[灵兽内丹] 达到每日最大领取次数，停止奖励领取`);
+                this.clear();
+                return;
+            } else {
+                this.processReward();
             }
         } catch (error) {
             logger.error(`[灵兽内丹] loopUpdate error: ${error}`);
