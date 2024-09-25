@@ -136,8 +136,7 @@ export default class SkyWarMgr {
         // 挑选出的对手
         if (selectFightEnemy) {
             // 切换到分身
-            const idx = global.account.switch.invadeIndex || 0;
-            PlayerAttributeMgr.inst.setSeparationIdx(idx);
+            PlayerAttributeMgr.inst.setSeparationIdx(skywarIndex);
 
             logger.info(`[征战诸天] 征战诸天对手：${selectFightEnemy.nickName}, 对手妖力:${selectFightEnemy.enemyFightValue}, 获胜积分:${selectFightEnemy.winSocre}`);
             GameNetMgr.inst.sendPbMsg(Protocol.S_SKY_WAR_FIGHT, { playerId: UserMgr.playerId, targetPlayerId: selectFightEnemy.enemyPlayerId, targetServerId: selectFightEnemy.enemyServerId, position: selectFightEnemy.position });
