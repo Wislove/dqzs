@@ -18,9 +18,9 @@ export default class SkyWarMgr {
         this.maxFightNum = 5;
         this.maxFreeRefreshTimes = 5;
 
-
-        this.fightNums = 0; //已经挑战次数
-        this.refreshTimes = 0; //已经刷新次数
+        this.battleTimes = 0; //还可以挑战次数
+        this.fightNums = 0; // 可以挑战次数
+        this.refreshTimes = 5; //可以免费刷新次数
         this.worship = false;  //是否膜拜
         this.enemyData = [];
         // 是否同步数据
@@ -68,14 +68,17 @@ export default class SkyWarMgr {
 
     // 征战诸天数据同步
     SkyWarEnterRsp(t) {
+        this.isProcessing = true;
         if (t.ret === 0) {
             this.myScore = t.myScore;
             this.refreshTimes = t.refreshTimes;
             this.enemyData = t.enemyData;
-            this.fightNums = t.battleTimes;
+            this.battleTimes = t.battleTimes;
 
             this.initialized = true;
         }
+
+        this.isProcessing = false;
     }
 
     // 征战诸天膜拜
@@ -106,7 +109,7 @@ export default class SkyWarMgr {
     SkyWarFightRsp(t) {
         logger.info(`[征战诸天] 征战诸天结果:${t.ret}`);
         if (t.ret === 0) {
-            this.fightNums = t.battleTimes;
+            this.battleTimes = t.battleTimes;
         } else {
             // 刷新列表
             if (this.refreshTimes < 5) {
@@ -172,8 +175,9 @@ export default class SkyWarMgr {
                 GameNetMgr.inst.sendPbMsg(Protocol.S_SKY_WAR_SKY_RANK, { playerId: UserMgr.playerId });
             }
 
-            if (this.fightNums >= this.maxFightNum) {
-                this.completeTask(); // 如果达到最大挑战次数，任务完成
+            // 如果达到最大挑战次数，任务完成
+            if (this.fightNums >= this.maxFightNum || this.battleTimes == 0) {
+                this.completeTask();
                 return;
             }
             logger.info(`[征战诸天] 当前次数: ${this.fightNums}`);
