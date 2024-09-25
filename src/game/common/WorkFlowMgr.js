@@ -10,7 +10,8 @@ export default class WorkFlowMgr {
             "ChopTree": 0,       // 最高优先级
             "Talent": 1,         // 1级项目
             "Invade": 2,         // 2级项目 异兽入侵
-            "Challenge": 3,      // 3级项目 ChapterMgr/ SecretTowerMgr / TowerMgr
+            "SkyWar": 3,         // 3级项目 征战诸天  
+            "Challenge": 4,      // 4级项目 ChapterMgr/ SecretTowerMgr / TowerMgr
         };
     }
 
@@ -37,7 +38,7 @@ export default class WorkFlowMgr {
             const priorityB = this.priorityDict[b] ?? Number.MAX_SAFE_INTEGER;
             return priorityA - priorityB;
         });
-        logger.debug(`[顺序管理] 排序后的任务队列: ${this.sortedQueue}`);
+        logger.info(`[顺序管理] 排序后的任务队列: ${this.sortedQueue}`);
     }
 
     async start() {
@@ -60,6 +61,12 @@ export default class WorkFlowMgr {
             this.add("Invade");
         }
         // 添加3级项目
+        const SkyWar = global.account.switch.skywar??false;
+        if (SkyWar) {
+            logger.info("[顺序管理] 已开启自动征战诸天");
+            this.add("SkyWar");
+        }
+        // 添加4级项目
         const challenge = global.account.switch.challenge || 0;
         if (challenge > 0) {
             logger.info("[顺序管理] 已开启自动闯关");

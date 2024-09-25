@@ -25,7 +25,6 @@ import InvadeMgr from "#game/mgr/InvadeMgr.js";
 import StarTrialMgr from "#game/mgr/StarTrialMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import RuleTrialMgr from "#game/mgr/RuleTrialMgr.js";
-import PetKernelMgr from "#game/mgr/PetKernelMgr.js";
 import PetMgr from "#game/mgr/PetMgr.js";
 import UniverseMgr from "#game/mgr/UniverseMgr.js";
 import YueBaoMgr from "#game/mgr/YueBaoMgr.js";
@@ -34,9 +33,10 @@ import UnionTreasureMgr from "#game/mgr/UnionTreasureMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import UnionBountyMgr from "#game/mgr/UnionBountyMgr.js";
 import DBMgr from "#game/common/DBMgr.js";
+import SkyWarMgr from "#game/mgr/SkyWarMgr.js";
 
 class MsgRecvMgr {
-    constructor() {}
+    constructor() { }
 
     // 101 用户信息同步
     static PlayerDataMsg(t) {
@@ -457,16 +457,40 @@ class MsgRecvMgr {
     }
 
     //213602 进入妖盟悬赏返回
-    static UnionBountyEnterMapResp(t){
+    static UnionBountyEnterMapResp(t) {
         logger.debug("[MsgRecvMgr] 进入妖盟悬赏同步")
         UnionBountyMgr.inst.UnionBountyEnterMapResp(t);
     }
 
     //213614 押镖界面
-    static UnionBountyOpenBountyEventResp(t){
+    static UnionBountyOpenBountyEventResp(t) {
         logger.debug("[MsgRecvMgr] 押镖界面")
         UnionBountyMgr.inst.UnionBountyOpenBountyEventResp(t);
     }
+
+    static SkyWarDataSync(t) {
+        logger.debug("[MsgRecvMgr] 征战诸天初始化")
+        SkyWarMgr.inst.SkyWarDataSync(t);
+    }
+
+    // 208401 征战诸天初始化
+    static SkyWarEnterRsp(t) {
+        logger.debug("[MsgRecvMgr] 进入征战诸天初始化")
+        SkyWarMgr.inst.SkyWarEnterRsp(t);
+    }
+
+    // 208409 征战诸天，诸天榜
+    static SkyWarSkyRankRsp(t) {
+        logger.debug("[MsgRecvMgr] 征战诸天，诸天榜单")
+        SkyWarMgr.inst.SkyWarSkyRankRsp(t);
+    }
+
+    // 208403 征战诸天决斗后返回结果
+    static SkyWarFightRsp(t) {
+        logger.debug("[MsgRecvMgr] 征战诸天决斗后返回结果");
+        SkyWarMgr.inst.SkyWarFightRsp(t);
+    }
+    
 
     // TODO 以下暂时不想写
 

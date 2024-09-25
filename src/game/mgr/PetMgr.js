@@ -24,6 +24,7 @@ export default class PetMgr {
         this.lastAdRewardTime = 0;
 
         this.isProcessing = false;
+        this.initialized = false;
 
         LoopMgr.inst.add(this);
         RegistMgr.inst.add(this);
@@ -52,7 +53,7 @@ export default class PetMgr {
     // 同步玩家灵兽数据
     SyncPlayerPetDataMsg(t) {
         this.isProcessing = true;
-
+        
         // 同步内丹数据
         if (t.kernelData) {
             PetKernelMgr.inst.syncPetKernelMsg(t.kernelData);
@@ -62,6 +63,8 @@ export default class PetMgr {
         this.petPoolData = t.petPoolData;
         // 免费灵兽刷新次数
         this.freeRefreshTimes = t.freeRefreshTimes;
+        
+        this.initialized = true;
 
         this.isProcessing = false;
     }
@@ -83,7 +86,7 @@ export default class PetMgr {
 
         const now = Date.now();
         if (this.freeRefreshTimes < this.MAX_FREE_REFRESH_NUM && now - this.lastAdRewardTime >= this.AD_REWARD_CD) {
-            const logContent = `[灵兽管理] 还剩 ${this.MAX_FREE_REFRESH_NUM - this.freeRefreshTimes} 次免费刷新`;
+            const logContent = `[灵兽刷新] 还剩 ${this.MAX_FREE_REFRESH_NUM - this.freeRefreshTimes} 次免费刷新`;
             AdRewardMgr.inst.AddAdRewardTask({ protoId: Protocol.S_PET_REFRESH_POOL, data: { isUseADTime: false, isFree: 1 }, logStr: logContent });
             this.lastAdRewardTime = now;
             this.freeRefreshTimes++;
@@ -92,7 +95,7 @@ export default class PetMgr {
 
     // 定时执行方法
     async loopUpdate() {
-        if (this.isProcessing) return;
+        if (this.isProcessing || !this.initialized) return;
         this.isProcessing = true;
 
         try {
