@@ -70,7 +70,7 @@ export default class PetMgr {
     RefreshPetPoolResp(t) {
         if (t.ret === 0) {
             this.petPoolData = t.petPoolData;
-            logger.info(`[灵兽管理] 第${this.freeRefreshTimes}次灵兽刷新结果: ${this.petPoolData.map(item => DBMgr.inst.getLanguageWord(`Items-${item.petId}`)).join(',')}`);
+            logger.info(`[灵兽管理] 本次灵兽刷新结果: ${this.petPoolData.map(item => DBMgr.inst.getLanguageWord(`Items-${item.petId}`)).join(',')}`);
         }
     }
 
@@ -105,7 +105,7 @@ export default class PetMgr {
             // 如果有希望灵兽,则不刷新
             // TODO 有希望灵兽,自动抓捕
             const hasWishPets = this.petPoolData.forEach(item => {
-                if (this.wishPets.includes(item.petId)) {
+                if (this.wishPets.includes(item.petId) && !item.isGet) {
                     logger.info(`[灵兽管理] 有期望灵兽未抓捕，不执行免费刷新, 期望灵兽: ${DBMgr.inst.getLanguageWord(`Items-${item.petId}`)}`);
                     return true;
                 }
