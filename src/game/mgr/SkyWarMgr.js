@@ -8,7 +8,10 @@ import RegistMgr from "#game/common/RegistMgr.js";
 import WorkFlowMgr from "#game/common/WorkFlowMgr.js";
 import UserMgr from "#game/mgr/UserMgr.js";
 
-
+/**
+ * 征战诸天的每日任务奖励，是在TaskMgr里面
+ * type为: TASK_TYPE_12:  210001,210002,210003
+ */
 export default class SkyWarMgr {
     constructor() {
         this.isProcessing = false;
@@ -18,13 +21,14 @@ export default class SkyWarMgr {
         this.maxFightNum = 5;
         this.maxFreeRefreshTimes = 5;
 
-        this.battleTimes = 0; //还可以挑战次数
+        this.battleTimes = 5; //还可以挑战次数
         this.fightNums = 0; // 可以挑战次数
         this.refreshTimes = 5; //可以免费刷新次数
         this.worship = false;  //是否膜拜
         this.enemyData = [];
         // 是否同步数据
         this.initialized = false;
+
 
         LoopMgr.inst.add(this);
         RegistMgr.inst.add(this);
@@ -97,6 +101,11 @@ export default class SkyWarMgr {
         PlayerAttributeMgr.inst.switchToDefaultSeparation(); // 切换到默认分身
         this.clear();
         WorkFlowMgr.inst.remove("SkyWar");
+
+        // 自动领取征战诸天任务奖励
+        if (this.battleTimes == 0) {
+            GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { taskId: [210001, 210002, 210003] });
+        }
     }
 
     // 刷新对手
