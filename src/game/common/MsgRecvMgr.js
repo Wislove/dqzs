@@ -490,6 +490,12 @@ class MsgRecvMgr {
         logger.debug("[MsgRecvMgr] 征战诸天决斗后返回结果");
         SkyWarMgr.inst.SkyWarFightRsp(t);
     }
+
+    // 208402 刷新对手返回结果
+    static SkyWarRefreshEnemyRsp(t) {
+        logger.debug("[MsgRecvMgr] 征战诸天刷新对手返回结果");
+        SkyWarMgr.inst.SkyWarRefreshEnemyRsp(t);
+    }
     
 
     // TODO 以下暂时不想写

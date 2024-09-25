@@ -1,7 +1,7 @@
 import GameNetMgr from "#game/net/GameNetMgr.js";
 import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
-import PlayerAttributeMgr from "./PlayerAttributeMgr.js";
+import PlayerAttributeMgr from "#game/mgr/PlayerAttributeMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import RegistMgr from "#game/common/RegistMgr.js";
@@ -10,19 +10,18 @@ import UserMgr from "#game/mgr/UserMgr.js";
 
 
 export default class SkyWarMgr {
-
     constructor() {
         this.isProcessing = false;
-        this.enabled = global.account.switch.skywar ?? false;
-        this.skywarIndex = global.account.switch.skywarIndex ?? 0;
+        this.enabled = global.account.switch.skywar || false;
+        this.skywarIndex = global.account.switch.skywarIndex || 0;
         // 最大挑战和最大免费刷新
         this.maxFightNum = 5;
         this.maxFreeRefreshTimes = 5;
 
 
-        this.fightNums = 0;// 已经挑战次数
-        this.refreshTimes = 0; // 已经刷新次数
-        this.worship = false; //是否膜拜
+        this.fightNums = 0; //已经挑战次数
+        this.refreshTimes = 0; //已经刷新次数
+        this.worship = false;  //是否膜拜
         this.enemyData = [];
         // 是否同步数据
         this.initialized = false;
@@ -73,7 +72,7 @@ export default class SkyWarMgr {
             this.myScore = t.myScore;
             this.refreshTimes = t.refreshTimes;
             this.enemyData = t.enemyData;
-            this.battleTimes = t.battleTimes;
+            this.fightNums = t.battleTimes;
 
             this.initialized = true;
         }
@@ -97,33 +96,44 @@ export default class SkyWarMgr {
         WorkFlowMgr.inst.remove("SkyWar");
     }
 
+    // 刷新对手
+    SkyWarRefreshEnemyRsp(t) {
+        this.refreshTimes = t.refreshTimes;
+        this.enemyData = t.enemyData;
+    }
+
     // 挑战后结果处理
     SkyWarFightRsp(t) {
+        logger.info(`[征战诸天] 征战诸天结果:${t.ret}`);
         if (t.ret === 0) {
-            logger.info(`[征战诸天] 征战诸天结果reward:${t.reward},battleTimes:${t.battleTimes},其他信息:${JSON.parse(t)}`);
+            this.fightNums = t.battleTimes;
+        } else {
+            // 刷新列表
+            if (this.refreshTimes < 5) {
+                GameNetMgr.inst.sendPbMsg(Protocol.S_SKY_WAR_REFRESH_ENEMY, { playerId: UserMgr.playerId });
+            }
         }
     }
 
     // 处理征战
     handleFight() {
-
         // 敌人信息，默认自己妖力大于对方，能获胜
         const enemyInfoArray = this.enemyData.map((element, index) => {
             return {
-                winSocre: element.winSocre,
-                enemyFightValue: element.playerData.playerBaseDataMsg.fightValue,
+                winScore: element.winScore,
+                enemyFightValue: element.playerData.playerBaseDataMsg.fightValue.low,
                 enemyPlayerId: element.playerData.playerBaseDataMsg.playerId,
                 enemyServerId: element.playerData.playerBaseDataMsg.serverId,
                 nickName: element.playerData.playerBaseDataMsg.nickName,
                 position: index,
-                canWin: PlayerAttributeMgr.fightValue > element.playerData.playerBaseDataMsg.fightValue
+                canWin: PlayerAttributeMgr.fightValue.low > element.playerData.playerBaseDataMsg.fightValue.low
             };
         });
 
         // 挑选出来的能赢且分数最高的敌人
         let selectFightEnemy;
         selectFightEnemy = enemyInfoArray.filter(item => item.canWin).reduce((max, current) => {
-            return (max.winSocre || 0) > current.winSocre ? max : current;
+            return (max.winScore || 0) > current.winScore ? max : current;
         });
 
         // 如果没有挑选出能赢的,则挑选战力最低的
@@ -135,13 +145,14 @@ export default class SkyWarMgr {
 
         // 挑选出的对手
         if (selectFightEnemy) {
-            // 切换到分身
-            PlayerAttributeMgr.inst.setSeparationIdx(skywarIndex);
-
-            logger.info(`[征战诸天] 征战诸天对手：${selectFightEnemy.nickName}, 对手妖力:${selectFightEnemy.enemyFightValue}, 获胜积分:${selectFightEnemy.winSocre}`);
-            GameNetMgr.inst.sendPbMsg(Protocol.S_SKY_WAR_FIGHT, { playerId: UserMgr.playerId, targetPlayerId: selectFightEnemy.enemyPlayerId, targetServerId: selectFightEnemy.enemyServerId, position: selectFightEnemy.position });
+            logger.info(`[征战诸天] 征战诸天对手：${selectFightEnemy.nickName}, 对手妖力:${selectFightEnemy.enemyFightValue}, 获胜积分:${selectFightEnemy.winScore}`);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_SKY_WAR_FIGHT, {
+                playerId: UserMgr.playerId,
+                targetPlayerId: selectFightEnemy.enemyPlayerId,
+                targetServerId: selectFightEnemy.enemyServerId,
+                position: selectFightEnemy.position
+            });
         }
-
     }
 
     async loopUpdate() {
@@ -165,15 +176,16 @@ export default class SkyWarMgr {
                 this.completeTask(); // 如果达到最大挑战次数，任务完成
                 return;
             }
-
             logger.info(`[征战诸天] 当前次数: ${this.fightNums}`);
 
+            // 切换到分身
+            PlayerAttributeMgr.inst.setSeparationIdx(this.skywarIndex);
             // 处理征战
             this.handleFight();
 
             this.fightNums++;
         } catch (error) {
-            logger.error(`[异兽入侵] InvadeDataMsg error: ${error}`);
+            logger.error(`[征战诸天] SkyWarMsg error: ${error}`);
         } finally {
             this.isProcessing = false;
         }

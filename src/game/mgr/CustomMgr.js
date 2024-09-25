@@ -4,6 +4,7 @@ import logger from "#utils/logger.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import RegistMgr from "#game/common/RegistMgr.js";
+import SkyWarMgr from "#game/mgr/SkyWarMgr.js";
 
 export default class CustomMgr {
     constructor() {
@@ -71,6 +72,12 @@ export default class CustomMgr {
             if (SystemUnlockMgr.YUE_BAO) {
                 GameNetMgr.inst.sendPbMsg(Protocol.S_YUE_BAO_ENTER, { activityId: 10004986 });
             }
+
+            // 进入征战诸天
+            if (SystemUnlockMgr.SKY_WAR) {
+                SkyWarMgr.inst.SkyWarEnterReq();
+            }
+
 
             // 道友一键赠送和领取
             GameNetMgr.inst.sendPbMsg(Protocol.S_FRIEND_ONE_KEY, { type: 1 });
