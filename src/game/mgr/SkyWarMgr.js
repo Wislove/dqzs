@@ -125,6 +125,8 @@ export default class SkyWarMgr {
                 GameNetMgr.inst.sendPbMsg(Protocol.S_SKY_WAR_REFRESH_ENEMY, { playerId: UserMgr.playerId });
             }
         }
+
+        this.initialized = true;
     }
 
     // 处理征战
@@ -164,12 +166,14 @@ export default class SkyWarMgr {
                 targetServerId: selectFightEnemy.enemyServerId,
                 position: selectFightEnemy.position
             });
+
+            this.initialized = false;
         }
     }
 
     async loopUpdate() {
         if (!WorkFlowMgr.inst.canExecute("SkyWar") || !this.enabled || this.isProcessing) return;
-
+        if (!this.initialized) return;
 
         this.isProcessing = true;
         try {
