@@ -10,7 +10,7 @@ export default async () => {
         const dbMgr = DBMgr.inst;
         await dbMgr.initialize();
 
-        logger.debug("👍 Dependency injector loaded!");
+        logger.info("👍 Dependency injector loaded!");
     } catch (e) {
         logger.error("🔥 Error on dependency injector loader: %o", e);
         throw e;
