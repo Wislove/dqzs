@@ -15,11 +15,11 @@
 
 ## 使用方法
 
-### 1. 生成固定账号密码
-
-使用手机微信打开 [这个链接](https://wxshare1.37.com/dist/dzg/zzb-20220512/?hd_referer=jsb&game_id=784)，生成账号和密码。
-
-### 2. 启动
+### 1. 单账号启动
 ```bash
 yarn && yarn start
+```
+单账号定时重启(每天12点零1分定时重启,使用PM2)
+```bash
+pm2 start app.js --cron "1 0 * * *"
 ```
