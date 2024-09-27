@@ -377,7 +377,6 @@ class MsgRecvMgr {
     }
 
     // 1401 异兽入侵挑战结果
-
     static InvadeChallengeResp(t) {
         logger.debug("[MsgRecvMgr] 异兽入侵用户数据同步");
         InvadeMgr.inst.InvadeChallengeResp(t);
@@ -386,7 +385,13 @@ class MsgRecvMgr {
     // 206901星宿试炼数据同步
     static StarTrialDataMsg(t) {
         logger.debug("[MsgRecvMgr] 星宿试炼数据同步");
-        StarTrialMgr.inst.SyncStarTrialData(t)
+        StarTrialMgr.inst.StarTrialDataMsg(t)
+    }
+
+    // 206902星宿试炼挑战返回
+    static StarTrialChallengeResp(t) {
+        logger.debug("[MsgRecvMgr] 星宿试炼挑战返回");
+        StarTrialMgr.inst.StarTrialChallengeResp(t);
     }
 
     // 9105 法则试练速战数据同步

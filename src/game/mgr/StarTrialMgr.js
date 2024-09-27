@@ -9,9 +9,12 @@ export default class StarTrialMgr {
     constructor() {
         this.isProcessing = false;
         this.enabled = global.account.switch.starTrial || false;
-        this.challengeTimes = 30
-        this.rewardState = 0
-        this.lastBossId = 0
+        this.challengeTimes = 30;
+        this.rewardState = 0;
+        this.lastBossId = 0;
+
+        this.fightLock = true;
+
         LoopMgr.inst.add(this);
         RegistMgr.inst.add(this);
     }
@@ -36,18 +39,34 @@ export default class StarTrialMgr {
         LoopMgr.inst.remove(this);
     }
 
-    SyncStarTrialData(t) {
+    StarTrialDataMsg(t) {
         this.challengeTimes = t.challengeTimes
         this.bossId = t.bossId
-        this.rewardState = t.rewardState
+        this.rewardState = t.rewardState;
+
+        this.fightLock = false;
+    }
+
+    StarTrialChallengeResp(t) {
+        if (t.ret === 0) {
+            logger.info(`[星宿试炼] 挑战星宿结果:${t.allBattleRecord.isWin ? '成功' : '失败'},奖励信息:${t.rewards}`);
+        }
+
+        this.fightLock = false;
     }
 
     StarTrialChallenge() {
+        if (this.fightLock) {
+            logger.debug(`[星宿试炼] 挑战星宿数据暂未同步,或上一次挑战结果未返回`);
+            return;
+        }
+
+        this.fightLock = true;
         // 开始战斗
         this.lastBossId = this.bossId
         logger.info(`[星宿试炼] 挑战星宿`)
         GameNetMgr.inst.sendPbMsg(Protocol.S_STARTRIAL_Fight, { BossId: this.bossId });
-        this.challengeTimes--
+        this.challengeTimes--;
         //开始领奖
         if (this.rewardState == 0) {
             logger.info(`[星宿试炼] 领取每日奖励奖`)
@@ -70,7 +89,7 @@ export default class StarTrialMgr {
                 this.clear()
                 return
             }
-            this.StarTrialChallenge()
+            this.StarTrialChallenge();
             //防止执行过快
             await new Promise((resolve) => setTimeout(resolve, 2000));
         } catch (error) {
