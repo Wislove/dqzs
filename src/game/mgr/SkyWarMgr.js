@@ -28,6 +28,7 @@ export default class SkyWarMgr {
         this.enemyData = [];
         // 是否同步数据
         this.initialized = false;
+        this.refreshCallback = false;
 
 
         LoopMgr.inst.add(this);
@@ -108,22 +109,25 @@ export default class SkyWarMgr {
         }
     }
 
+    SkyWarRefreshEnemyReq() {
+        if (this.refreshTimes < this.maxFreeRefreshTimes) {
+            this.refreshCallback = false;
+            GameNetMgr.inst.sendPbMsg(Protocol.S_SKY_WAR_REFRESH_ENEMY, { playerId: UserMgr.playerId });
+        }
+    }
+
     // 刷新对手
     SkyWarRefreshEnemyRsp(t) {
         this.refreshTimes = t.refreshTimes;
         this.enemyData = t.enemyData;
+        this.refreshCallback = true;
     }
 
     // 挑战后结果处理
     SkyWarFightRsp(t) {
-        logger.info(`[征战诸天] 征战诸天结果:${t.ret}`);
         if (t.ret === 0) {
             this.battleTimes = t.battleTimes;
-        } else {
-            // 刷新列表
-            if (this.refreshTimes < 5) {
-                GameNetMgr.inst.sendPbMsg(Protocol.S_SKY_WAR_REFRESH_ENEMY, { playerId: UserMgr.playerId });
-            }
+            logger.info(`[征战诸天] 征战诸天剩余次数:${t.battleTimes}`);
         }
 
         this.initialized = true;
@@ -152,6 +156,17 @@ export default class SkyWarMgr {
 
         // 如果没有挑选出能赢的,则挑选战力最低的
         if (!selectFightEnemy) {
+            
+            // 如果还有免费刷新次数
+            if  (this.refreshTimes < this.maxFreeRefreshTimes) {
+                this.SkyWarRefreshEnemyReq();
+            }
+
+            // 如果刷新没有返回,就等待下次执行
+            if (!this.refreshCallback) {
+                return;
+            }
+
             selectFightEnemy = enemyInfoArray.reduce((min, current) => {
                 return min.enemyFightValue < current.enemyFightValue ? min : current;
             });
@@ -159,6 +174,7 @@ export default class SkyWarMgr {
 
         // 挑选出的对手
         if (selectFightEnemy) {
+            this.initialized = false;
             logger.info(`[征战诸天] 征战诸天对手：${selectFightEnemy.nickName}, 对手妖力:${selectFightEnemy.enemyFightValue}, 获胜积分:${selectFightEnemy.winScore}`);
             GameNetMgr.inst.sendPbMsg(Protocol.S_SKY_WAR_FIGHT, {
                 playerId: UserMgr.playerId,
@@ -167,13 +183,12 @@ export default class SkyWarMgr {
                 position: selectFightEnemy.position
             });
 
-            this.initialized = false;
+            this.fightNums++;
         }
     }
 
     async loopUpdate() {
         if (!WorkFlowMgr.inst.canExecute("SkyWar") || !this.enabled || this.isProcessing) return;
-        if (!this.initialized) return;
 
         this.isProcessing = true;
         try {
@@ -199,8 +214,6 @@ export default class SkyWarMgr {
             PlayerAttributeMgr.inst.setSeparationIdx(this.skywarIndex);
             // 处理征战
             this.handleFight();
-
-            this.fightNums++;
         } catch (error) {
             logger.error(`[征战诸天] SkyWarMsg error: ${error}`);
         } finally {
