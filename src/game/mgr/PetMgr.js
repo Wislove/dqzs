@@ -20,7 +20,7 @@ export default class PetMgr {
         this.petPoolData = []; //用于存放刷新出来的灵兽池子, [{isGet=false, petId=11401},{isGet=false, petId=11401},{isGet=false, petId=11401}]
 
         // 灵兽刷新愿望池子(默认为:应龙，鸾鸟和五大神话)
-        this.wishPets = [114001, 114007, 115001, 115002, 115003, 115004, 115005];
+        this.wishPets = global.account.wishPetPool || [114001, 114007, 115001, 115002, 115003, 115004, 115005];
         this.lastAdRewardTime = 0;
 
         this.isProcessing = false;
