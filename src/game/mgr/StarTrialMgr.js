@@ -14,6 +14,7 @@ export default class StarTrialMgr {
         this.lastBossId = 0;
 
         this.fightLock = true;
+        this.initialized = false;
 
         LoopMgr.inst.add(this);
         RegistMgr.inst.add(this);
@@ -44,6 +45,7 @@ export default class StarTrialMgr {
         this.bossId = t.bossId
         this.rewardState = t.rewardState;
 
+        this.initialized = true;
         this.fightLock = false;
     }
 
@@ -61,6 +63,7 @@ export default class StarTrialMgr {
             return;
         }
 
+        this.initialized = false;
         this.fightLock = true;
         // 开始战斗
         this.lastBossId = this.bossId
@@ -75,23 +78,23 @@ export default class StarTrialMgr {
     }
 
     async loopUpdate() {
-        if (!this.enabled) return
-        if (this.isProcessing) return
-        this.isProcessing = true
+        if (!this.enabled || !this.initialized) return;
+        if (this.isProcessing) return;
+        this.isProcessing = true;
         try {
             if (this.challengeTimes <= 20) {
                 logger.info(`[星宿试炼] 任务完成,停止循环`)
-                this.clear()
+                this.clear();
                 return
             }
             if (this.lastBossId == this.bossId) {
                 logger.info(`[星宿试炼] 无法杀死星宿,任务终止`)
-                this.clear()
+                this.clear();
                 return
             }
+
+            // 开始挑战
             this.StarTrialChallenge();
-            //防止执行过快
-            await new Promise((resolve) => setTimeout(resolve, 2000));
         } catch (error) {
             logger.error(`[星宿试炼] loopUpdate error: ${error}`);
         } finally {
