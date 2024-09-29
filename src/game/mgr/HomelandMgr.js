@@ -362,7 +362,7 @@ export default class HomelandMgr {
                     logger.info(`[福地管理] [自己] 可以刷新 ${2 - freeRefreshCount} 次`);
                     if (this.worker.energy >= 50 && this.worker.free > 0) {
                         logger.info(`[福地管理] [自己] 广告刷新福地!`);
-                        //Homeland.ADReward();
+                        Homeland.ADReward();
                     }
                 }
             }
