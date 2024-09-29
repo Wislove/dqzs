@@ -6,7 +6,6 @@ import DBMgr from "#game/common/DBMgr.js";
 import BagMgr from "#game/mgr/BagMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import UnionMgr from "#game/mgr/UnionMgr.js";
-import RegistMgr from "#game/common/RegistMgr.js";
 import WorkFlowMgr from "#game/common/WorkFlowMgr.js";
 
 class Attribute {
@@ -109,9 +108,6 @@ export default class PlayerAttributeMgr {
 
         // 🔒储存状态防止出现问题
         this.isProcessing = false;
-
-        LoopMgr.inst.add(this);
-        RegistMgr.inst.add(this);
     }
 
     static isMonthCardVip = false;  // 月卡

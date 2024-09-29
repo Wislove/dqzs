@@ -2,7 +2,6 @@ import GameNetMgr from "#game/net/GameNetMgr.js";
 import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
-import RegistMgr from '#game/common/RegistMgr.js';
 import UnionMgr from '#game/mgr/UnionMgr.js';
 
 export default class UnionBountyMgr {
@@ -19,9 +18,6 @@ export default class UnionBountyMgr {
         this.CHECK_CD = 1000 * 60 * 10;     // 每次间隔时间
         this.lastCheckTime = 0;             // 上次检查时间
         this.initialized = false            // 是否同步妖盟数据
-
-        LoopMgr.inst.add(this);
-        RegistMgr.inst.add(this);
     }
 
     static get inst() {

@@ -4,7 +4,6 @@ import logger from "#utils/logger.js";
 import PlayerAttributeMgr from "./PlayerAttributeMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
-import RegistMgr from "#game/common/RegistMgr.js";
 import WorkFlowMgr from "#game/common/WorkFlowMgr.js";
 
 export default class InvadeMgr {
@@ -13,9 +12,6 @@ export default class InvadeMgr {
         this.enabled = global.account.switch.invade || false;
         this.maxCount = 5;
         this.battleNum = 0;
-
-        LoopMgr.inst.add(this);
-        RegistMgr.inst.add(this);
     }
 
     static get inst() {

@@ -3,7 +3,6 @@ import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
-import RegistMgr from "#game/common/RegistMgr.js";
 
 export default class StarTrialMgr {
     constructor() {
@@ -15,9 +14,6 @@ export default class StarTrialMgr {
 
         this.fightLock = true;
         this.initialized = false;
-
-        LoopMgr.inst.add(this);
-        RegistMgr.inst.add(this);
     }
 
     static get inst() {

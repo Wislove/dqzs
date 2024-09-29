@@ -52,7 +52,7 @@ class GameNetMgr {
         logger.debug("[LoopMgr] 开始循环任务");
         setTimeout(() => {LoopMgr.inst.start();}, 2000);//延迟启动定时任务2s
         // LoopMgr.inst.start()
-        WorkFlowMgr.inst.start()
+        // WorkFlowMgr.inst.start()
     }
 
     netStateChangeHandler(state) {
@@ -101,13 +101,14 @@ class GameNetMgr {
     login() {
         const loginData = {
             token: this.token,
-            language: "zh_cn"
+            language: "zh_cn",
+            liveShowType: 0
         };
         this.sendPbMsg(Protocol.S_PLAYER_LOGIN, loginData);
     }
 
     ping() {
-        this.sendPbMsg(Protocol.S_PLAYER_PING, null);
+        this.sendPbMsg(Protocol.S_PLAYER_PING, true);
     }
 
     addHandler(msgId, handler) {
@@ -138,7 +139,7 @@ class GameNetMgr {
         } catch (err) {
             // TODO 重写一下sendPbMsg逻辑
             if (msgData && Object.keys(msgData).length > 0) {
-                logger.debug(`msgId: ${msgId}, msgData: ${JSON.stringify(msgData)}`);
+                logger.info(`[websocket] 发送消息：msgId: ${msgId}, msgData: ${JSON.stringify(msgData)}`);
             }
         }
 
@@ -212,11 +213,12 @@ class GameNetMgr {
         if (msgData) {
             const protoCmd = ProtobufMgr.inst.resvCmdList[msgId].smMethod.split(".");
             const method = protoCmd[protoCmd.length - 1];
+
             if (MsgRecvMgr[method]) {
-                logger.debug(`[Handler] 找到处理函数: ${method} msgId: ${msgId} ${JSON.stringify(msgData)}`);
+                logger.debug(`[Handler] 找到处理函数: ${method} msgId: ${msgId}`);
                 MsgRecvMgr[method](msgData, msgId);
             } else {
-                logger.debug(`[Handler] 未找到处理函数: ${method}`);
+                logger.debug(`[Handler] 未找到处理函数: ${method} msgId: ${msgId}`);
             }
         }
     }

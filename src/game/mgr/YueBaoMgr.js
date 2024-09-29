@@ -22,9 +22,6 @@ export default class YueBaoMgr {
         this.INTERVAL = 1000 * 30;
         this.lastExecuteTime = 0;
         this.isProcessing = false;
-
-        LoopMgr.inst.add(this);
-        RegistMgr.inst.add(this);
     }
 
     static get inst() {

@@ -3,9 +3,11 @@ import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
-import RegistMgr from "#game/common/RegistMgr.js";
 import UserMgr from "#game/mgr/UserMgr.js";
 
+/**
+ * 群英镑
+ */
 export default class HeroRankMgr {
     constructor() {
         this.isProcessing = false;
@@ -17,9 +19,7 @@ export default class HeroRankMgr {
         this.energy = 0;        // 当前剩余体力
         this.rank = null;       // 当前排名
         this.lock = false;      // 加锁加锁请求太快了~
-        this.BattleErr = 0;      // 战斗失败次数     
-        LoopMgr.inst.add(this);
-        RegistMgr.inst.add(this);
+        this.BattleErr = 0;      // 战斗失败次数
     }
 
     static get inst() {

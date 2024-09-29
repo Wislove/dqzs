@@ -157,7 +157,7 @@ class NetSocket {
                 this.sio.send(buffer);
             }
         } catch (err) {
-            logger.debug(`[Message] errMsg:[${err.message}],msgData=[${JSON.stringify(buffer)}]`);
+            logger.error(`[Message] errMsg:[${err.message}],msgData=[${JSON.stringify(buffer)}]`);
         }
     }
 

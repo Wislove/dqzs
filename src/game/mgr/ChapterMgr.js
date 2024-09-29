@@ -14,9 +14,6 @@ export default class ChapterMgr {
         this.challenge = global.account.switch.challenge || 0;
         this.showResult = global.account.switch.showResult || false;
         this.challengeSuccessReset = global.account.switch.challengeSuccessReset || false;
-
-        LoopMgr.inst.add(this);
-        RegistMgr.inst.add(this);
     }
 
     static get inst() {

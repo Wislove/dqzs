@@ -231,7 +231,7 @@ class MsgRecvMgr {
     // 551 邮件列表数据同步
     static MailListMsg(t) {
         logger.debug("[MsgRecvMgr] 一键领取邮件奖励");
-        GameNetMgr.inst.sendPbMsg(Protocol.S_MAIL_GET_ALL_REWARD, {});
+        //GameNetMgr.inst.sendPbMsg(Protocol.S_MAIL_GET_ALL_REWARD, {});
     }
 
     // 602 是否能购买物品
@@ -297,12 +297,12 @@ class MsgRecvMgr {
     // 1001 活动通用数据同步
     static PushActivityList(t) {
         logger.debug("[MsgRecvMgr] 活动通用数据同步");
-        ActivityMgr.inst.SyncData(t);
+        // ActivityMgr.inst.SyncData(t);
     }
 
     // // 1002 同步活动详细配置
     static ActivityCommonDataListSync(t) {
-        ActivityMgr.inst.buyFree(t);
+        // ActivityMgr.inst.buyFree(t);
         //     logger.debug("[MsgRecvMgr] 同步活动详细配置");
         //     for (const i of t.activityDataList) {
         //         const activityId = i.activityId;

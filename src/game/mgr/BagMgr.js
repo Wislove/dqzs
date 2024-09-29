@@ -12,9 +12,6 @@ export default class BagMgr {
         this.isProcessing = false;
         this.initialized = false;
         this.ticket = global.account.switch.ticket || 2; // 默认为2
-
-        LoopMgr.inst.add(this);
-        RegistMgr.inst.add(this);
     }
 
     static get inst() {

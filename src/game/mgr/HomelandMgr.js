@@ -3,7 +3,6 @@ import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import UserMgr from "#game/mgr/UserMgr.js";
-import RegistMgr from "#game/common/RegistMgr.js";
 
 class Homeland {
     static ExploreReq() {
@@ -89,9 +88,6 @@ export default class HomelandMgr {
         this.isInitialized = false;
 
         this.isProcessing = false;
-
-        LoopMgr.inst.add(this);
-        RegistMgr.inst.add(this);
     }
 
     static TRANSLATE = {
@@ -366,7 +362,7 @@ export default class HomelandMgr {
                     logger.info(`[福地管理] [自己] 可以刷新 ${2 - freeRefreshCount} 次`);
                     if (this.worker.energy >= 50 && this.worker.free > 0) {
                         logger.info(`[福地管理] [自己] 广告刷新福地!`);
-                        Homeland.ADReward();
+                        //Homeland.ADReward();
                     }
                 }
             }

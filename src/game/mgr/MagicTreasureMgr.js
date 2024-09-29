@@ -4,7 +4,6 @@ import logger from "#utils/logger.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
-import RegistMgr from "#game/common/RegistMgr.js";
 
 export default class MagicTreasureMgr {
     constructor() {
@@ -12,9 +11,6 @@ export default class MagicTreasureMgr {
         this.AD_REWARD_CD = 1000;         // 每次间隔时间
         this.FREE_NUM = 2;                // 免费抽奖次数
         this.isProcessing = false;
-
-        LoopMgr.inst.add(this);
-        RegistMgr.inst.add(this);
     }
 
     static get inst() {

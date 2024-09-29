@@ -2,12 +2,10 @@ import GameNetMgr from "#game/net/GameNetMgr.js";
 import Protocol from "#game/net/Protocol.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import logger from "#utils/logger.js";
-import RegistMgr from "#game/common/RegistMgr.js";
 
 export default class PalaceMgr {
     constructor() {
         this.isMiracle = false;
-        RegistMgr.inst.add(this);
     }
 
     checkIsMiracle() {

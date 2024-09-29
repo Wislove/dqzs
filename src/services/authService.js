@@ -5,9 +5,6 @@ import { v4 as uuidv4 } from "uuid";
 import logger from "#utils/logger.js";
 import fs from 'fs';
 import util from 'util';
-import createPath from '#utils/path.js';
-
-const resolvePath = createPath(import.meta.url);
 
 async function updateAccount(filePath, newObject) {
     const readFileAsync = util.promisify(fs.readFile);

@@ -4,16 +4,12 @@ import logger from "#utils/logger.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
-import RegistMgr from "#game/common/RegistMgr.js";
 
 export default class PupilMgr {
     constructor() {
         this.AD_REWARD_DAILY_MAX_NUM = 2;   // 每日最大领取次数
         this.AD_REWARD_CD = 1000;           // 每次间隔时间
         this.isProcessing = false;
-
-        LoopMgr.inst.add(this);
-        RegistMgr.inst.add(this);
     }
 
     static get inst() {

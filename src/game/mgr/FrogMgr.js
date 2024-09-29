@@ -2,16 +2,12 @@ import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
-import RegistMgr from "#game/common/RegistMgr.js";
 
 export default class FrogMgr {
     constructor() {
         this.AD_REWARD_DAILY_MAX_NUM = 6;   // 每日最大领取次数
         this.AD_REWARD_CD = 5 * 60 * 1000;  // 每次间隔时间 (5分钟)
         this.isProcessing = false;
-
-        LoopMgr.inst.add(this);
-        RegistMgr.inst.add(this);
     }
 
     static get inst() {

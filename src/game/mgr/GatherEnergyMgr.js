@@ -5,7 +5,6 @@ import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import BagMgr from "#game/mgr/BagMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
-import RegistMgr from "#game/common/RegistMgr.js";
 import UserMgr from "#game/mgr/UserMgr.js";
 
 export default class GatherEnergyMgr {
@@ -20,9 +19,6 @@ export default class GatherEnergyMgr {
         this.lock = false;                  // 锁一下，避免拿不到
         this.enabled = global.account.switch.gatherEnergy || false;  // 是否可以开启自己的聚灵阵
         this.isProcessing = false;
-
-        LoopMgr.inst.add(this);
-        RegistMgr.inst.add(this);
     }
 
     static get inst() {

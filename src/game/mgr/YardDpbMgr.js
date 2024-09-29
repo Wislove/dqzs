@@ -23,9 +23,6 @@ export default class YardDpbMgr {
 
         this.isProcessing = false;
         this.retLock = false;
-
-        LoopMgr.inst.add(this);
-        RegistMgr.inst.add(this);
     }
 
     static get inst() {

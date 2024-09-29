@@ -31,7 +31,7 @@ export default class SkyWarMgr {
         this.refreshCallback = false;
 
 
-        LoopMgr.inst.add(this);
+        //LoopMgr.inst.add(this);
         RegistMgr.inst.add(this);
     }
 

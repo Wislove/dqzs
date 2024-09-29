@@ -3,7 +3,6 @@ import logger from "#utils/logger.js";
 import GameNetMgr from "#game/net/GameNetMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
-import RegistMgr from "#game/common/RegistMgr.js";
 
 /**
  * 灵兽内丹：
@@ -16,9 +15,6 @@ export default class PetKernelMgr {
         this.initialized = false;
 
         this.isProcessing = false;
-
-        LoopMgr.inst.add(this);
-        RegistMgr.inst.add(this);
     }
 
     static get inst() {

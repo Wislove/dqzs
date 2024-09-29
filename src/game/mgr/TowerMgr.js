@@ -18,7 +18,7 @@ export default class TowerMgr {
         this.showResult = global.account.switch.showResult || false;
         this.challengeSuccessReset = global.account.switch.challengeSuccessReset || false;
 
-        LoopMgr.inst.add(this);
+        // LoopMgr.inst.add(this);
         RegistMgr.inst.add(this);
     }
 

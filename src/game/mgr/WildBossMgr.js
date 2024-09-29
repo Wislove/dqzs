@@ -5,7 +5,6 @@ import LoopMgr from "#game/common/LoopMgr.js";
 import PlayerAttributeMgr from "#game/mgr/PlayerAttributeMgr.js";
 import PalaceMgr from "#game/mgr/PalaceMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
-import RegistMgr from "#game/common/RegistMgr.js";
 
 export default class WildBossMgr {
     constructor() {
@@ -13,9 +12,6 @@ export default class WildBossMgr {
         this.AD_REWARD_DAILY_MAX_NUM = 6 + (PlayerAttributeMgr.isMonthCardVip ? 2 : 0);   // 每日最大领取次数
         this.AD_REWARD_CD = 1000;                                                         // 每次间隔时间
         this.isProcessing = false;
-
-        LoopMgr.inst.add(this);
-        RegistMgr.inst.add(this);
     }
 
     static get inst() {

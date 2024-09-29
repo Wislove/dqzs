@@ -4,7 +4,6 @@ import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import GameNetMgr from "#game/net/GameNetMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
-import RegistMgr from "#game/common/RegistMgr.js";
 
 export default class UniverseMgr {
     constructor() {
@@ -16,8 +15,6 @@ export default class UniverseMgr {
         this.drawTwiceStatus = 0;                           // 天地轮盘抽奖类型1:普通，2:观察,3:连线
         this.pos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]; // 天地轮盘：连线坐标
         this.cachePos = [];                                 // 已使用过的连线坐标
-        LoopMgr.inst.add(this);
-        RegistMgr.inst.add(this);
     }
 
     static get inst() {

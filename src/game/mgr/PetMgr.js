@@ -3,7 +3,6 @@ import logger from "#utils/logger.js";
 import DBMgr from "#game/common/DBMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
-import RegistMgr from "#game/common/RegistMgr.js";
 import PetKernelMgr from "#game/mgr/PetKernelMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 
@@ -26,9 +25,6 @@ export default class PetMgr {
         this.isProcessing = false;
         this.initialized = false;
         this.refreshLock = false;
-
-        LoopMgr.inst.add(this);
-        RegistMgr.inst.add(this);
     }
 
     static get inst() {
