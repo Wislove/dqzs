@@ -135,7 +135,7 @@ export default class GatherEnergyMgr {
         }
 
         //入阵坐下
-        logger.error(`[聚灵阵管理] 进入 ${maxIncomeObj.openerMsg.nickName} 聚灵阵 产能:${maxIncomeObj.energyBaseMsg.income} 结束时间 ${new Date(maxIncomeObj.energyBaseMsg.endTime)}`);
+        logger.error(`[聚灵阵管理] 进入 ${maxIncomeObj.openerMsg.nickName} 聚灵阵 产能:${maxIncomeObj.energyBaseMsg.income} 结束时间 ${new Date(maxIncomeObj.energyBaseMsg.endTime).toLocaleString()}`);
         GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_ATTEND_NEW, { id: maxIncomeObj.openerMsg.playerId });// 请求聚灵阵列表
         this.attendNum += 1;
     }
