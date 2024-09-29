@@ -297,12 +297,12 @@ class MsgRecvMgr {
     // 1001 活动通用数据同步
     static PushActivityList(t) {
         logger.debug("[MsgRecvMgr] 活动通用数据同步");
-        // ActivityMgr.inst.SyncData(t);
+        //ActivityMgr.inst.SyncData(t);
     }
 
     // // 1002 同步活动详细配置
     static ActivityCommonDataListSync(t) {
-        // ActivityMgr.inst.buyFree(t);
+        //ActivityMgr.inst.buyFree(t);
         //     logger.debug("[MsgRecvMgr] 同步活动详细配置");
         //     for (const i of t.activityDataList) {
         //         const activityId = i.activityId;
