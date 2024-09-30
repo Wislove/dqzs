@@ -30,6 +30,7 @@ import SecretTowerMgr from "#game/mgr/SecretTowerMgr.js";
 import CustomMgr from "#game/mgr/CustomMgr.js";
 import ActivityMgr from "#game/mgr/ActivityMgr.js";
 import BagMgr from "#game/mgr/BagMgr.js";
+import DestinyMgr from "#game/mgr/DestinyMgr.js";
 
 class LoopMgr {
 
@@ -72,6 +73,7 @@ class LoopMgr {
         // 砍树,灵脉
         this.add(PlayerAttributeMgr.inst, true);
         this.add(BagMgr.inst, true);
+        this.add(DestinyMgr.inst, true);
         this.add(HomelandMgr.inst, true);
         this.add(YueBaoMgr.inst, true);
         this.add(PupilMgr.inst, true);
