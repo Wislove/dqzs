@@ -3,7 +3,6 @@ import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
-import SkyWarMgr from "#game/mgr/SkyWarMgr.js";
 
 export default class CustomMgr {
     constructor() {
@@ -61,12 +60,12 @@ export default class CustomMgr {
             GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BBS, { activityId: 0, conditionId: 0 });
             GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GAME_CIRCLE, { activityId: 0, conditionId: 0 });
 
-            for (let i = 0; i < 30; i++) {
-                GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_LUCKY_DRAW, { activityId: 250100, times: 1 }); // 运势抽奖
-                GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_LUCKY_DRAW, { activityId: 250101, times: 1 }); // 运势抽奖
-                GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_LUCKY_DRAW, { activityId: 250102, times: 1 }); // 运势抽奖
-                GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_LUCKY_DRAW, { activityId: 250103, times: 1 }); // 运势抽奖
-            }
+            // for (let i = 0; i < 30; i++) {
+            //     GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_LUCKY_DRAW, { activityId: 250100, times: 1 }); // 运势抽奖
+            //     GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_LUCKY_DRAW, { activityId: 250101, times: 1 }); // 运势抽奖
+            //     GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_LUCKY_DRAW, { activityId: 250102, times: 1 }); // 运势抽奖
+            //     GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_LUCKY_DRAW, { activityId: 250103, times: 1 }); // 运势抽奖
+            // }
 
             // 宝华堂
             GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: 9875533, mallId: 400000003, count: 1 });

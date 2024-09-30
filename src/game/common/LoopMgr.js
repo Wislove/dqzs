@@ -27,6 +27,7 @@ import YardDpbMgr from "#game/mgr/YardDpbMgr.js";
 import ChapterMgr from "#game/mgr/ChapterMgr.js";
 import TowerMgr from "#game/mgr/TowerMgr.js";
 import SecretTowerMgr from "#game/mgr/SecretTowerMgr.js";
+import CustomMgr from "#game/mgr/CustomMgr.js";
 
 class LoopMgr {
 
@@ -81,6 +82,7 @@ class LoopMgr {
         this.add(ChapterMgr.inst, true);
         this.add(TowerMgr.inst, true);
         this.add(SecretTowerMgr.inst, true);
+        this.add(CustomMgr.inst, true);
     }
 
     start() {
