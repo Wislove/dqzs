@@ -9,6 +9,10 @@ export default class ActivityMgr {
         this.activatedActivities = new Set();
         this.pushActivityList = [];
         this.activityCommonDataList = [];
+
+        this.isProcessing = false;
+        this.LOOP_CHECK_CD = 15 * 60 * 1000;
+        this.lastLoopCheckTime = 0;
     }
 
     static get inst() {
@@ -24,14 +28,18 @@ export default class ActivityMgr {
 
     // 接收活动下发数据
     async SyncData(t) {
-        this.pushActivityList = t;
-        logger.info(`[活动管理] 活动数据下发`)
+        this.isProcessing = true;
+        this.pushActivityList = t.mainConfig;
+        logger.debug(`[活动管理] 活动数据下发`);
+        this.isProcessing = false;
     }
 
     // 活动通用数据同步
     ActivityCommonDataListSync(t) {
-        logger.info(`[活动管理] 活动通用数据同步`)
-        this.activityCommonDataList = t;
+        this.isProcessing = true;
+        logger.debug(`[活动管理] 活动通用数据同步`)
+        this.activityCommonDataList = t.activityDataList;
+        this.isProcessing = false;
     }
 
     // t.activity.detailConfig.commonConfig.mainConfig
@@ -101,7 +109,7 @@ export default class ActivityMgr {
 
 
                     const logAndBuy = (remaining) => {
-                        logger.debug(`[活动管理] ${activityId} 购买 ${name} ${remaining}次`);
+                        logger.info(`[活动管理] ${activityId} 购买 ${name} ${remaining}次`);
                         for (let i = 0; i < remaining; i++) {
                             const logContent = `[活动管理] ${activityId} 购买 ${name} 第 ${i + 1}/${remaining}次`;
                             AdRewardMgr.inst.AddAdRewardTask({ protoId: Protocol.S_ACTIVITY_BUY_MALL_GOODS, data: { activityId: activityId, mallId: id, count: 1 }, logStr: logContent });
@@ -120,5 +128,45 @@ export default class ActivityMgr {
                 }
             });
         });
+    }
+
+
+    // 处理活动数据奖励和详情
+    handleActivityReward() {
+        // 通用活动处理
+        this.activityCommonDataList.forEach(activityCommonData => {
+            this.RspGetActivityDetail({ ret: 0, activity: activityCommonData });
+        })
+
+        // 推送的活动处理
+        const takePushActivityIntervalId = setInterval(() => {
+            if (this.pushActivityList.length > 0) {
+                const pushActivity = this.pushActivityList.shift();
+
+                GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GET_DATA, { activityId: pushActivity.activityId });
+            } else {
+                clearInterval(takePushActivityIntervalId);
+            }
+        }, 15 * 1000);
+    }
+
+    loopUpdate() {
+        if (this.isProcessing) return;
+        this.isProcessing = true;
+
+        try {
+            if (this.pushActivityList.length == 0 || this.activityCommonDataList.length == 0) {
+                return;
+            }
+
+            if (Date.now() - this.lastLoopCheckTime >= this.LOOP_CHECK_CD) {
+                this.handleActivityReward();
+                this.lastLoopCheckTime = Date.now();
+            }
+        } catch (error) {
+            logger.error(`[活动管理] 活动处理异常错误:${error}`)
+        } finally {
+            this.isProcessing = false;
+        }
     }
 }

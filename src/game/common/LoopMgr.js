@@ -28,6 +28,7 @@ import ChapterMgr from "#game/mgr/ChapterMgr.js";
 import TowerMgr from "#game/mgr/TowerMgr.js";
 import SecretTowerMgr from "#game/mgr/SecretTowerMgr.js";
 import CustomMgr from "#game/mgr/CustomMgr.js";
+import ActivityMgr from "#game/mgr/ActivityMgr.js";
 
 class LoopMgr {
 
@@ -83,6 +84,7 @@ class LoopMgr {
         this.add(TowerMgr.inst, true);
         this.add(SecretTowerMgr.inst, true);
         this.add(CustomMgr.inst, true);
+        this.add(ActivityMgr.inst, true);
     }
 
     start() {
