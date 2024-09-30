@@ -23,7 +23,6 @@ import UnionMgr from "#game/mgr/UnionMgr.js";
 import HomelandMgr from "#game/mgr/HomelandMgr.js";
 import InvadeMgr from "#game/mgr/InvadeMgr.js";
 import StarTrialMgr from "#game/mgr/StarTrialMgr.js";
-import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import RuleTrialMgr from "#game/mgr/RuleTrialMgr.js";
 import PetMgr from "#game/mgr/PetMgr.js";
 import UniverseMgr from "#game/mgr/UniverseMgr.js";
@@ -34,6 +33,7 @@ import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import UnionBountyMgr from "#game/mgr/UnionBountyMgr.js";
 import DBMgr from "#game/common/DBMgr.js";
 import SkyWarMgr from "#game/mgr/SkyWarMgr.js";
+import MailRewardMgr from "#game/mgr/MailRewardMgr.js";
 
 class MsgRecvMgr {
     constructor() { }
@@ -230,7 +230,7 @@ class MsgRecvMgr {
     // 551 邮件列表数据同步
     static MailListMsg(t) {
         logger.debug("[MsgRecvMgr] 一键领取邮件奖励");
-        //GameNetMgr.inst.sendPbMsg(Protocol.S_MAIL_GET_ALL_REWARD, {});
+        MailRewardMgr.inst.MailListMsg(t);
     }
 
     // 602 是否能购买物品
