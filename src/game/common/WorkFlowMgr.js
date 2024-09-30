@@ -41,7 +41,7 @@ export default class WorkFlowMgr {
         logger.info(`[顺序管理] 排序后的任务队列: ${this.sortedQueue}`);
     }
 
-    async start() {
+    start() {
         // 添加0级项目
         const ChopTree = global.account.switch.chopTree || false;
         if (ChopTree) {
@@ -61,7 +61,7 @@ export default class WorkFlowMgr {
             this.add("Invade");
         }
         // 添加3级项目
-        const SkyWar = global.account.switch.skywar??false;
+        const SkyWar = global.account.switch.skywar ?? false;
         if (SkyWar) {
             logger.info("[顺序管理] 已开启自动征战诸天");
             this.add("SkyWar");

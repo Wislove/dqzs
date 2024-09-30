@@ -1,11 +1,12 @@
 import GameNetMgr from "#game/net/GameNetMgr.js";
 import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
+import PlayerAttributeMgr from "#game/mgr/PlayerAttributeMgr.js";
 
 export default class AdRewardMgr {
     constructor() {
         this.isProcessing = false;
-        this.INTERVAL = 1000 * 12;
+        this.INTERVAL =  (PlayerAttributeMgr.isMonthCardVip || PlayerAttributeMgr.isYearCardVip) ? 1000 : 40 * 1000;
         this.lastExecuteTime = 0;
         this.taskList = [];
     }
@@ -19,12 +20,6 @@ export default class AdRewardMgr {
 
     reset() {
         this._instance = null;
-    }
-
-    SyncVip(isVip) {
-        logger.info(`[广告管理] 同步VIP状态 ${isVip}`);
-        this.INTERVAL = isVip ? 1000 : 30000;
-        global.messageDelay = isVip ? 0 : 20; // Vip可以不需要延迟
     }
 
     AddAdRewardTask(adTask) {

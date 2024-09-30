@@ -47,7 +47,7 @@ export default class StarTrialMgr {
 
     StarTrialChallengeResp(t) {
         if (t.ret === 0) {
-            logger.info(`[星宿试炼] 挑战星宿结果:${t.allBattleRecord.isWin ? '成功' : '失败'},奖励信息:${t.rewards}`);
+            logger.info(`[星宿试炼] 挑战星宿结果:${t.allBattleRecord.isWin ? '成功' : '失败'}`);
         }
 
         this.fightLock = false;

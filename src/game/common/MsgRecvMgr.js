@@ -56,7 +56,6 @@ class MsgRecvMgr {
     static PrivilegeCardDataMsg(t) {
         logger.debug("[MsgRecvMgr] 同步特权卡数据");
         PlayerAttributeMgr.inst.SyncVip(t);
-        AdRewardMgr.inst.SyncVip(PlayerAttributeMgr.isMonthCardVip || PlayerAttributeMgr.isYearCardVip);
     }
 
     // 201 玩家属性信息同步

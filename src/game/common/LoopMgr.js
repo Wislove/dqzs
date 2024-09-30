@@ -21,12 +21,14 @@ import WildBossMgr from "#game/mgr/WildBossMgr.js";
 import YueBaoMgr from "#game/mgr/YueBaoMgr.js";
 import logger from "#utils/logger.js";
 import WorkFlowMgr from "#game/common/WorkFlowMgr.js";
-import AdRewardMgr from "#game/mgr/AdRewardMgr";
+import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 
 class LoopMgr {
 
     constructor() {
-        this.intervalTimeId = null;
+        this.loopTaskIntervalTimeId = null;
+        this.onceTaskIntervalTimeId = null;
+
         this.nextDayTime = 0;
 
         // 日常循环task,通常几分钟检查执行一次,如：福地,邮件,仙居，余额宝等
@@ -58,10 +60,9 @@ class LoopMgr {
         this.add(RuleTrialMgr.inst);
         this.add(UnionTreasureMgr.inst);
         this.add(WildBossMgr.inst);
-        // 砍树,灵脉
-        this.add(PlayerAttributeMgr.inst);
 
-        // 日常循环任务
+        // 砍树,灵脉
+        this.add(PlayerAttributeMgr.inst, true);
         this.add(HomelandMgr.inst, true);
         this.add(YueBaoMgr.inst, true);
         this.add(PupilMgr.inst, true);
@@ -74,14 +75,20 @@ class LoopMgr {
 
     start() {
         this.end();
-        WorkFlowMgr.inst.start();
-        this.intervalTimeId = setInterval(() => {
-            this.loopUpdate();
+
+        // 刷新时间
+        setInterval(() => {
+            const now = Math.floor(Date.now() / 1000);
+            this.refreshNextDayTime();
         }, 1000);
+
+        // 任务循环
+        this.loopUpdate();
     }
 
     end() {
-        clearInterval(this.intervalTimeId);
+        clearInterval(this.loopTaskIntervalTimeId);
+        clearInterval(this.onceTaskIntervalTimeId);
     }
 
     add(loopable, daliy = false) {
@@ -107,31 +114,38 @@ class LoopMgr {
         }
     }
 
+    // 任务循环逻辑
     loopUpdate() {
-        const now = Math.floor(Date.now() / 1000);
-        this.loopTaskList.forEach(item => {
-            if (item && typeof item.loopUpdate === 'function') {
-                item.loopUpdate();
-            }
-        });
+        // 顺序执行添加
+        WorkFlowMgr.inst.start();
 
-        if (this.onceTaskList) {
-            this.onceTaskList.forEach(item => {
+        // 日常任务循环
+        this.loopTaskIntervalTimeId = setInterval(() => {
+            this.loopTaskList.forEach(item => {
                 if (item && typeof item.loopUpdate === 'function') {
                     item.loopUpdate();
                 }
             });
-        }
+        }, 1000);
 
-        if (this.nextDayTime && now > this.nextDayTime) {
-            this.refreshNextDayTime();
+        // 单次任务循环执行
+        if (this.onceTaskList) {
+            this.onceTaskIntervalTimeId = setInterval(() => {
+                this.onceTaskList.forEach(item => {
+                    if (item && typeof item.loopUpdate === 'function') {
+                        item.loopUpdate();
+                    }
+                });
+            }, 30 * 1000);
         }
     }
 
+    // 下一天凌晨
     refreshNextDayTime() {
         this.nextDayTime = this.getCurZeroTime() + 86400;
     }
 
+    // 当前现在0点
     getCurZeroTime() {
         const utcOffset = 8; // 东八区
         const now = new Date();
@@ -142,10 +156,6 @@ class LoopMgr {
         localTime.setHours(0, 0, 0, 0);
 
         return localTime.getTime() / 1000;
-    }
-
-    resumeLoginIn() {
-        this.loopUpdate();
     }
 }
 
