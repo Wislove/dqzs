@@ -8,6 +8,8 @@ export default class RuleTrialMgr {
     constructor() {
         this.isProcessing = false;
         this.isRepeated = false;
+
+        this.initialized = false;
     }
 
     static get inst() {
@@ -32,10 +34,11 @@ export default class RuleTrialMgr {
 
     RuleTrialDataSync(t) {
         this.isRepeated = t.isRepeated;
+        this.initialized = true;
     }
 
     async loopUpdate() {
-        if (this.isProcessing) return;
+        if (this.isProcessing || !this.initialized) return;
         this.isProcessing = true;
         try {
             if (this.isRepeated) {
