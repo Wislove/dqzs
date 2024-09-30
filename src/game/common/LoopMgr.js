@@ -21,6 +21,7 @@ import WildBossMgr from "#game/mgr/WildBossMgr.js";
 import YueBaoMgr from "#game/mgr/YueBaoMgr.js";
 import logger from "#utils/logger.js";
 import WorkFlowMgr from "#game/common/WorkFlowMgr.js";
+import AdRewardMgr from "#game/mgr/AdRewardMgr";
 
 class LoopMgr {
 
@@ -68,6 +69,7 @@ class LoopMgr {
         this.add(UniverseMgr.inst, true);
         this.add(UnionMgr.inst, true);
         this.add(UnionBountyMgr.inst, true);
+        this.add(AdRewardMgr.inst, true);
     }
 
     start() {
