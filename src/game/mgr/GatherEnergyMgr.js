@@ -59,8 +59,8 @@ export default class GatherEnergyMgr {
         this.openNum = t.gatherEnergy.openNum || 0;
         this.openNum > 0 ? logger.info(`[聚灵阵管理] 已开启聚灵阵`) : logger.info(`[聚灵阵管理] 未开启聚灵阵`);
         this.attendNum = t.gatherEnergy.attendNum || 0;
-        this.attendNum > 0 ? logger.info(`[聚灵阵管理] 已加入聚灵阵,加入数量:${attendNum}`): logger.info(`[聚灵阵管理] 未加入聚灵阵`);
-        
+        this.attendNum > 0 ? logger.info(`[聚灵阵管理] 已加入聚灵阵,加入数量:${attendNum}`) : logger.info(`[聚灵阵管理] 未加入聚灵阵`);
+
 
         this.num = BagMgr.inst.getGoodsNum(105044)
         if (this.num > 0) {

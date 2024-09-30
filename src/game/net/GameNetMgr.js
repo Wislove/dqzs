@@ -139,7 +139,7 @@ class GameNetMgr {
         } catch (err) {
             // TODO 重写一下sendPbMsg逻辑
             if (msgData && Object.keys(msgData).length > 0) {
-                logger.info(`[websocket] 发送消息：msgId: ${msgId}, msgData: ${JSON.stringify(msgData)}`);
+                logger.debug(`[websocket] 发送消息：msgId: ${msgId}, msgData: ${JSON.stringify(msgData)}`);
             }
         }
 
