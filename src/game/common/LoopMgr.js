@@ -148,7 +148,7 @@ class LoopMgr {
                         item.loopUpdate();
                     }
                 });
-            }, 30 * 1000);
+            }, 15 * 1000);
         }
     }
 

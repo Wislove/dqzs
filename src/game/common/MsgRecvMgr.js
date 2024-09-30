@@ -296,11 +296,13 @@ class MsgRecvMgr {
     // 1001 活动通用数据同步
     static PushActivityList(t) {
         logger.debug("[MsgRecvMgr] 活动通用数据同步");
-        //ActivityMgr.inst.SyncData(t);
+        ActivityMgr.inst.SyncData(t);
     }
 
     // // 1002 同步活动详细配置
     static ActivityCommonDataListSync(t) {
+        logger.debug("[MsgRecvMgr] 活动通用数据同步");
+        ActivityMgr.inst.ActivityCommonDataListSync(t);
         //ActivityMgr.inst.buyFree(t);
         //     logger.debug("[MsgRecvMgr] 同步活动详细配置");
         //     for (const i of t.activityDataList) {
@@ -321,15 +323,10 @@ class MsgRecvMgr {
     //     }
     // }
 
-    // // 1003 活动 全量同步活动数据(领取东西逻辑放到这里)
+    // // 1003 活动 活动详情返回
     static RspGetActivityDetail(t) {
-        logger.debug("[MsgRecvMgr] 全量同步数据");
-        const activityMgrEnabled = global.account.switch.activity || false;
-        if (!activityMgrEnabled) {
-            logger.debug(`[活动管理] 未开启`);
-        } else {
-            ActivityMgr.inst.getReward(t);
-        }
+        logger.debug("[MsgRecvMgr] 活动详情返回");
+        ActivityMgr.inst.RspGetActivityDetail(t);
     }
 
     //解析活动奖励返回

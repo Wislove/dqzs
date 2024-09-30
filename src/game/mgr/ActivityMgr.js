@@ -7,6 +7,8 @@ export default class ActivityMgr {
     constructor() {
         // 存储已激活的活动 ID
         this.activatedActivities = new Set();
+        this.pushActivityList = [];
+        this.activityCommonDataList = [];
     }
 
     static get inst() {
@@ -15,20 +17,21 @@ export default class ActivityMgr {
         }
         return this._instance;
     }
-    
+
     reset() {
         this._instance = null;
     }
 
+    // 接收活动下发数据
     async SyncData(t) {
-        try {
-            for (const i of t.mainConfig) {
-                GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GET_DATA, { activityId: i.activityId });
-                await new Promise((resolve) => setTimeout(resolve, 500));
-            }
-        } catch (error) {
-            logger.error(`[ActivityMgr] 活动通用数据同步 ${error}`);
-        }
+        this.pushActivityList = t;
+        logger.info(`[活动管理] 活动数据下发`)
+    }
+
+    // 活动通用数据同步
+    ActivityCommonDataListSync(t) {
+        logger.info(`[活动管理] 活动通用数据同步`)
+        this.activityCommonDataList = t;
     }
 
     // t.activity.detailConfig.commonConfig.mainConfig
@@ -43,8 +46,14 @@ export default class ActivityMgr {
     //     "serverId": Array[32],
     //     "groupType": 0
     // },
-    // 1002 1007 
-    getReward(t) {
+    // 1002 1007, 获取任务详情,包含了领东西的逻辑
+    RspGetActivityDetail(t) {
+        const activityMgrEnabled = global.account.switch.activity || false;
+        if (!activityMgrEnabled) {
+            logger.debug(`[活动管理] 未开启`);
+            return;
+        }
+
         const acts = t.activity.conditionDataList;
         if (acts) {
             const activityId = t.activity.activityId;
@@ -63,7 +72,7 @@ export default class ActivityMgr {
                 }
             }
         }
-       this.buyFree({"activityDataList":[t.activity]})
+        this.buyFree({ "activityDataList": [t.activity] })
     }
 
     // 1003
@@ -90,7 +99,7 @@ export default class ActivityMgr {
                     this.activatedActivities.add(activityId);
                     logger.debug(`[活动管理] 活动 ${activityId} 激活成功`);
 
-                    
+
                     const logAndBuy = (remaining) => {
                         logger.debug(`[活动管理] ${activityId} 购买 ${name} ${remaining}次`);
                         for (let i = 0; i < remaining; i++) {
