@@ -168,6 +168,10 @@ export default class HeroRankMgr {
             this.clear();
             return false;
         }
+		if(this.shouldStartFight())
+		{
+			this.lock = false;
+		}
         return true;
     }
 
