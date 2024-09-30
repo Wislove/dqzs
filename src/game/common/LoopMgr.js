@@ -23,6 +23,7 @@ import logger from "#utils/logger.js";
 import WorkFlowMgr from "#game/common/WorkFlowMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import MailRewardMgr from "#game/mgr/MailRewardMgr.js";
+import YardDpbMgr from "#game/mgr/YardDpbMgr.js";
 
 class LoopMgr {
 
@@ -73,6 +74,7 @@ class LoopMgr {
         this.add(UnionBountyMgr.inst, true);
         this.add(MailRewardMgr.inst, true);
         this.add(AdRewardMgr.inst, true);
+        this.add(YardDpbMgr.inst, true);
     }
 
     start() {

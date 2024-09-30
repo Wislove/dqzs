@@ -5,7 +5,6 @@ import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import GameNetMgr from "#game/net/GameNetMgr.js";
 import UserMgr from "#game/mgr/UserMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
-import RegistMgr from "#game/common/RegistMgr.js";
 
 export default class YardDpbMgr {
     constructor() {
