@@ -6,7 +6,7 @@ import PlayerAttributeMgr from "#game/mgr/PlayerAttributeMgr.js";
 export default class AdRewardMgr {
     constructor() {
         this.isProcessing = false;
-        this.INTERVAL =  (PlayerAttributeMgr.isMonthCardVip || PlayerAttributeMgr.isYearCardVip) ? 1000 : 40 * 1000;
+        this.INTERVAL =  30 * 1000; // 默认30秒执行
         this.lastExecuteTime = 0;
         this.taskList = [];
     }
@@ -52,6 +52,8 @@ export default class AdRewardMgr {
 
         try {
             const now = Date.now();
+            this.INTERVAL = (PlayerAttributeMgr.isMonthCardVip || PlayerAttributeMgr.isYearCardVip) ? 1000 : 30 * 1000;
+            
             if (now - this.lastExecuteTime >= this.INTERVAL) {
                 this.lastExecuteTime = now;
                 await this.RunAdRewardTask();
