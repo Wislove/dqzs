@@ -46,34 +46,11 @@ export default class CustomMgr {
         const now = Date.now();
         if (now - this.lastExecuteTime >= this.CUSTOM_INTERVAL) {
             this.lastExecuteTime = now;
-            if (SystemUnlockMgr.PUPIL) {
-                // 进入宗门系统
-                GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_ENTER, {});
-                if (global.account.switch.pupil) {
-                    GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_TRAIN, { isOneKey: 1 });
-                }
-            }
-
+            
             if (SystemUnlockMgr.PALACE) {
                 // 仙宫外部数据请求
                 GameNetMgr.inst.sendPbMsg(Protocol.S_PALACE_ENTER_OUTER, {});
             }
-
-            if (SystemUnlockMgr.GATHERENERGY) {
-                // 进入聚灵阵
-                GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_ENTER_NEW, {});
-            }
-
-            // 进入余额宝
-            if (SystemUnlockMgr.YUE_BAO) {
-                GameNetMgr.inst.sendPbMsg(Protocol.S_YUE_BAO_ENTER, { activityId: 10004986 });
-            }
-
-            // 进入征战诸天
-            if (SystemUnlockMgr.SKY_WAR) {
-                SkyWarMgr.inst.SkyWarEnterReq();
-            }
-
 
             // 道友一键赠送和领取
             GameNetMgr.inst.sendPbMsg(Protocol.S_FRIEND_ONE_KEY, { type: 1 });

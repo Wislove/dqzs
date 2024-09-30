@@ -10,6 +10,9 @@ export default class PupilMgr {
         this.AD_REWARD_DAILY_MAX_NUM = 2;   // 每日最大领取次数
         this.AD_REWARD_CD = 1000;           // 每次间隔时间
         this.isProcessing = false;
+        this.lastLoopCheckTime = 0;
+        this.LOOP_CHECK_CD = 5 * 60 * 1000;
+        this.initialized = false;
     }
 
     static get inst() {
@@ -37,6 +40,7 @@ export default class PupilMgr {
         this.getAdRewardTimes = t.getTimes || 0;
         this.lastAdRewardTime = 0;
         this.isProcessing = false;
+        this.initialized = true;
     }
 
     countElementsWithoutPupilData(siteList) {
@@ -76,6 +80,9 @@ export default class PupilMgr {
                     await new Promise((resolve) => setTimeout(resolve, 1000));
                 }
             }
+
+            // 自动检查能量锤炼
+            GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_TRAIN, { isOneKey: 1 });
         }
     }
 
@@ -94,9 +101,21 @@ export default class PupilMgr {
         this.isProcessing = true;
 
         try {
+
+            // 每五分钟进入宗门一次
+            if (Date.now() - this.lastLoopCheckTime >= this.LOOP_CHECK_CD) {
+                this.initialized = false;
+                // 进入宗门系统
+                GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_ENTER, {});
+                this.lastLoopCheckTime = Date.now();
+            }
+
+            if (!this.initialized) {
+                return;
+            }
+
             if (this.getAdRewardTimes >= this.AD_REWARD_DAILY_MAX_NUM) {
-                this.clear();
-                logger.info("[宗门管理] 达到每日最大领取次数，停止奖励领取");
+                logger.debug("[宗门管理] 达到每日最大领取次数，停止奖励领取");
             } else {
                 this.processReward();
             }

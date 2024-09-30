@@ -18,6 +18,9 @@ export default class GatherEnergyMgr {
         this.num = 0;                       // 腾蛇信物数量
         this.lock = false;                  // 锁一下，避免拿不到
         this.enabled = global.account.switch.gatherEnergy || false;  // 是否可以开启自己的聚灵阵
+        this.lastLoopCheckTime = 0;
+        this.LOOP_CHECK_CD = 5 * 60 * 1000;
+        this.initialized = false;
         this.isProcessing = false;
     }
 
@@ -54,13 +57,11 @@ export default class GatherEnergyMgr {
         this.getAdRewardTimes = t.gatherEnergy.getTimes || 0;
 
         this.openNum = t.gatherEnergy.openNum || 0;
-        if (this.openNum > 0) {
-            logger.info(`[聚灵阵管理] 已开启聚灵阵`);
-        }
+        this.openNum > 0 ? logger.info(`[聚灵阵管理] 已开启聚灵阵`) : logger.info(`[聚灵阵管理] 未开启聚灵阵`);
         this.attendNum = t.gatherEnergy.attendNum || 0;
-        if (this.attendNum > 0) {
-            logger.info(`[聚灵阵管理] 已加入聚灵阵`);
-        }
+        this.attendNum > 0 ? logger.info(`[聚灵阵管理] 已加入聚灵阵,加入数量:${attendNum}`): logger.info(`[聚灵阵管理] 未加入聚灵阵`);
+        
+
         this.num = BagMgr.inst.getGoodsNum(105044)
         if (this.num > 0) {
             logger.info(`[聚灵阵管理] 还有 ${this.num} 螣蛇信物`);
@@ -68,6 +69,7 @@ export default class GatherEnergyMgr {
         this.lock = true
 
         this.isProcessing = false;
+        this.initialized = true;
     }
 
     //开启聚灵阵
@@ -115,7 +117,7 @@ export default class GatherEnergyMgr {
         const nextDay2130pmMs = new Date(nextDay).setUTCHours(21, 30, 0, 0);
         let maxIncome = 0;
         let maxIncomeObj = null;
-        
+
         filteredData.forEach(item => {
             const endTimeMs = parseInt(item.energyBaseMsg.endTime, 10);
             const income = parseInt(item.energyBaseMsg.income, 10);
@@ -138,18 +140,38 @@ export default class GatherEnergyMgr {
 
     async loopUpdate() {
         if (this.isProcessing) return;
+
         this.isProcessing = true;
 
         try {
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+
+            // 未到时间不处理
+            if (currentHour < 10 || currentHour >= 22) {
+                return;
+            }
+
+            // 每五分钟进入聚灵阵,同步数据
+            if (Date.now() - this.lastLoopCheckTime >= this.LOOP_CHECK_CD) {
+                this.initialized = false;
+                GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_ENTER_NEW, {});
+                this.lastLoopCheckTime = Date.now();
+            }
+
+            if (!this.initialized) {
+                logger.info(`[聚灵阵管理] 聚灵阵数据未初始化`);
+                return;
+            }
+
             if (this.getAdRewardTimes >= this.AD_REWARD_DAILY_MAX_NUM) {
                 // this.clear();
                 logger.debug("[聚灵阵管理] 达到每日最大领取次数，停止奖励领取");
             } else {
                 this.processReward();
             }
-            const now = new Date();
-            const currentHour = now.getHours();
-            const currentMinute = now.getMinutes();
+
 
             if ((currentHour == 20 || currentHour == 10) && this.lock && this.enabled) {
                 this.openGatherEnergy()
