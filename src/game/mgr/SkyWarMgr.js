@@ -28,10 +28,7 @@ export default class SkyWarMgr {
         this.enemyData = [];
         // 是否同步数据
         this.initialized = false;
-        this.refreshCallback = false;
 
-
-        //LoopMgr.inst.add(this);
         RegistMgr.inst.add(this);
     }
 
@@ -116,11 +113,10 @@ export default class SkyWarMgr {
         }
     }
 
-    // 刷新对手
+    // 刷新对手返回结果
     SkyWarRefreshEnemyRsp(t) {
         this.refreshTimes = t.refreshTimes;
         this.enemyData = t.enemyData;
-        this.refreshCallback = true;
     }
 
     // 挑战后结果处理
@@ -138,35 +134,35 @@ export default class SkyWarMgr {
         // 敌人信息，默认自己妖力大于对方，能获胜
         const enemyInfoArray = this.enemyData.map((element, index) => {
             return {
-                winScore: element.winScore,
-                enemyFightValue: element.playerData.playerBaseDataMsg.fightValue.low,
+                winScore: element.winScore || 0,
+                enemyFightValue: Number(element.playerData.playerBaseDataMsg.fightValue),
                 enemyPlayerId: element.playerData.playerBaseDataMsg.playerId,
                 enemyServerId: element.playerData.playerBaseDataMsg.serverId,
                 nickName: element.playerData.playerBaseDataMsg.nickName,
                 position: index,
-                canWin: PlayerAttributeMgr.fightValue.low > element.playerData.playerBaseDataMsg.fightValue.low
+                canWin: Number(PlayerAttributeMgr.fightValue) > Number(element.playerData.playerBaseDataMsg.fightValue)
             };
         });
 
         // 挑选出来的能赢且分数最高的敌人
         let selectFightEnemy;
-        selectFightEnemy = enemyInfoArray.filter(item => item.canWin).reduce((max, current) => {
-            return (max.winScore || 0) > current.winScore ? max : current;
-        });
+        const canWinEnemyArray = enemyInfoArray.filter(item => item.canWin);
+        if (canWinEnemyArray.length > 0) {
+            selectFightEnemy = canWinEnemyArray.reduce((max, current) => {
+                return max.winScore > current.winScore ? max : current;
+            });
+        }
 
-        // 如果没有挑选出能赢的,则挑选战力最低的
+        // 如果没有挑选出能赢的,则有刷新就刷新一次
         if (!selectFightEnemy) {
-            
-            // 如果还有免费刷新次数
-            if  (this.refreshTimes < this.maxFreeRefreshTimes) {
+            // 如果还有免费刷新次数,就刷新一次
+            if (this.refreshTimes < this.maxFreeRefreshTimes) {
                 this.SkyWarRefreshEnemyReq();
-            }
-
-            // 如果刷新没有返回,就等待下次执行
-            if (!this.refreshCallback) {
+                setTimeout(() => logger.info(`[征战诸天] 未找到能赢的对手,刷新对手,刷新次数,第${this.refreshTimes}次`));
                 return;
             }
 
+            // 刷新次数用完还是找不到,只能挑选战力最低的打
             selectFightEnemy = enemyInfoArray.reduce((min, current) => {
                 return min.enemyFightValue < current.enemyFightValue ? min : current;
             });
