@@ -33,6 +33,7 @@ export default class MailMgr {
         
         // 如果有奖励,就执行一键领取
         if (isGetReward) {
+            logger.info(`[邮件管理] 邮件奖励一键领取`);
             GameNetMgr.inst.sendPbMsg(Protocol.S_MAIL_GET_ALL_REWARD, {});
         }
     }
