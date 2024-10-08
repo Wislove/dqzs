@@ -22,7 +22,7 @@ import YueBaoMgr from "#game/mgr/YueBaoMgr.js";
 import logger from "#utils/logger.js";
 import WorkFlowMgr from "#game/common/WorkFlowMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
-import MailRewardMgr from "#game/mgr/MailRewardMgr.js";
+import MailMgr from "#game/mgr/MailMgr.js";
 import YardDpbMgr from "#game/mgr/YardDpbMgr.js";
 import ChapterMgr from "#game/mgr/ChapterMgr.js";
 import TowerMgr from "#game/mgr/TowerMgr.js";
@@ -81,7 +81,7 @@ class LoopMgr {
         this.add(UniverseMgr.inst, true);
         this.add(UnionMgr.inst, true);
         this.add(UnionBountyMgr.inst, true);
-        this.add(MailRewardMgr.inst, true);
+        this.add(MailMgr.inst, true);
         this.add(AdRewardMgr.inst, true);
         this.add(YardDpbMgr.inst, true);
         this.add(ChapterMgr.inst, true);

@@ -33,7 +33,7 @@ import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import UnionBountyMgr from "#game/mgr/UnionBountyMgr.js";
 import DBMgr from "#game/common/DBMgr.js";
 import SkyWarMgr from "#game/mgr/SkyWarMgr.js";
-import MailRewardMgr from "#game/mgr/MailRewardMgr.js";
+import MailRewardMgr from "#game/mgr/MailMgr.js";
 
 class MsgRecvMgr {
     constructor() { }

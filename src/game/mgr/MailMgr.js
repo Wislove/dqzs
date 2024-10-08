@@ -5,7 +5,7 @@ import Protocol from "#game/net/Protocol.js";
 /**
  * 邮件奖励
  */
-export default class MailRewardMgr {
+export default class MailMgr {
 
     constructor() {
         this.isProcessing = false;
@@ -16,7 +16,7 @@ export default class MailRewardMgr {
 
     static get inst() {
         if (!this._instance) {
-            this._instance = new MailRewardMgr();
+            this._instance = new MailMgr();
         }
         return this._instance;
     }
@@ -29,7 +29,7 @@ export default class MailRewardMgr {
     }
 
     processReward() {
-        const isGetReward = this.mailList.some(item => item.isGetReward);
+        const isGetReward = this.mailList.some(item => !item.isGetReward);
         
         // 如果有奖励,就执行一键领取
         if (isGetReward) {
