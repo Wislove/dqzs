@@ -158,6 +158,7 @@ export default class GatherEnergyMgr {
                 this.initialized = false;
                 GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_ENTER_NEW, {});
                 this.lastLoopCheckTime = Date.now();
+                return;
             }
 
             if (!this.initialized) {
