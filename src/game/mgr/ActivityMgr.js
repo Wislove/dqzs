@@ -8,7 +8,7 @@ export default class ActivityMgr {
         // 存储已激活的活动 ID
         this.activatedActivities = new Set();
         this.pushActivityList = [];
-        this.activityCommonDataList = [];
+        this.activityCommonDataList = new Set();
 
         this.isProcessing = false;
         this.LOOP_CHECK_CD = 15 * 60 * 1000;
@@ -30,15 +30,20 @@ export default class ActivityMgr {
     async SyncData(t) {
         this.isProcessing = true;
         this.pushActivityList = t.mainConfig;
-        logger.debug(`[活动管理] 活动数据下发`);
+        logger.debug(`[活动管理] 活动数据下发,下发活动数据详细json:${JSON.stringify(this.pushActivityList)}`);
+        
         this.isProcessing = false;
     }
 
     // 活动通用数据同步
     ActivityCommonDataListSync(t) {
         this.isProcessing = true;
-        logger.debug(`[活动管理] 活动通用数据同步`)
-        this.activityCommonDataList = t.activityDataList;
+
+        // 通用活动是一个一个同步的
+        this.activityCommonDataList.add(t.activityDataList[0]);
+
+        logger.debug(`[活动管理] 通用活动同步后的数据:${JSON.stringify(this.activityCommonDataList)}`);
+        
         this.isProcessing = false;
     }
 
@@ -62,9 +67,11 @@ export default class ActivityMgr {
             return;
         }
 
-        const acts = t.activity.conditionDataList;
+        const activityCommonData = t.activity;
+
+        const acts = activityCommonData.conditionDataList;
         if (acts) {
-            const activityId = t.activity.activityId;
+            const activityId = activityCommonData.activityId;
 
             // 黑名单会跳过
             const blackList = []
@@ -80,7 +87,7 @@ export default class ActivityMgr {
                 }
             }
         }
-        this.buyFree({ "activityDataList": [t.activity] })
+        this.buyFree({ "activityDataList": [activityCommonData] })
     }
 
     // 1003
