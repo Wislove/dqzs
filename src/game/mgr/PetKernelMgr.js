@@ -43,7 +43,7 @@ export default class PetKernelMgr {
         logger.info(`[灵兽内丹]内丹数据初始化,初始化数据次数,freeDrawTimes: ${t.freeDrawTimes}, drawCount: ${t.drawCount}`);
         
         // 内丹
-        this.freeDrawTimes = t.freeDrawTimes || 2;
+        this.freeDrawTimes = t?.freeDrawTimes??2;
         this.initialized = true;
         
         this.isProcessing = false;
