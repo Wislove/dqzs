@@ -49,6 +49,7 @@ export default class SkyWarMgr {
     }
 
     clear() {
+        WorkFlowMgr.inst.remove("SkyWar");
         LoopMgr.inst.remove(this);
     }
 
@@ -77,6 +78,11 @@ export default class SkyWarMgr {
             this.enemyData = t.enemyData;
             this.battleTimes = t.battleTimes;
 
+            if (this.enemyData.length == 0) {
+                logger.info(`[征战诸天] 征战诸天数据同步为空，可能未取得资格`);
+                this.clear();
+            }
+
             this.initialized = true;
         }
 
@@ -98,7 +104,6 @@ export default class SkyWarMgr {
         logger.info(`[征战诸天] 任务完成`);
         PlayerAttributeMgr.inst.switchToDefaultSeparation(); // 切换到默认分身
         this.clear();
-        WorkFlowMgr.inst.remove("SkyWar");
 
         // 自动领取征战诸天任务奖励
         if (this.battleTimes == 0) {
