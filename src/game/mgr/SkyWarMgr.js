@@ -209,7 +209,10 @@ export default class SkyWarMgr {
             // 切换到分身
             PlayerAttributeMgr.inst.setSeparationIdx(this.skywarIndex);
             // 处理征战
-            this.handleFight();
+            if (this.enemyData.length != 0) {
+                this.handleFight();
+            }
+            
         } catch (error) {
             logger.error(`[征战诸天] SkyWarMsg error: ${error}`);
         } finally {
