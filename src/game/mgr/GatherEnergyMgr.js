@@ -178,8 +178,8 @@ export default class GatherEnergyMgr {
                 this.openGatherEnergy()
             }
 
-            // TODO 自动开启聚灵阵 21:30-22:00有高级聚灵阵 自动进入
-            if (currentHour == 21 && currentMinute >= 30 && this.attendNum == 0) {
+            //  
+            if (this.attendNum == 0) {
                 GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_FIRST_LIST_VIEW, { offset: 0, filterType: 1 });// 请求聚灵阵列表
             }
 
