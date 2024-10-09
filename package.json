@@ -1,9 +1,9 @@
 {
-    "name": "xddq-assistant",
-    "version": "1.0.0",
+    "name": "dqzs",
+    "version": "0.0.1",
     "main": "app.js",
     "type": "module",
-    "license": "MIT",
+    "license": "GPL-3.0-only",
     "imports": {
         "#*": "./src/*"
     },
