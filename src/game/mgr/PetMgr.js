@@ -108,6 +108,12 @@ export default class PetMgr {
                 return;
             }
 
+            if (this.wishPetPool.length == 0) {
+                logger.info(`[灵兽刷新] 无希望灵兽,不执行免费刷新`);
+                this.clear();
+                return;
+            }
+
             // 如果有希望灵兽,则不刷新
             // TODO 有希望灵兽,自动抓捕
             const wishPets = this.petPoolData.find(item => this.wishPets.includes(item.petId) && !item.isGet);
