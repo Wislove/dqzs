@@ -40,11 +40,12 @@ export default class PetKernelMgr {
     // 同步灵兽内丹数据:来自PetMgr
     syncPetKernelMsg(t) {
         this.isProcessing = true;
-        if (!this.initialized) {
-            // 内丹
-            this.freeDrawTimes = t.freeDrawTimes || 2;
-            this.initialized = true;
-        }
+        logger.info(`[灵兽内丹]内丹数据初始化,初始化数据次数,freeDrawTimes: ${t.freeDrawTimes}, drawCount: ${t.drawCount}`);
+        
+        // 内丹
+        this.freeDrawTimes = t.freeDrawTimes || 2;
+        this.initialized = true;
+        
         this.isProcessing = false;
     }
 
@@ -63,6 +64,9 @@ export default class PetKernelMgr {
         this.isProcessing = true;
 
         try {
+            // 暂停一下再处理（第一次同步数量是2，后续同步是0，所以简单暂停，等待数据同步）
+            await new Promise(resovle => setTimeout(resovle, 6 * 1000));
+
             if (this.freeDrawTimes == 2) {
                 logger.info(`[灵兽内丹] 达到每日最大领取次数，停止奖励领取`);
                 this.clear();
