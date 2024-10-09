@@ -55,11 +55,10 @@ export default class GatherEnergyMgr {
         this.isProcessing = true;
         logger.info(`[聚灵阵管理] 检查聚灵阵奖励`);
         this.getAdRewardTimes = t.gatherEnergy.getTimes || 0;
-
         this.openNum = t.gatherEnergy.openNum || 0;
         this.openNum > 0 ? logger.info(`[聚灵阵管理] 已开启聚灵阵`) : logger.info(`[聚灵阵管理] 未开启聚灵阵`);
         this.attendNum = t.gatherEnergy.attendNum || 0;
-        this.attendNum > 0 ? logger.info(`[聚灵阵管理] 已加入聚灵阵,加入数量:${attendNum}`) : logger.info(`[聚灵阵管理] 未加入聚灵阵`);
+        this.attendNum > 0 ? logger.info(`[聚灵阵管理] 已加入聚灵阵,加入数量:${this.attendNum}`) : logger.info(`[聚灵阵管理] 未加入聚灵阵`);
 
 
         this.num = BagMgr.inst.getGoodsNum(105044)
@@ -146,28 +145,20 @@ export default class GatherEnergyMgr {
         try {
             const now = new Date();
             const currentHour = now.getHours();
-            const currentMinute = now.getMinutes();
 
             // 未到时间不处理
             if (currentHour < 10 || currentHour >= 22) {
                 return;
             }
 
-            // 每五分钟进入聚灵阵,同步数据
-            if (Date.now() - this.lastLoopCheckTime >= this.LOOP_CHECK_CD) {
-                this.initialized = false;
-                GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_ENTER_NEW, {});
-                this.lastLoopCheckTime = Date.now();
-                return;
-            }
-
             if (!this.initialized) {
-                logger.info(`[聚灵阵管理] 聚灵阵数据未初始化`);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_ENTER_NEW, {});
+
+                await new Promise(resovle => setTimeout(resovle, 2000));
                 return;
             }
 
             if (this.getAdRewardTimes >= this.AD_REWARD_DAILY_MAX_NUM) {
-                // this.clear();
                 logger.debug("[聚灵阵管理] 达到每日最大领取次数，停止奖励领取");
             } else {
                 this.processReward();
