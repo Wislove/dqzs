@@ -102,7 +102,7 @@ export default class ActivityMgr {
                 const { id, buyLimit, name } = item.mallTempMsg;
 
                 // 黑名单会跳过
-                const blackList = [9655276, 9712892, 9655196, 9788784];
+                const blackList = [9655276, 9712892, 9655196, 9788784, 10004985];
                 if (blackList.includes(activityId)) {
                     logger.debug(`[活动管理] ${activityId} 被跳过`);
                     return;
