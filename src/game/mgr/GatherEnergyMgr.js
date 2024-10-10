@@ -105,22 +105,39 @@ export default class GatherEnergyMgr {
 
 
     // 聚灵阵列表
-    // 规则: 21点30 开始检查聚灵阵,聚灵阵开启时长大于第二天10点小于21点30,且产能最高
+    // 规则: 当前在21点之前，则找一个结束时间在今天21点30分之前，产量最高的，当前时间大于21点，则按原来逻辑执行
     GatherEnergyFirstListViewResp(t) {
         const filteredData = t.list.filter(item => item.openerMsg.playerId !== UserMgr.playerId);
         const now = new Date();
-        const nextDay = new Date(now);
-        nextDay.setUTCDate(nextDay.getUTCDate() + 1);
-        nextDay.setUTCHours(0, 0, 0, 0);
-        const nextDay10amMs = new Date(nextDay).setUTCHours(10, 0, 0, 0);
-        const nextDay2130pmMs = new Date(nextDay).setUTCHours(21, 30, 0, 0);
+        const nowHour = now.getHours();
+
+        let startTime;
+        let endTime;
+        if (nowHour < 21) {
+            const today2130pmMS = new Date(now);
+            today2130pmMS.setUTCHours(21, 30);
+
+            startTime = now;
+            endTime = today2130pmMS;
+        } else {
+            const nextDay = new Date(now);
+            nextDay.setUTCDate(nextDay.getUTCDate() + 1);
+            nextDay.setUTCHours(0, 0, 0, 0);
+            const nextDay10amMs = new Date(nextDay).setUTCHours(10, 0, 0, 0);
+            const nextDay2130pmMs = new Date(nextDay).setUTCHours(21, 30, 0, 0);
+
+            startTime = nextDay10amMs;
+            endTime = nextDay2130pmMs;
+        }
+
+        
         let maxIncome = 0;
         let maxIncomeObj = null;
 
         filteredData.forEach(item => {
             const endTimeMs = parseInt(item.energyBaseMsg.endTime, 10);
             const income = parseInt(item.energyBaseMsg.income, 10);
-            if (endTimeMs >= nextDay10amMs && endTimeMs < nextDay2130pmMs && income > maxIncome) {
+            if (endTimeMs >= startTime && endTimeMs < endTime && income > maxIncome) {
                 maxIncome = income;
                 maxIncomeObj = item;
             }
@@ -132,7 +149,7 @@ export default class GatherEnergyMgr {
         }
 
         //入阵坐下
-        logger.error(`[聚灵阵管理] 进入 ${maxIncomeObj.openerMsg.nickName} 聚灵阵 产能:${maxIncomeObj.energyBaseMsg.income} 结束时间 ${new Date(maxIncomeObj.energyBaseMsg.endTime).toLocaleString()}`);
+        logger.error(`[聚灵阵管理] 进入 ${maxIncomeObj.openerMsg.nickName} 聚灵阵 产能:${maxIncomeObj.energyBaseMsg.income} 结束时间 ${new Date(Number(maxIncomeObj.energyBaseMsg.endTime)).toLocaleString()}`);
         GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_ATTEND_NEW, { id: maxIncomeObj.energyBaseMsg.id });// 请求聚灵阵列表
         this.attendNum += 1;
     }
