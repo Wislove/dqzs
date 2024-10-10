@@ -40,7 +40,7 @@ export default class PetKernelMgr {
     // 同步灵兽内丹数据:来自PetMgr
     syncPetKernelMsg(t) {
         this.isProcessing = true;
-        logger.info(`[灵兽内丹]内丹数据初始化,初始化数据次数,freeDrawTimes: ${t.freeDrawTimes}, drawCount: ${t.drawCount}`);
+        logger.debug(`[灵兽内丹]内丹数据初始化,初始化数据次数,freeDrawTimes: ${t.freeDrawTimes}, drawCount: ${t.drawCount}`);
         
         // 内丹
         this.freeDrawTimes = t?.freeDrawTimes??2;
