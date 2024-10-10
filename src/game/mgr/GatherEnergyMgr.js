@@ -107,7 +107,7 @@ export default class GatherEnergyMgr {
     // 聚灵阵列表
     // 规则: 当前在21点之前，则找一个结束时间在今天21点30分之前，产量最高的，当前时间大于21点，则按原来逻辑执行
     GatherEnergyFirstListViewResp(t) {
-        const filteredData = t.list.filter(item => item.openerMsg.playerId !== UserMgr.playerId);
+        const filteredData = t.list.filter(item => Number(item.openerMsg.playerId) !== Number(UserMgr.playerId));
         const now = new Date();
         const nowHour = now.getHours();
 
