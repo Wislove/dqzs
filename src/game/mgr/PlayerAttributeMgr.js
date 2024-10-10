@@ -179,6 +179,14 @@ export default class PlayerAttributeMgr {
         }
     }
 
+    // 切换分身后数据返回
+    switchSeparationResp(t) {
+        this.playerAttributeData[t.index] = t.playerAttributeDataList || [];
+        this.equipmentData[t.index] = t.equipmentList || [];
+        this.talentData[t.index] = t.talentData || [];
+        this.separationFightValue[t.index] = Number(t.fightValue) || 0;
+    }
+
     // 209 处理装备
     async handlerEquipment(t) {
         if (t.ret === 0) {

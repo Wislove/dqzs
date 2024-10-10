@@ -90,6 +90,11 @@ class MsgRecvMgr {
         PlayerAttributeMgr.inst.checkSeparation(t);
     }
 
+    static SwitchSeparationResp(t) {
+        logger.debug("[MsgRecvMgr] 切换分身后数据返回");
+        PlayerAttributeMgr.inst.switchSeparationResp(t);
+    }
+
     // 301 同步背包数据
     static SyncBagMsg(t) {
         logger.debug("[MsgRecvMgr] 背包数据同步");
