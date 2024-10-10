@@ -108,7 +108,7 @@ export default class PetMgr {
                 return;
             }
 
-            if (this.wishPetPool.length == 0) {
+            if (this.wishPets.length == 0) {
                 logger.info(`[灵兽刷新] 无希望灵兽,不执行免费刷新`);
                 this.clear();
                 return;
