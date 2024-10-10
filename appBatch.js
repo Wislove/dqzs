@@ -46,7 +46,8 @@ fs.readdir(dataDir, (err, files) => {
                 logger.info(`启动进程名为: ${processName}`);
 
                 // 构建 pm2 命令，设置 name 参数为拼接后的 processName
-                const command = `pm2 start app.js --name "${processName}" -- ${filePath} --cron "1 0 * * *" `;
+                const command = `pm2 start app.js --cron-restart "1 0 * * *" --name "${processName}" -- ${filePath}  `;
+                logger.info(`执行命令:${command}`);
 
                 exec(command, (error, stdout, stderr) => {
                     if (error) {
