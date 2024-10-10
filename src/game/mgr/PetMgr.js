@@ -104,7 +104,7 @@ export default class PetMgr {
                 return;
             }
 
-            if (this.petPoolData.length == 0) {
+            if (this.petPoolData.length == 0 || this.refreshLock) {
                 return;
             }
 
