@@ -317,7 +317,6 @@ export default class PlayerAttributeMgr {
         if (existingExist && rule.fightValueFirst && fightValueOffset > 0) {
             logger.error(`[装备] 开启妖力优先, 分身: ${this.separationNames[index]} 新装备 ${newEquipmentDesc}, 装备后妖力:${fightValue}, 妖力提升: ${fightValueOffset}`);
             betterAttributes = true;
-            this.separationFightValue[index] = fightValue;
         }
 
         if (betterAttributes) {
@@ -325,7 +324,10 @@ export default class PlayerAttributeMgr {
                 logger.info(`[装备] 分身${this.separationNames[index]} 原装备 ${originalEquipmentDesc}`);
             }
             logger.warn(`[装备] 分身${this.separationNames[index]} 新装备 ${newEquipmentDesc}`);
-
+            
+            // 存储当前分身妖力，防止未切换，妖力未更新
+            this.separationFightValue[index] = fightValue;
+            
             // 切换分身
             this.setSeparationIdx(index)
             Attribute.DealEquipmentEnum_EquipAndResolveOld(id);
