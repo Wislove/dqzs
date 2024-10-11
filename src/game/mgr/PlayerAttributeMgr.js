@@ -317,14 +317,14 @@ export default class PlayerAttributeMgr {
         if (rule.fightValueFirst) {
             betterAttributes = (fightValueOffset > 0);
 
-            if(betterAttributes) logger.warn(`[装备] 开启妖力优先, 分身: ${this.separationNames[index]} 新装备 ${newEquipmentDesc}, 当前分身:${this.separationNames[this.useSeparationIdx]}, 装备该装备后妖力值:${fightValue}, 切换分身后装备后妖力提升: ${fightValueOffset}`);
+            if(betterAttributes) logger.warn(`[装备] 开启妖力优先, 分身: ${this.separationNames[index]} 新装备 ${newEquipmentDesc}, 切换分身后装备后妖力提升: ${fightValueOffset}`);
         }
 
         if (betterAttributes) {
             if (existingExist) {
                 logger.info(`[装备] 分身${this.separationNames[index]} 原装备 ${originalEquipmentDesc}`);
             }
-            logger.warn(`[装备] 分身${this.separationNames[index]} 新装备 ${newEquipmentDesc}, 妖力偏移: ${fightValueOffset}`);
+            logger.warn(`[装备] 分身${this.separationNames[index]} 新装备 ${newEquipmentDesc}, 该分身换装前妖力: ${this.separationFightValue[index]}, 换装后妖力偏移: ${fightValueOffset}`);
 
             // 存储当前分身妖力，防止未切换，妖力未更新
             this.separationFightValue[index] = fightValue;
