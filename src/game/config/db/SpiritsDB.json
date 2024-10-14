@@ -845,7 +845,7 @@
         "compoundItemId": 135019,
         "compoundNum": 30,
         "combineId": 12017,
-        "isRemote": 1
+        "isRemote": 0
     },
     "125020": {
         "id": 125020,
@@ -861,6 +861,6 @@
         "compoundItemId": 135020,
         "compoundNum": 30,
         "combineId": 0,
-        "isRemote": 1
+        "isRemote": 0
     }
 }
