@@ -69,6 +69,7 @@ class LoopMgr {
         this.add(RuleTrialMgr.inst);
         this.add(UnionTreasureMgr.inst);
         this.add(WildBossMgr.inst);
+        this.add(CustomMgr.inst);
 
         // 砍树,灵脉
         this.add(PlayerAttributeMgr.inst, true);
@@ -87,7 +88,6 @@ class LoopMgr {
         this.add(ChapterMgr.inst, true);
         this.add(TowerMgr.inst, true);
         this.add(SecretTowerMgr.inst, true);
-        this.add(CustomMgr.inst, true);
         this.add(ActivityMgr.inst, true);
     }
 
