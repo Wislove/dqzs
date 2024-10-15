@@ -41,11 +41,11 @@ export default class CustomMgr {
         this.initialized = true;
     }
 
-   async customLoop() {
+    async customLoop() {
         const now = Date.now();
         if (now - this.lastExecuteTime >= this.CUSTOM_INTERVAL) {
             this.lastExecuteTime = now;
-            
+
             if (SystemUnlockMgr.PALACE) {
                 // 仙宫外部数据请求
                 GameNetMgr.inst.sendPbMsg(Protocol.S_PALACE_ENTER_OUTER, {});
@@ -70,27 +70,30 @@ export default class CustomMgr {
             // 宝华堂
             GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: 9875533, mallId: 400000003, count: 1 });
             await new Promise(resolve => setTimeout(resolve, 2000));
-            // 仙缘免费礼包
-            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: 9788734, mallId: 400000001, count: 1 });
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            // 累充免费礼包
+            // 累充-免费礼包
             GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: 10129151, mallId: 400000007, count: 1 });
             await new Promise(resolve => setTimeout(resolve, 2000));
 
             // 自选礼包-免费礼包
             GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: 9788786, mallId: 400000003, count: 1 });
             await new Promise(resolve => setTimeout(resolve, 2000));
-             // 超值礼包-免费礼包
-             GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: 9788790, mallId: 400000003, count: 1 });
-             await new Promise(resolve => setTimeout(resolve, 2000));
+            // 超值礼包-免费礼包
+            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: 9788790, mallId: 400000003, count: 1 });
+            await new Promise(resolve => setTimeout(resolve, 2000));
 
+             // 仙缘-免费礼包
+             GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: 9788734, mallId: 400000001, count: 1 });
+             await new Promise(resolve => setTimeout(resolve, 2000));
             // 仙缘-福泽签到
             for (let i = 0; i < 8; i++) {
                 const conditionId = 10000 + i;
                 GameNetMgr.inst.sendPbMsg(Protocol.S_GOOD_FORTUNE_GET_REWARD_REQ, { activityId: 9788710, conditionId: conditionId, type: 1 });
             }
-            //TODO 疯狂聚宝盆签到（已无用）
-            // GameNetMgr.inst.sendPbMsg(Protocol.S_TREASURE_BOWL_SIGN, { activityId: 9265799, conditionId: 10001, getType: 0 });
+            // 疯狂聚宝盆签到
+            for (let i = 1; i < 8; i++) {
+                const conditionId = 10000 + i;
+                GameNetMgr.inst.sendPbMsg(Protocol.S_TREASURE_BOWL_SIGN, { activityId: 9788708, conditionId: conditionId, getType: 0 });
+            }
 
             // 福地自动收获
             const homelandGetReward = global.account.switch.homelandGetReward || false;
