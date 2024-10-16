@@ -259,7 +259,7 @@ export default class PlayerAttributeMgr {
             betterAttributes = true;
             existingExist = false;
             logger.warn(`[装备] 分身${this.separationNames[index]} 无原装备`);
-            logger.warn(`${JSON.stringify(this.equipmentData[index])}`);
+            // logger.warn(`${JSON.stringify(this.equipmentData[index])}`);
         } else {
             // 分身装备属性转换
             existingAttributeList = this.processAttributes(this.equipmentData[index][equipmentType].attributeList);
@@ -386,13 +386,13 @@ export default class PlayerAttributeMgr {
     processAttributes(attributeList) {
         const attributes = {
             basic: {
-                1: null,
-                2: null,
-                3: null,
-                4: null,
+                1: 0,
+                2: 0,
+                3: 0,
+                4: 0,
             },
-            attack: null,
-            defense: null,
+            attack: { type: -1, value: 0 },
+            defense: { type: -1, value: 0 },
         };
 
         for (const attr of attributeList) {
