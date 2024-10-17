@@ -122,7 +122,7 @@ export default class ActivityMgr {
     }
 
     // 处理活动满足条件的奖励领取
-    async processConditionReward(activityId) {
+    processConditionReward(activityId) {
 
         const activityCanHandle = this.checkActIsCanHandle(activityId);
         if (!activityCanHandle) {
@@ -147,11 +147,17 @@ export default class ActivityMgr {
     }
 
     // 处理免费和广告激励奖励领取,一般都是活动详情后处理
-    async processFreeAndAdReward(activityId) {
+    processFreeAndAdReward(activityId) {
         const activityCanHandle = this.checkActIsCanHandle(activityId);
         if (!activityCanHandle) {
             return;
         }
+
+        if (this.blackActId.includes(activityId)) {
+            logger.info(`[活动黑名单] ${activityId}, 判断条件 ${activityCanHandle}`);
+            return;
+        }
+        
 
         // 活动的已经购买的数据
         const mallBuyCountList = this.actMallBuyCountDataMap[activityId] || [];
