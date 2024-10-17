@@ -21,8 +21,6 @@ const actNameMap = {
     10143166: "炼器大会"
 }
 
-const blackActId = [9788692, 9788784, 9788754];
-
 /**
  * 通用活动
  */
@@ -30,6 +28,7 @@ export default class ActivityMgr {
     constructor() {
         // 存储已激活的活动 ID
         this.activatedActivities = new Set();
+        this.blackActId = [9788692, 9788784, 9788754];
 
         // 活动主数据map
         this.actMainConfigMap = {};
@@ -103,9 +102,9 @@ export default class ActivityMgr {
     }
 
     // 检测活动是否能够处理，返回true代表能，false不能
-    async checkActIsCanHandle(activityId) {
+    checkActIsCanHandle(activityId) {
 
-        if (blackActId.includes(activityId)) {
+        if (this.blackActId.includes(activityId)) {
             return false;
         }
 
@@ -125,7 +124,7 @@ export default class ActivityMgr {
     // 处理活动满足条件的奖励领取
     async processConditionReward(activityId) {
 
-        const activityCanHandle = await this.checkActIsCanHandle(activityId);
+        const activityCanHandle = this.checkActIsCanHandle(activityId);
         if (!activityCanHandle) {
             return;
         }
@@ -149,7 +148,7 @@ export default class ActivityMgr {
 
     // 处理免费和广告激励奖励领取,一般都是活动详情后处理
     async processFreeAndAdReward(activityId) {
-        const activityCanHandle = await this.checkActIsCanHandle(activityId);
+        const activityCanHandle = this.checkActIsCanHandle(activityId);
         if (!activityCanHandle) {
             return;
         }
