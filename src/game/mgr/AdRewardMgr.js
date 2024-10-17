@@ -3,6 +3,16 @@ import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import PlayerAttributeMgr from "#game/mgr/PlayerAttributeMgr.js";
 
+/**
+ * 广告奖励：
+ * 1. 仙树：30分钟一次，共8次
+ * 2. 青蛙：5分钟一次, 共6次
+ * 3. 精怪：广告2次
+ * 4. 神通：广告2次，免费一次
+ * 5. 灵兽：广告刷新4次
+ * 6. 灵兽内丹：免费2次
+ * 7. 仙居：免费1次，广告两次
+ */
 export default class AdRewardMgr {
     constructor() {
         this.isProcessing = false;

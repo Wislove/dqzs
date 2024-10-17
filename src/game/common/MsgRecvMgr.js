@@ -308,25 +308,13 @@ class MsgRecvMgr {
     static ActivityCommonDataListSync(t) {
         logger.debug("[MsgRecvMgr] 活动通用数据同步");
         ActivityMgr.inst.ActivityCommonDataListSync(t);
-        //ActivityMgr.inst.buyFree(t);
-        //     logger.debug("[MsgRecvMgr] 同步活动详细配置");
-        //     for (const i of t.activityDataList) {
-        //         const activityId = i.activityId;
-        //         // 如果 i.detailConfig.commonConfig 中包含mallConfig
-        //         if (i.detailConfig.commonConfig.mallConfig) {
-        //             GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GET_DATA, { activityId: activityId });
-        //         }
-        //     }
-        //     // ActivityMgr.inst.getReward(t); // 有问题
     }
 
-    // // 1007 活动 增量同步活动数据 
-    // static ActivityConditionDataListSync(t) {
-    //     logger.debug("[MsgRecvMgr] 增量同步数据");
-    //     for (const i of t.activityConditionDataList) {
-    //         GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GET_DATA, { activityId: i.activityId });
-    //     }
-    // }
+    // 1007 活动 增量同步活动数据 
+    static ActivityConditionDataListSync(t) {
+        logger.debug("[MsgRecvMgr] 增量同步数据");
+        
+    }
 
     // // 1003 活动 活动详情返回
     static RspGetActivityDetail(t) {
@@ -502,7 +490,7 @@ class MsgRecvMgr {
         logger.debug("[MsgRecvMgr] 征战诸天刷新对手返回结果");
         SkyWarMgr.inst.SkyWarRefreshEnemyRsp(t);
     }
-    
+
 
     // TODO 以下暂时不想写
 
