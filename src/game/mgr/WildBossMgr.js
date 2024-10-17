@@ -69,6 +69,7 @@ export default class WildBossMgr {
     async loopUpdate() {
         if (!this.enabled) {
             logger.info("[挑战妖王管理] 挑战妖王未开启");
+            this.clear();
             return;
         }
 
