@@ -22,7 +22,8 @@ const actNameMap = {
     10083438: "玄尘忆梦",
     10144293: "妖盟攻城战",
     10143166: "炼器大会",
-    10146633: "飞剑夺宝"
+    10146633: "飞剑夺宝",
+    10145312: "修罗战场"
 }
 
 /**
@@ -206,14 +207,14 @@ export default class ActivityMgr {
     }
 
     // 循环任务检测，活动数据是否同步完成
-    async loopProcessReward() {
+    loopProcessReward() {
         this.isProcessing = true;
 
         // 循环遍历活动
         Object.keys(this.actMainConfigMap).forEach(activityId => {
 
             // 活动没有详细数据
-            if (!this.actCommonDataMap[activityId]) {
+            if (!this.actCommonDataMap[activityId] && !this.blackActId.includes(activityId)) {
                 setTimeout(() => { GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GET_DATA, { activityId }) }, 1500);
                 return;
             }
