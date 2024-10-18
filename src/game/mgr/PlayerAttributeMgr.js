@@ -314,7 +314,7 @@ export default class PlayerAttributeMgr {
 
         // 无视品质和属性偏移（首先是属性符合，不管属性比原来低还是高,只要妖力高就替换）
         const fightValueOffset = fightValue - this.separationFightValue[index];
-        if (rule.fightValueFirst) {
+        if (rule.fightValueFirst && quality >= rule.quality) {
             betterAttributes = (fightValueOffset > 0);
 
             if(betterAttributes) logger.warn(`[装备] 开启妖力优先, 分身: ${this.separationNames[index]} 新装备 ${newEquipmentDesc}, 切换分身后装备后妖力提升: ${fightValueOffset}`);
