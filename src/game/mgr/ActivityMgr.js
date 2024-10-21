@@ -23,7 +23,8 @@ const actNameMap = {
     10144293: "妖盟攻城战",
     10143166: "炼器大会",
     10146633: "飞剑夺宝",
-    10145312: "修罗战场"
+    10145312: "修罗战场",
+    10150771: "蓬莱仙岛"
 }
 
 /**
@@ -158,6 +159,7 @@ export default class ActivityMgr {
             return;
         }
 
+        logger.debug(`[活动ID] ${activityId}, 判断条件： ${activityCanHandle}, 判断条件:${this.blackActId.includes(activityId)}, 判断条件:${activityId === 9788692}`);
         if (this.blackActId.includes(activityId)) {
             logger.info(`[活动黑名单] ${activityId}, 判断条件 ${activityCanHandle}`);
             return;
