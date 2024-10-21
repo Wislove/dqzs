@@ -108,9 +108,9 @@ export default class ActivityMgr {
     }
 
     // 检测活动是否能够处理，返回true代表能，false不能
-    checkActIsCanHandle(activityId) {
+    async checkActIsCanHandle(activityId) {
 
-        if (this.blackActId.includes(activityId)) {
+        if (this.blackActId.includes(Number(activityId))) {
             return false;
         }
 
@@ -128,9 +128,8 @@ export default class ActivityMgr {
     }
 
     // 处理活动满足条件的奖励领取
-    processConditionReward(activityId) {
-
-        const activityCanHandle = this.checkActIsCanHandle(activityId);
+    async processConditionReward(activityId) {
+        const activityCanHandle = await this.checkActIsCanHandle(activityId);
         if (!activityCanHandle) {
             return;
         }
@@ -153,18 +152,11 @@ export default class ActivityMgr {
     }
 
     // 处理免费和广告激励奖励领取,一般都是活动详情后处理
-    processFreeAndAdReward(activityId) {
-        const activityCanHandle = this.checkActIsCanHandle(activityId);
+    async processFreeAndAdReward(activityId) {
+        const activityCanHandle = await this.checkActIsCanHandle(activityId);
         if (!activityCanHandle) {
             return;
         }
-
-        logger.debug(`[活动ID] ${activityId}, 判断条件： ${activityCanHandle}, 判断条件:${this.blackActId.includes(activityId)}, 判断条件:${activityId === 9788692}`);
-        if (this.blackActId.includes(activityId)) {
-            logger.info(`[活动黑名单] ${activityId}, 判断条件 ${activityCanHandle}`);
-            return;
-        }
-
 
         // 活动的已经购买的数据
         const mallBuyCountList = this.actMallBuyCountDataMap[activityId] || [];
