@@ -29,7 +29,7 @@
         "_comment_ignoreTimeCheck": "福地忽略时间检测"
     },
     "wishPetPool":[114001, 114007, 115001, 115002, 115003, 115004, 115005],
-    "_comment_wishPetPool":"期望灵兽池子，为空则不执行免费刷新,默认:应龙鸾鸟加五大神兽,灵兽id可以去src/game/config/db/LanguageWordDB.json文件中找"，
+    "_comment_wishPetPool":"期望灵兽池子，为空则不执行免费刷新,默认:应龙鸾鸟加五大神兽,灵兽id可以去src/game/config/db/LanguageWordDB.json文件中找",
     "buyUnionGoodLists": [
         230000011,
         230000001,
@@ -87,6 +87,10 @@
         "_comment_invadeIndex": "[异兽入侵]选择分身0,1,2",
         "starTrial": true,
         "_comment_starTrial": "[星宿试炼]开关",
+        "skywar": true,
+        "_comment_skywar": "[征战诸天]开关",
+        "skywarIndex": 1,
+        "_comment_skywarIndex": "[征战诸天]选择分身0,1,2",
         "pupil": true,
         "_comment_pupil": "[宗门] 自动训练, 出师.  用于宗门大比前一天 可以存一下 体力",
         "ticket": 2,
