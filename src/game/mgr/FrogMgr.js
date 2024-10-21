@@ -28,7 +28,7 @@ export default class FrogMgr {
     checkReward(t) {
         this.isProcessing = true;
         this.getAdRewardTimes = t.getAdRewardTimes || 0;
-        this.lastAdRewardTime = t.lastAdRewardTime || 0;
+        this.lastAdRewardTime = Number(t.lastAdRewardTime) || 0;
         this.isProcessing = false;
     }
 
