@@ -4282,6 +4282,43 @@
             "smMethod": "PlanesTrialChallengeTimeRsp"
         }
     ],
+    "UnionDuel": [{
+			"key": "S_UNION_DUEL_APPLY",
+			"comment": "妖盟对决-报名",
+			"cmMethod": "UnionDuelApplyReq",
+			"smMethod": "UnionDuelApplyResp"
+		},
+		{
+			"key": "S_UNION_DUEL_OPEN_LIST_VIEW",
+			"comment": "妖盟对决-打开列表界面",
+			"cmMethod": "UnionDuelOpenListViewReq",
+			"smMethod": "UnionDuelOpenListViewResp"
+		},
+		{
+			"key": "S_UNION_DUEL_FIGHT",
+			"comment": "妖盟对决-挑战某人",
+			"cmMethod": "UnionDuelFightReq",
+			"smMethod": "UnionDuelFightResp"
+		},
+		{
+			"key": "S_UNION_DUEL_OPEN_BATTLE_NOTICE",
+			"comment": "妖盟对决-打开公告",
+			"cmMethod": "UnionDuelOpenBattleNoticeReq",
+			"smMethod": "UnionDuelOpenBattleNoticeResp"
+		},
+		{
+			"key": "S_UNION_DUEL_OPEN_CONTRIBUTE_VIEW",
+			"comment": "妖盟对决-打开贡献界面",
+			"cmMethod": "UnionDuelContributeReq",
+			"smMethod": "UnionDuelContributeResp"
+		},
+		{
+			"key": "S_UNION_DUEL_OPEN_REWARD_PREVIEW",
+			"comment": "妖盟对决-打开奖励预览界面",
+			"cmMethod": "UnionDuelRewardPreviewReq",
+			"smMethod": "UnionDuelRewardPreviewResp"
+		}
+	],
     "SignInFundActivity": [
         {
             "comment": "SignInFundPlayerDataMsg解析",
