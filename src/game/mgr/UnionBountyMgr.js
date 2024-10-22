@@ -81,10 +81,10 @@ export default class UnionBountyMgr {
         // 判断是否完成，完成了领取奖励，未完成，则判断myCart在地图上有没有，没有就开始押送，有就继续等待完成
         const finishReward = t.bountyInfo.finishReward;
         if (finishReward) {
-            const reward = finishReward?.reward.spilt('|');
-            logger.info(`[妖盟悬赏] 悬赏完成,奖励领取,奖励内容:${reward.array.map(element => {
-                const [key, value] = element.spilt('=');
-                return `奖励名称: ${DBMgr.inst.getLanguageWord(`Items-${key}`)}, 数量:${value}`
+            const reward = finishReward?.reward.split('|');
+            logger.info(`[妖盟悬赏] 悬赏完成,奖励领取,奖励内容:${reward.map(element => {
+                const [key, value] = element.split('=');
+                return `${DBMgr.inst.getLanguageWord(`Items-${key}`)}:${value}`
             })}`);
 
             // 领取悬赏奖励
