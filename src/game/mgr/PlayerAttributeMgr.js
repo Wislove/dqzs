@@ -376,7 +376,7 @@ export default class PlayerAttributeMgr {
 
         // 当加入妖盟且砍了350颗桃后
         if (UnionMgr.inst.inUnion && !this.doneUnionTask) {
-            if (peachNum - this.initPeachNum >= 350) {
+            if (hasDoNum >= 350) {
                 GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { taskId: [120001, 120002, 120003, 120004, 120005] });
                 this.doneUnionTask = true;
             }
