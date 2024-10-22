@@ -165,7 +165,7 @@ export default class HeroRankMgr {
         // 检查体力
         if (this.energy < 1) {
             logger.info("[群英榜管理] 停止循环。体力不足");
-            this.clear();
+            //this.clear();
             return false;
         }
 		if(this.shouldStartFight())
