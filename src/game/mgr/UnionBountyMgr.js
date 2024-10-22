@@ -118,7 +118,7 @@ export default class UnionBountyMgr {
             }
 
             // 检查cd间隔
-            const now = Date.now();
+            const now = new Date();
             if (now.getHours() < 8 || now.getHours() > 22) {
                 return;
             }
